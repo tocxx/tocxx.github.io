@@ -40,7 +40,7 @@
   }[]
 */
 $(function () {
-  let APIKey = "";
+  let APIKey = localStorage.getItem("bst-apikey");
   let tournaments = localStorage.getItem("bst-tournaments")
     ? JSON.parse(localStorage.getItem("bst-tournaments"))
     : [];
@@ -374,7 +374,7 @@ $(function () {
       },
     ];
     let c = JSON.parse(localStorage.getItem("bst-config"));
-    if (c.pools && c.pools.length >= 1) {
+    if (c && c.pools && c.pools.length >= 1) {
       config.pools = c.pools;
     }
     currentPool = config.pools[0];
