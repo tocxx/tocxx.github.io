@@ -52,10 +52,7 @@ function setup() {
 
 function compileMaps() {
   for (let map of pool.maps) {
-    $.ajax(
-      "https://corsproxy.io/?url=" +
-        encodeURIComponent(`https://api.beatsaver.com/maps/id/${map.id}`)
-    )
+    $.ajax(`https://api.beatsaver.com/maps/id/${map.id}`)
       .done((data) => {
         let version = data.versions.find((v) => v.state === "Published");
         if (!version) {

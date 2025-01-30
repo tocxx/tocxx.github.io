@@ -129,10 +129,7 @@ function setP1(id) {
 async function compileMaps() {
   clearMapCols();
   for (let map of pool.maps) {
-    await $.ajax(
-      "https://corsproxy.io/?url=" +
-        encodeURIComponent(`https://api.beatsaver.com/maps/id/${map.id}`)
-    )
+    await $.ajax(`https://api.beatsaver.com/maps/id/${map.id}`)
       .done((data) => {
         let version = data.versions.find((v) => v.state === "Published");
         if (!version) {
