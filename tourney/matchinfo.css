@@ -1,0 +1,31 @@
+.playernames {
+  text-shadow: 1px 1px 0 rgb(0, 69, 69), -1px 1px 0 rgb(0, 69, 69),
+    1px -1px 0 rgb(0, 69, 69), -1px -1px 0 rgb(0, 69, 69),
+    0px 1px 0 rgb(0, 69, 69), 0px -1px 0 rgb(0, 69, 69),
+    -1px 0px 0 rgb(0, 69, 69), 1px 0px 0 rgb(0, 69, 69),
+    2px 2px 0 rgb(0, 69, 69), -2px 2px 0 rgb(0, 69, 69),
+    2px -2px 0 rgb(0, 69, 69), -2px -2px 0 rgb(0, 69, 69),
+    0px 2px 0 rgb(0, 69, 69), 0px -2px 0 rgb(0, 69, 69),
+    -2px 0px 0 rgb(0, 69, 69), 2px 0px 0 rgb(0, 69, 69),
+    1px 2px 0 rgb(0, 69, 69), -1px 2px 0 rgb(0, 69, 69),
+    1px -2px 0 rgb(0, 69, 69), -1px -2px 0 rgb(0, 69, 69),
+    2px 1px 0 rgb(0, 69, 69), -2px 1px 0 rgb(0, 69, 69),
+    2px -1px 0 rgb(0, 69, 69), -2px -1px 0 rgb(0, 69, 69);
+  letter-spacing: 1.5px;
+}
+.dialog {
+  color: black;
+  background-color: rgb(205, 234, 238);
+  visibility: hidden;
+  position: absolute;
+  width: 40%;
+  left: 30%;
+  top: 10%;
+  z-index: 10000;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+}
+body {
+  color: rgb(231, 231, 231);
+}

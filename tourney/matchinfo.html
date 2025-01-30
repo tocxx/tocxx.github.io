@@ -9,11 +9,11 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./picksbans.css">
+    <link rel="stylesheet" href="./matchinfo.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
   <body>
-    <main class="text-center p-2">
+    <main class="p-2">
       <div class="container dialog" id="dialog">
         <div class="row">
           <div class="col">
@@ -21,10 +21,17 @@
           </div>
         </div>
       </div>
-      <div class="container" id="picksbans">
-        <h1>
-          <strong id="p1">PLAYER 1</strong> VS <strong id="p2">PLAYER 2</strong>
-        </h1>
+      <div class="row playernames" style="margin-top: 465px">
+        <div class="col" style="margin-right: 100px">
+          <h1 class="text-end" style="font-size: 4rem">
+            <strong id="p1">PLAYER 1</strong>
+          </h1>
+        </div>
+        <div class="col" style="margin-left: 100px">
+          <h1 class="text-start" style="font-size: 4rem">
+            <strong id="p2">misshoneypeaches</strong>
+          </h1>
+        </div>
       </div>
     </main>
     <script src="./matchinfo.js"></script>

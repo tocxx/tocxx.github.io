@@ -160,7 +160,7 @@ function compileMatch() {
     <div class="row text-white" style="margin-top: 250px">
       <div class="col p-3">
         <div class="row">
-          <div class="col">
+          <div class="col text-center">
             <h1>${match.p1.name}<br>is banning</h1>
           </div>
         </div>
@@ -192,7 +192,7 @@ function pickOrBan(id) {
     if (picksAndBans.map3 == id)
       pickorban = pickpill.replace("$info", `Picked by ${match.p1.name}`);
     if (picksAndBans.map4 == id)
-      pickorban = pickpill.replace("$info", `Picked by ${match.p1.name}`);
+      pickorban = pickpill.replace("$info", `Picked by ${match.p2.name}`);
     if (picksAndBans.map5 == id)
       pickorban = pickpill.replace("$info", `Tiebreaker`);
   }
