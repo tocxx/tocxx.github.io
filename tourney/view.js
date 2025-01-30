@@ -79,7 +79,7 @@ $(document).on("click", ".radioLeft", (e) => {
 });
 
 $(document).on("click", ".radioRight", (e) => {
-  console.log("click right")
+  console.log("click right");
   rightLUID = e.target.value;
   refreshPlayers();
 });
