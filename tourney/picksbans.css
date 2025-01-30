@@ -1,0 +1,12 @@
+.dialog {
+    background-color: rgb(205, 234, 238);
+    visibility: hidden;
+    position: absolute;
+    width: 40%;
+    left: 30%;
+    top: 10%;
+    z-index: 10000;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px
+}
