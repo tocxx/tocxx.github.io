@@ -141,10 +141,7 @@ $(function () {
     );
     if (!tourney) return;
     $.ajax(
-      "https://corsproxy.io/?url=" +
-        encodeURIComponent(
-          `https://api.challonge.com/v1/tournaments/${tourney.id}.json?api_key=${APIKey}&include_participants=1&include_matches=1`
-        )
+      `https://api.challonge.com/v1/tournaments/${tourney.id}.json?api_key=${APIKey}&include_participants=1&include_matches=1`
     )
       .done((data) => {
         for (let player of data.tournament.participants) {
@@ -287,12 +284,7 @@ $(function () {
       inputAPIKey.addClass("is-invalid");
       inputAPIKey.removeClass("is-valid");
     } else {
-      $.ajax(
-        "https://corsproxy.io/?url=" +
-          encodeURIComponent(
-            `https://api.challonge.com/v1/tournaments.json?api_key=${APIKey}`
-          )
-      )
+      $.ajax(`https://api.challonge.com/v1/tournaments.json?api_key=${APIKey}`)
         .done((data) => {
           inputAPIKey.removeClass("is-invalid");
           inputAPIKey.addClass("is-valid");
@@ -392,10 +384,7 @@ $(function () {
     $("#mapGrid").html("");
     if (currentPool.maps.length <= 0) return;
     for (let map of currentPool.maps) {
-      $.ajax(
-        "https://corsproxy.io/?url=" +
-          encodeURIComponent(`https://api.beatsaver.com/maps/id/${map.id}`)
-      )
+      $.ajax(`https://api.beatsaver.com/maps/id/${map.id}`)
         .done((data) => {
           let version = data.versions.find((v) => v.state === "Published");
           if (!version) {
@@ -537,10 +526,7 @@ $(function () {
   }
 
   function compileDiffSelect() {
-    $.ajax(
-      "https://corsproxy.io/?url=" +
-        encodeURIComponent(`https://api.beatsaver.com/maps/id/${currentMapId}`)
-    )
+    $.ajax(`https://api.beatsaver.com/maps/id/${currentMapId}`)
       .done((data) => {
         let version = data.versions.find((v) => v.state === "Published");
         if (!version) {
