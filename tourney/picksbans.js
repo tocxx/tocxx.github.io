@@ -67,35 +67,35 @@ const banpill = `
 setup();
 
 $(document).on("click", ".map", (e) => {
-  let stateDescription = `${match.p1.name} is banning`;
+  let stateDescription = `${match.p1.name}<br>is banning`;
   let id = e.target.id;
   if (state === 0) {
     picksAndBans.bans = [id];
-    stateDescription = `${match.p2.name} is banning`;
+    stateDescription = `${match.p2.name}<br>is banning`;
   }
   if (state === 1) {
     picksAndBans.bans.push(id);
-    stateDescription = `${match.p2.name} is picking`;
+    stateDescription = `${match.p2.name}<br>is picking`;
   }
   if (state === 2) {
     picksAndBans.map1 = id;
-    stateDescription = `${match.p1.name} is picking`;
+    stateDescription = `${match.p1.name}<br>is picking`;
   }
   if (state === 3) {
     picksAndBans.map2 = id;
-    stateDescription = `${match.p1.name} is picking`;
+    stateDescription = `${match.p1.name}<br>is picking`;
   }
   if (state === 4) {
     picksAndBans.map3 = id;
-    stateDescription = `${match.p2.name} is picking`;
+    stateDescription = `${match.p2.name}<br>is picking`;
   }
   if (state === 5) {
     picksAndBans.map4 = id;
-    stateDescription = ``;
+    stateDescription = `${match.p1.name}<br>VS<br>${match.p2.name}`;
   }
   if (state >= 6) {
     picksAndBans.map5 = id;
-    stateDescription = ``;
+    stateDescription = `${match.p1.name}<br>VS<br>${match.p2.name}`;
   }
   state++;
   console.log(picksAndBans);
@@ -103,14 +103,9 @@ $(document).on("click", ".map", (e) => {
   e.target.parentElement.innerHTML = pickOrBan(id) + e.target.outerHTML;
   $(`#c4`).children().last().html(`
       <div class="col p-3">
-        <div class="row">
-          <div class="col">
-            <h1>${match.p1.name} VS ${match.p2.name}</h1>
-          </div>
-        </div>
         <div class="row mb-3">
           <div class="col">
-            <h3>${stateDescription}</h3>
+            <h1>${stateDescription}</h1>
           </div>
         </div>
       </div>`);
@@ -162,16 +157,11 @@ async function compileMaps() {
 
 function compileMatch() {
   $(`#c4`).append(`
-    <div class="row m-3 mt-0 text-white">
+    <div class="row text-white" style="margin-top: 250px">
       <div class="col p-3">
-        <div class="row mb-3">
-          <div class="col">
-            <h1>${match.p1.name} VS ${match.p2.name}</h1>
-          </div>
-        </div>
         <div class="row">
           <div class="col">
-            <h3>${match.p1.name} is banning</h3>
+            <h1>${match.p1.name}<br>is banning</h1>
           </div>
         </div>
       </div>
