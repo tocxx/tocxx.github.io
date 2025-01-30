@@ -1,0 +1,89 @@
+.pill-top {
+  width: 100%;
+  height: 37.5px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border: 1.5px solid rgb(0, 69, 69);
+  letter-spacing: 1.5px;
+}
+.pill-bottom {
+  width: 100%;
+  height: 37.5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 1.5px solid rgb(0, 69, 69);
+  border-top: 0px;
+  letter-spacing: 1.5px;
+}
+.bg-d {
+  background-color: rgb(97, 190, 125);
+}
+.bg-c {
+  background-color: rgb(108, 173, 240);
+}
+.bg-b {
+  background-color: rgb(240, 113, 79);
+}
+.bg-a {
+  background-color: rgb(178, 60, 69);
+}
+.bg-s {
+  background-color: rgb(135, 77, 214);
+}
+.bg-ss {
+  background-color: rgb(0, 69, 69);
+}
+.b-m {
+  background-color: rgb(135, 77, 214);
+}
+.b-l {
+  background-color: rgb(97, 190, 125);
+}
+.b-f {
+  background-color: rgb(0, 69, 69);
+}
+.win {
+  text-shadow: 1px 1px 0 rgb(0, 69, 69), -1px 1px 0 rgb(0, 69, 69),
+    1px -1px 0 rgb(0, 69, 69), -1px -1px 0 rgb(0, 69, 69),
+    0px 1px 0 rgb(0, 69, 69), 0px -1px 0 rgb(0, 69, 69),
+    -1px 0px 0 rgb(0, 69, 69), 1px 0px 0 rgb(0, 69, 69),
+    2px 2px 0 rgb(0, 69, 69), -2px 2px 0 rgb(0, 69, 69),
+    2px -2px 0 rgb(0, 69, 69), -2px -2px 0 rgb(0, 69, 69),
+    0px 2px 0 rgb(0, 69, 69), 0px -2px 0 rgb(0, 69, 69),
+    -2px 0px 0 rgb(0, 69, 69), 2px 0px 0 rgb(0, 69, 69),
+    1px 2px 0 rgb(0, 69, 69), -1px 2px 0 rgb(0, 69, 69),
+    1px -2px 0 rgb(0, 69, 69), -1px -2px 0 rgb(0, 69, 69),
+    2px 1px 0 rgb(0, 69, 69), -2px 1px 0 rgb(0, 69, 69),
+    2px -1px 0 rgb(0, 69, 69), -2px -1px 0 rgb(0, 69, 69);
+}
+.loss {
+  color: rgb(0, 69, 69) !important;
+}
+.c-m {
+  max-width: 350px !important;
+}
+.container {
+  max-width: 100% !important;
+}
+.bc {
+  border-color: rgb(0, 69, 69) !important;
+  border-width: 2px !important;
+}
+.bcp {
+  border-color: rgb(231, 231, 231) !important;
+  border-width: 2px !important;
+}
+.winf {
+  text-shadow: 1px 1px 0 rgb(135, 77, 214), -1px 1px 0 rgb(135, 77, 214),
+    1px -1px 0 rgb(135, 77, 214), -1px -1px 0 rgb(135, 77, 214),
+    0px 1px 0 rgb(135, 77, 214), 0px -1px 0 rgb(135, 77, 214),
+    -1px 0px 0 rgb(135, 77, 214), 1px 0px 0 rgb(135, 77, 214),
+    2px 2px 0 rgb(135, 77, 214), -2px 2px 0 rgb(135, 77, 214),
+    2px -2px 0 rgb(135, 77, 214), -2px -2px 0 rgb(135, 77, 214),
+    0px 2px 0 rgb(135, 77, 214), 0px -2px 0 rgb(135, 77, 214),
+    -2px 0px 0 rgb(135, 77, 214), 2px 0px 0 rgb(135, 77, 214),
+    1px 2px 0 rgb(135, 77, 214), -1px 2px 0 rgb(135, 77, 214),
+    1px -2px 0 rgb(135, 77, 214), -1px -2px 0 rgb(135, 77, 214),
+    2px 1px 0 rgb(135, 77, 214), -2px 1px 0 rgb(135, 77, 214),
+    2px -1px 0 rgb(135, 77, 214), -2px -1px 0 rgb(135, 77, 214);
+}

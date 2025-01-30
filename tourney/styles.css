@@ -1,0 +1,143 @@
+table,
+tr,
+th {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: aqua;
+}
+
+td {
+  background-color: azure;
+}
+
+.dialog {
+  background-color: rgb(205, 234, 238);
+  visibility: hidden;
+  position: absolute;
+  width: 40%;
+  left: 30%;
+  top: 10%;
+  z-index: 10000;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.maps {
+  background-color: rgba(255, 255, 255, 0.5);
+  visibility: hidden;
+  position: absolute;
+  z-index: 10000;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.draggable {
+  position: absolute;
+}
+
+.playerName {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 45px;
+  color: white;
+}
+
+.playerScore {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 35px;
+  color: rgb(255, 215, 86);
+}
+
+.playerAcc {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 45px;
+  text-shadow: 1px 1px 0 rgb(0, 69, 69), -1px 1px 0 rgb(0, 69, 69),
+    1px -1px 0 rgb(0, 69, 69), -1px -1px 0 rgb(0, 69, 69),
+    0px 1px 0 rgb(0, 69, 69), 0px -1px 0 rgb(0, 69, 69),
+    -1px 0px 0 rgb(0, 69, 69), 1px 0px 0 rgb(0, 69, 69),
+    2px 2px 0 rgb(0, 69, 69), -2px 2px 0 rgb(0, 69, 69),
+    2px -2px 0 rgb(0, 69, 69), -2px -2px 0 rgb(0, 69, 69),
+    0px 2px 0 rgb(0, 69, 69), 0px -2px 0 rgb(0, 69, 69),
+    -2px 0px 0 rgb(0, 69, 69), 2px 0px 0 rgb(0, 69, 69),
+    1px 2px 0 rgb(0, 69, 69), -1px 2px 0 rgb(0, 69, 69),
+    1px -2px 0 rgb(0, 69, 69), -1px -2px 0 rgb(0, 69, 69),
+    2px 1px 0 rgb(0, 69, 69), -2px 1px 0 rgb(0, 69, 69),
+    2px -1px 0 rgb(0, 69, 69), -2px -1px 0 rgb(0, 69, 69);
+  color: rgb(231, 231, 231);
+}
+
+.playerCombo {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 30px;
+  color: rgb(0, 69, 69);
+}
+
+.playerCombo strong {
+  font-size: 35px;
+}
+
+.playerMiss {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 30px;
+  color: rgb(231, 231, 231);
+  text-shadow: 1px 1px 0 rgb(178, 60, 69), -1px 1px 0 rgb(178, 60, 69),
+    1px -1px 0 rgb(178, 60, 69), -1px -1px 0 rgb(178, 60, 69),
+    0px 1px 0 rgb(178, 60, 69), 0px -1px 0 rgb(178, 60, 69),
+    -1px 0px 0 rgb(178, 60, 69), 1px 0px 0 rgb(178, 60, 69),
+    2px 2px 0 rgb(178, 60, 69), -2px 2px 0 rgb(178, 60, 69),
+    2px -2px 0 rgb(178, 60, 69), -2px -2px 0 rgb(178, 60, 69),
+    0px 2px 0 rgb(178, 60, 69), 0px -2px 0 rgb(178, 60, 69),
+    -2px 0px 0 rgb(178, 60, 69), 2px 0px 0 rgb(178, 60, 69),
+    1px 2px 0 rgb(178, 60, 69), -1px 2px 0 rgb(178, 60, 69),
+    1px -2px 0 rgb(178, 60, 69), -1px -2px 0 rgb(178, 60, 69),
+    2px 1px 0 rgb(178, 60, 69), -2px 1px 0 rgb(178, 60, 69),
+    2px -1px 0 rgb(178, 60, 69), -2px -1px 0 rgb(178, 60, 69);
+}
+
+.playerMiss strong {
+  font-size: 35px;
+}
+
+.heartBefore {
+  color: rgb(185, 185, 185);
+}
+
+.heartAfter {
+  color: rgb(88, 255, 144);
+}
+
+.mapCardBal {
+  border: 2px solid #93c47d;
+}
+
+.mapPillBal {
+  background-color: #93c47d;
+}
+
+.mapCardAcc {
+  border: 2px solid #e06666;
+}
+
+.mapPillAcc {
+  background-color: #e06666;
+}
+
+.mapCardTec {
+  border: 2px solid #8e7cc3;
+}
+
+.mapPillTec {
+  background-color: #8e7cc3;
+}
+
+.mapCardCla {
+  border: 2px solid #f6b26b;
+}
+
+.mapPillCla {
+  background-color: #f6b26b;
+}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="author" content="Tocxx" />
+    <title>Tocxxio - Tourney Bracket</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link href="./bracket.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+  <body style="color: rgb(231, 231, 231)">
+    <main class="text-center p-2">
+      <div class="container" id="mainbracket">
+        <div class="row">
+          <div class="col c-m">
+            <div class="row">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m1p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m1p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center border-bottom bc bc"></div>
+            </div>
+            <div class="row" style="margin-top: 257px">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m2p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m2p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center border-bottom bc bc"></div>
+            </div>
+          </div>
+          <div class="col c-m">
+            <div class="row mb-2">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m9p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1 mb-2" id="m9p2">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-top b-m pt-1" id="m3p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m3p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center">
+                <div
+                  class="row border-start border-bottom bc"
+                  style="height: 41px"
+                ></div>
+                <div
+                  class="row border-start bc"
+                  style="height: 41px"
+                ></div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m4p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1 mb-2" id="m4p2">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-top b-m pt-1" id="m5p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m5p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center">
+                <div
+                  class="row border-start border-bottom bc"
+                  style="height: 41px"
+                ></div>
+                <div
+                  class="row border-start bc"
+                  style="height: 41px"
+                ></div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m10p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1 mb-2" id="m10p2">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-top b-m pt-1" id="m6p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m6p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center">
+                <div
+                  class="row border-start border-bottom bc"
+                  style="height: 41px"
+                ></div>
+                <div
+                  class="row border-start bc"
+                  style="height: 41px"
+                ></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m7p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1 mb-2" id="m7p2">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-top b-m pt-1" id="m8p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m8p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center">
+                <div
+                  class="row border-start border-bottom bc"
+                  style="height: 41px"
+                ></div>
+                <div
+                  class="row border-start bc"
+                  style="height: 41px"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="col c-m">
+            <div class="row" style="padding-top: 42px">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m19p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m19p2">
+                  <strong>?</strong>
+                </div>
+                <div
+                  class="pill-top b-m pt-1"
+                  style="margin-top: 91px"
+                  id="m17p1"
+                >
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m17p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center">
+                <div
+                  class="row border-start border-bottom bc"
+                  style="height: 85px"
+                ></div>
+                <div
+                  class="row border-start bc"
+                  style="height: 85px"
+                ></div>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 91px">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m20p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1 mb-2" id="m20p2">
+                  <strong>?</strong>
+                </div>
+                <div
+                  class="pill-top b-m pt-1"
+                  style="margin-top: 91px"
+                  id="m18p1"
+                >
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m18p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center">
+                <div
+                  class="row border-start border-bottom bc"
+                  style="height: 85px"
+                ></div>
+                <div
+                  class="row border-start bc"
+                  style="height: 85px"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="col c-m">
+            <div class="row" style="padding-top: 127px">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m27p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m27p2">
+                  <strong>?</strong>
+                </div>
+                <div
+                  class="pill-top b-m pt-1"
+                  style="margin-top: 256px"
+                  id="m28p1"
+                >
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m28p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+              <div class="col align-self-center">
+                <div
+                  class="row border-start border-bottom bc"
+                  style="height: 168px"
+                ></div>
+                <div
+                  class="row border-start bc"
+                  style="height: 168px"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="col c-m align-self-center">
+            <div class="row">
+              <div class="col-10">
+                <div class="pill-top b-m pt-1" id="m32p1">
+                  <strong>?</strong>
+                </div>
+                <div class="pill-bottom b-m pt-1" id="m32p2">
+                  <strong>?</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>
