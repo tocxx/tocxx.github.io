@@ -1,7 +1,13 @@
 let config = JSON.parse(localStorage.getItem("bst-config"));
 let picksAndBans = {
-  p1: 252411184,
-  p2: 251953383,
+  p1: {
+    id: null,
+    name: null,
+  },
+  p2: {
+    id: null,
+    name: null,
+  },
   map1: null,
   map2: null,
   map3: null,
@@ -67,35 +73,35 @@ const banpill = `
 setup();
 
 $(document).on("click", ".map", (e) => {
-  let stateDescription = `${match.p1.name}<br>is banning`;
+  let stateDescription = `${picksAndBans.p1.name}<br>is banning`;
   let id = e.target.id;
   if (state === 0) {
     picksAndBans.bans = [id];
-    stateDescription = `${match.p2.name}<br>is banning`;
+    stateDescription = `${picksAndBans.p2.name}<br>is banning`;
   }
   if (state === 1) {
     picksAndBans.bans.push(id);
-    stateDescription = `${match.p2.name}<br>is picking`;
+    stateDescription = `${picksAndBans.p2.name}<br>is picking`;
   }
   if (state === 2) {
     picksAndBans.map1 = id;
-    stateDescription = `${match.p1.name}<br>is picking`;
+    stateDescription = `${picksAndBans.p1.name}<br>is picking`;
   }
   if (state === 3) {
     picksAndBans.map2 = id;
-    stateDescription = `${match.p1.name}<br>is picking`;
+    stateDescription = `${picksAndBans.p1.name}<br>is picking`;
   }
   if (state === 4) {
     picksAndBans.map3 = id;
-    stateDescription = `${match.p2.name}<br>is picking`;
+    stateDescription = `${picksAndBans.p2.name}<br>is picking`;
   }
   if (state === 5) {
     picksAndBans.map4 = id;
-    stateDescription = `${match.p1.name}<br>VS<br>${match.p2.name}`;
+    stateDescription = `${picksAndBans.p1.name}<br>VS<br>${picksAndBans.p2.name}`;
   }
   if (state >= 6) {
     picksAndBans.map5 = id;
-    stateDescription = `${match.p1.name}<br>VS<br>${match.p2.name}`;
+    stateDescription = `${picksAndBans.p1.name}<br>VS<br>${picksAndBans.p2.name}`;
   }
   state++;
   console.log(picksAndBans);
@@ -103,22 +109,46 @@ $(document).on("click", ".map", (e) => {
   e.target.parentElement.innerHTML = pickOrBan(id) + e.target.outerHTML;
   $(`#c4`).children().last().html(`
       <div class="col p-3">
-        <div class="row mb-3">
-          <div class="col">
+        <div class="row">
+          <div class="col text-center">
             <h1>${stateDescription}</h1>
           </div>
         </div>
       </div>`);
+  savePB();
+});
+
+$(document).on("click", ".p1Radio", (e) => {
+  setP1(Number(e.target.value));
 });
 
 async function setup() {
+  $("#slP1").append(
+    `<div class="form-check"><input class="form-check-input p1Radio" type="radio" name="radioLeft" id="slp${match.p1.id}" value="${match.p1.id}"><label class="form-check-label" for="slp${match.p1.id}">${match.p1.name}</label></div><div class="form-check"><input class="form-check-input p1Radio" type="radio" name="radioLeft" id="slp${match.p2.id}" value="${match.p2.id}"><label class="form-check-label" for="slp${match.p2.id}">${match.p2.name}</label></div>`
+  );
   await compileMaps();
-  compileMatch();
+  $(`#c4`).append(`
+    <div class="row text-white" style="margin-top: 250px">
+      <div class="col p-3">
+        <div class="row">
+          <div class="col text-center">
+            <h1>${match.p1.name}<br>is banning</h1>
+          </div>
+        </div>
+      </div>
+    </div>`);
 }
 
 function setP1(id) {
-  picksAndBans.p1 = id;
-  localStorage.setItem("bst-picksAndBans", JSON.stringify(picksAndBans));
+  if (match.p1.id == id) {
+    picksAndBans.p1 = match.p1;
+    picksAndBans.p2 = match.p2;
+  } else {
+    picksAndBans.p2 = match.p1;
+    picksAndBans.p1 = match.p2;
+  }
+  compileMatch();
+  savePB();
 }
 
 async function compileMaps() {
@@ -156,16 +186,15 @@ async function compileMaps() {
 }
 
 function compileMatch() {
-  $(`#c4`).append(`
-    <div class="row text-white" style="margin-top: 250px">
+  console.log($(`#c4`).children().last().html());
+  $(`#c4`).children().last().html(`
       <div class="col p-3">
         <div class="row">
           <div class="col text-center">
-            <h1>${match.p1.name}<br>is banning</h1>
+            <h1>${picksAndBans.p1.name}<br>is banning</h1>
           </div>
         </div>
-      </div>
-    </div>`);
+      </div>`);
 }
 
 function clearMapCols() {
@@ -180,21 +209,37 @@ function pickOrBan(id) {
   if (picksAndBans.bans.includes(id)) {
     let index = picksAndBans.bans.indexOf(id);
     if (index === 0) {
-      pickorban = banpill.replace("$name", match.p1.name);
+      pickorban = banpill.replace("$name", picksAndBans.p1.name);
     } else {
-      pickorban = banpill.replace("$name", match.p2.name);
+      pickorban = banpill.replace("$name", picksAndBans.p2.name);
     }
   } else {
     if (picksAndBans.map1 == id)
-      pickorban = pickpill.replace("$info", `Picked by ${match.p2.name}`);
+      pickorban = pickpill.replace(
+        "$info",
+        `Picked by ${picksAndBans.p2.name}`
+      );
     if (picksAndBans.map2 == id)
-      pickorban = pickpill.replace("$info", `Picked by ${match.p1.name}`);
+      pickorban = pickpill.replace(
+        "$info",
+        `Picked by ${picksAndBans.p1.name}`
+      );
     if (picksAndBans.map3 == id)
-      pickorban = pickpill.replace("$info", `Picked by ${match.p1.name}`);
+      pickorban = pickpill.replace(
+        "$info",
+        `Picked by ${picksAndBans.p1.name}`
+      );
     if (picksAndBans.map4 == id)
-      pickorban = pickpill.replace("$info", `Picked by ${match.p2.name}`);
+      pickorban = pickpill.replace(
+        "$info",
+        `Picked by ${picksAndBans.p2.name}`
+      );
     if (picksAndBans.map5 == id)
       pickorban = pickpill.replace("$info", `Tiebreaker`);
   }
   return pickorban;
+}
+
+function savePB() {
+  localStorage.setItem("bst-picksandbans", picksAndBans);
 }
