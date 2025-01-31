@@ -10,6 +10,10 @@ let config = JSON.parse(localStorage.getItem("bst-config"));
 let currentMatch = JSON.parse(localStorage.getItem("bst-currentMatch"));
 let rightLink;
 let leftLink;
+let result = {
+  p1: 0,
+  p2: 0,
+};
 
 if (currentMatch) {
   leftLink = config.players.find((p) => p.id === currentMatch.p1.id);
@@ -65,6 +69,15 @@ ws.addEventListener("message", (msg) => {
 
 [...document.getElementsByClassName("roundHeart")].forEach((element) => {
   element.addEventListener("click", () => {
+    if (element.className.includes("heartBefore")) {
+      if (element.id === "l") result.p1++;
+      if (element.id === "r") result.p2++;
+    } else {
+      if (element.id === "l") result.p1--;
+      if (element.id === "r") result.p2--;
+    }
+    console.log(result);
+    localStorage.setItem("bst-currentResult", JSON.stringify(result));
     element.classList.toggle("heartBefore");
     element.classList.toggle("heartAfter");
     element.classList.toggle("bi-slash-circle");
