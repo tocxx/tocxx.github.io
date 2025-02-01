@@ -119,6 +119,7 @@ function refreshPlayers() {
 }
 
 function refreshStandings() {
+  result = JSON.parse(localStorage.getItem("bst-currentResult"));
   let classlist = [
     "standing",
     "standingW",
