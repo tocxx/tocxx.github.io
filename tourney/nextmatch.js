@@ -25,6 +25,13 @@ function setCurrentMatch(id) {
   pool = config.pools.find((p) => p.matchIds.includes(match.id));
   localStorage.setItem("bst-currentMatch", JSON.stringify(match));
   localStorage.setItem("bst-currentPool", JSON.stringify(pool));
+  localStorage.setItem(
+    "bst-currentResult",
+    JSON.stringify({
+      p1: [],
+      p2: [],
+    })
+  );
   $("#p1").html(match.p1.name);
   $("#p2").html(match.p2.name);
 }

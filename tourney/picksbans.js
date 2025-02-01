@@ -128,7 +128,7 @@ async function setup() {
   );
   await compileMaps();
   $(`#c4`).append(`
-    <div class="row text-white" style="margin-top: 250px">
+    <div class="row text-white" style="margin-top: 175px">
       <div class="col p-3">
         <div class="row">
           <div class="col text-center">
