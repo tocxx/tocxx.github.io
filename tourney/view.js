@@ -19,7 +19,7 @@ if (currentMatch) {
   $("#sl-rp-name").html(rightLink.display_name);
   $("#lp-name").html(leftLink.display_name);
   $("#rp-name").html(rightLink.display_name);
-  refreshStandings()
+  refreshStandings();
 }
 
 ws.addEventListener("message", (msg) => {
@@ -66,7 +66,9 @@ ws.addEventListener("message", (msg) => {
 });
 
 $(document).on("keypress", (key) => {
-  if (key.key === "r") refreshStandings();
+  if (key.key === "r") {
+    refreshStandings();
+  }
 });
 
 $(document).on("click", ".radioLeft", (e) => {
@@ -117,31 +119,32 @@ function refreshPlayers() {
 }
 
 function refreshStandings() {
-  console.log(result);
   let classlist = [
     "standing",
     "standingW",
     "bi-slash-circle",
     "bi-circle-fill",
   ];
-  if (result.p1.length == 1) $("#l1").toggleClass(classlist);
-  if (result.p1.length == 2) {
+  if (result.p1.length == 1 && $("#l1").hasClass("bi-slash-circle"))
     $("#l1").toggleClass(classlist);
-    $("#l2").toggleClass(classlist);
+  if (result.p1.length == 2) {
+    if ($("#l1").hasClass("bi-slash-circle")) $("#l1").toggleClass(classlist);
+    if ($("#l2").hasClass("bi-slash-circle")) $("#l2").toggleClass(classlist);
   }
   if (result.p1.length == 3) {
-    $("#l1").toggleClass(classlist);
-    $("#l2").toggleClass(classlist);
-    $("#l3").toggleClass(classlist);
+    if ($("#l1").hasClass("bi-slash-circle")) $("#l1").toggleClass(classlist);
+    if ($("#l2").hasClass("bi-slash-circle")) $("#l2").toggleClass(classlist);
+    if ($("#l3").hasClass("bi-slash-circle")) $("#l3").toggleClass(classlist);
   }
-  if (result.p2.length == 1) $("#r1").toggleClass(classlist);
-  if (result.p2.length == 2) {
+  if (result.p2.length == 1 && $("#r1").hasClass("bi-slash-circle"))
     $("#r1").toggleClass(classlist);
-    $("#r2").toggleClass(classlist);
+  if (result.p2.length == 2) {
+    if ($("#r1").hasClass("bi-slash-circle")) $("#r1").toggleClass(classlist);
+    if ($("#r2").hasClass("bi-slash-circle")) $("#r2").toggleClass(classlist);
   }
   if (result.p2.length == 3) {
-    $("#r1").toggleClass(classlist);
-    $("#r2").toggleClass(classlist);
-    $("#r3").toggleClass(classlist);
+    if ($("#r1").hasClass("bi-slash-circle")) $("#r1").toggleClass(classlist);
+    if ($("#r2").hasClass("bi-slash-circle")) $("#r2").toggleClass(classlist);
+    if ($("#r3").hasClass("bi-slash-circle")) $("#r3").toggleClass(classlist);
   }
 }
