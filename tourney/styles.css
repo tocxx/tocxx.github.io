@@ -80,7 +80,24 @@ td {
   font-size: 35px;
 }
 
-.playerMiss {
+.playerMissL {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 30px;
+  color: rgb(231, 231, 231);
+  text-shadow: 1px 1px 0 rgb(108, 173, 240), -1px 1px 0 rgb(108, 173, 240),
+    1px -1px 0 rgb(108, 173, 240), -1px -1px 0 rgb(108, 173, 240),
+    0px 1px 0 rgb(108, 173, 240), 0px -1px 0 rgb(108, 173, 240),
+    -1px 0px 0 rgb(108, 173, 240), 1px 0px 0 rgb(108, 173, 240),
+    2px 2px 0 rgb(108, 173, 240), -2px 2px 0 rgb(108, 173, 240),
+    2px -2px 0 rgb(108, 173, 240), -2px -2px 0 rgb(108, 173, 240),
+    0px 2px 0 rgb(108, 173, 240), 0px -2px 0 rgb(108, 173, 240),
+    -2px 0px 0 rgb(108, 173, 240), 2px 0px 0 rgb(108, 173, 240),
+    1px 2px 0 rgb(108, 173, 240), -1px 2px 0 rgb(108, 173, 240),
+    1px -2px 0 rgb(108, 173, 240), -1px -2px 0 rgb(108, 173, 240),
+    2px 1px 0 rgb(108, 173, 240), -2px 1px 0 rgb(108, 173, 240),
+    2px -1px 0 rgb(108, 173, 240), -2px -1px 0 rgb(108, 173, 240);
+}
+.playerMissR {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 30px;
   color: rgb(231, 231, 231);
@@ -102,12 +119,12 @@ td {
   font-size: 35px;
 }
 
-.heartBefore {
+.standing {
   color: rgb(185, 185, 185);
 }
 
-.heartAfter {
-  color: rgb(88, 255, 144);
+.standingW {
+  color: rgb(0, 69, 69);
 }
 
 .mapCardBal {
