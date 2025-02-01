@@ -241,5 +241,5 @@ function pickOrBan(id) {
 }
 
 function savePB() {
-  localStorage.setItem("bst-picksandbans", picksAndBans);
+  localStorage.setItem("bst-picksandbans", JSON.stringify(picksAndBans));
 }

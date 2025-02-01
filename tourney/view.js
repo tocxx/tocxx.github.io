@@ -8,12 +8,9 @@ let leftLUID = null;
 let rightLUID = null;
 let config = JSON.parse(localStorage.getItem("bst-config"));
 let currentMatch = JSON.parse(localStorage.getItem("bst-currentMatch"));
+let result = JSON.parse(localStorage.getItem("bst-currentResult"));
 let rightLink;
 let leftLink;
-let result = {
-  p1: 0,
-  p2: 0,
-};
 
 if (currentMatch) {
   leftLink = config.players.find((p) => p.id === currentMatch.p1.id);
@@ -22,6 +19,7 @@ if (currentMatch) {
   $("#sl-rp-name").html(rightLink.display_name);
   $("#lp-name").html(leftLink.display_name);
   $("#rp-name").html(rightLink.display_name);
+  refreshStandings()
 }
 
 ws.addEventListener("message", (msg) => {
@@ -67,22 +65,8 @@ ws.addEventListener("message", (msg) => {
   }
 });
 
-[...document.getElementsByClassName("roundHeart")].forEach((element) => {
-  element.addEventListener("click", () => {
-    if (element.className.includes("heartBefore")) {
-      if (element.id === "l") result.p1++;
-      if (element.id === "r") result.p2++;
-    } else {
-      if (element.id === "l") result.p1--;
-      if (element.id === "r") result.p2--;
-    }
-    console.log(result);
-    localStorage.setItem("bst-currentResult", JSON.stringify(result));
-    element.classList.toggle("heartBefore");
-    element.classList.toggle("heartAfter");
-    element.classList.toggle("bi-slash-circle");
-    element.classList.toggle("bi-circle-fill");
-  });
+$(document).on("keypress", (key) => {
+  if (key.key === "r") refreshStandings();
 });
 
 $(document).on("click", ".radioLeft", (e) => {
@@ -130,4 +114,34 @@ function refreshPlayers() {
   $("#sl-rp-name").html(rightLink.display_name);
   $("#lp-name").html(leftLink.display_name);
   $("#rp-name").html(rightLink.display_name);
+}
+
+function refreshStandings() {
+  console.log(result);
+  let classlist = [
+    "standing",
+    "standingW",
+    "bi-slash-circle",
+    "bi-circle-fill",
+  ];
+  if (result.p1.length == 1) $("#l1").toggleClass(classlist);
+  if (result.p1.length == 2) {
+    $("#l1").toggleClass(classlist);
+    $("#l2").toggleClass(classlist);
+  }
+  if (result.p1.length == 3) {
+    $("#l1").toggleClass(classlist);
+    $("#l2").toggleClass(classlist);
+    $("#l3").toggleClass(classlist);
+  }
+  if (result.p2.length == 1) $("#r1").toggleClass(classlist);
+  if (result.p2.length == 2) {
+    $("#r1").toggleClass(classlist);
+    $("#r2").toggleClass(classlist);
+  }
+  if (result.p2.length == 3) {
+    $("#r1").toggleClass(classlist);
+    $("#r2").toggleClass(classlist);
+    $("#r3").toggleClass(classlist);
+  }
 }
