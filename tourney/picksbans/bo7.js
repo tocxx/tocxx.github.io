@@ -232,7 +232,7 @@ function pickOrBan(id) {
   let pickorban = "";
   if (picksAndBans.bans.includes(id)) {
     let index = picksAndBans.bans.indexOf(id);
-    if (index === 0) {
+    if (index === 0 || index === 2) {
       pickorban = banpill.replace("$name", picksAndBans.p1.name);
     } else {
       pickorban = banpill.replace("$name", picksAndBans.p2.name);
