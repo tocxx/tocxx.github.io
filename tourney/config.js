@@ -137,13 +137,13 @@ $(function () {
 
   $("#slTourney").on("change", () => {
     let tourney = tournaments.find(
-      (t) => t.id == $("#slTourney").find(":selected").val()
+      (t) => t.id == $("#slTourney").find(":selected").val(),
     );
     if (!tourney) return;
     $.ajax(
-      "https://corsproxy.io/?url=" +
-        encodeURIComponent(
-      `https://api.challonge.com/v1/tournaments/${tourney.id}.json?api_key=${APIKey}&include_participants=1&include_matches=1`)
+      encodeURIComponent(
+        `https://api.challonge.com/v1/tournaments/${tourney.id}.json?api_key=${APIKey}&include_participants=1&include_matches=1`,
+      ),
     )
       .done((data) => {
         for (let player of data.tournament.participants) {
@@ -157,14 +157,14 @@ $(function () {
               m.winner_id === m.player1_id
                 ? 1
                 : m.winner_id === m.player2_id
-                ? 2
-                : null,
+                  ? 2
+                  : null,
             loser:
               m.loser_id === m.player1_id
                 ? 1
                 : m.loser_id === m.player2_id
-                ? 2
-                : null,
+                  ? 2
+                  : null,
             p1: m.player1_id
               ? {
                   id: m.player1_id,
@@ -192,7 +192,7 @@ $(function () {
 
   $("#slConfigRound").on("change", () => {
     currentConfigRoundIndex = Number(
-      $("#slConfigRound").find(":selected").val()
+      $("#slConfigRound").find(":selected").val(),
     );
     currentConfigRound = config.rounds[currentConfigRoundIndex];
     compileRoundMapInput();
@@ -236,7 +236,7 @@ $(function () {
   $(document).on("click", ".editMap", (e) => {
     currentMapId = e.target.id.replace("edit", "");
     currentMap = config.pools[currentPoolIndex].maps.find(
-      (m) => m.id === currentMapId
+      (m) => m.id === currentMapId,
     );
     if (!currentMap) return;
     compileDiffSelect();
@@ -287,8 +287,10 @@ $(function () {
       inputAPIKey.removeClass("is-valid");
     } else {
       $.ajax(
-      "https://corsproxy.io/?url=" +
-        encodeURIComponent(`https://api.challonge.com/v1/tournaments.json?api_key=${APIKey}`))
+        encodeURIComponent(
+          `https://api.challonge.com/v1/tournaments.json?api_key=${APIKey}`,
+        ),
+      )
         .done((data) => {
           inputAPIKey.removeClass("is-invalid");
           inputAPIKey.addClass("is-valid");
@@ -331,7 +333,7 @@ $(function () {
         $("<option>", {
           value: tourney.id,
           text: tourney.challongeData.name,
-        })
+        }),
       );
     }
     $("#divPickTourney").removeClass("visually-hidden");
@@ -341,7 +343,7 @@ $(function () {
     if (config.players.length <= 0) return;
     for (let player of config.players) {
       $("#tbPlayers").append(
-        `<tr><th scope="row">${player.seed}</th><td>${player.display_name}</td></tr>`
+        `<tr><th scope="row">${player.seed}</th><td>${player.display_name}</td></tr>`,
       );
     }
     $("#players").removeClass("visually-hidden");
@@ -355,7 +357,7 @@ $(function () {
       let p2 = config.players.find((p) => p.id == match.player2_id);
 
       $("#tbMatches").append(
-        `<tr><th scope="row">${match.round}</th><td>${p1.display_name} vs ${p2.display_name}</td></tr>`
+        `<tr><th scope="row">${match.round}</th><td>${p1.display_name} vs ${p2.display_name}</td></tr>`,
       );
     }
     $("#matches").removeClass("visually-hidden");
@@ -408,9 +410,9 @@ $(function () {
               .replace("$songTitle", data.metadata.songName)
               .replace(
                 "$description",
-                `Mapped by ${data.metadata.levelAuthorName}<br>`
+                `Mapped by ${data.metadata.levelAuthorName}<br>`,
               )
-              .replace("$id", map.id)
+              .replace("$id", map.id),
           );
         })
         .fail(() => {
@@ -432,8 +434,8 @@ $(function () {
             <div class="col">
               <p class="mt-1 mb-0">
                 <strong>${match.p1 ? match.p1.name : "?"} VS ${
-          match.p2 ? match.p2.name : "?"
-        }</strong>
+                  match.p2 ? match.p2.name : "?"
+                }</strong>
               </p>
             </div>
             <div class="col-2">
@@ -463,8 +465,8 @@ $(function () {
             <div class="col">
               <p class="mt-1 mb-0">
                 <strong>${match.p1 ? match.p1.name : "?"} VS ${
-          match.p2 ? match.p2.name : "?"
-        }</strong>
+                  match.p2 ? match.p2.name : "?"
+                }</strong>
               </p>
             </div>
             <div class="col-2">
@@ -500,7 +502,7 @@ $(function () {
       .attr(
         "href",
         "data:text/plain;charset=utf-8," +
-          encodeURIComponent(JSON.stringify(config))
+          encodeURIComponent(JSON.stringify(config)),
       )
       .attr("download", "TocxxioTourneyConfig.json");
     localStorage.setItem("bst-config", JSON.stringify(config));
@@ -566,8 +568,8 @@ $(function () {
             `
           <select class="form-select mb-3" id="slDiff">
           ${options}
-          </select>`
-          )
+          </select>`,
+          ),
         );
         $("#ocMapEdit").addClass("show");
       })
