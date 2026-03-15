@@ -141,7 +141,7 @@ $(function () {
     );
     if (!tourney) return;
     $.ajax(
-      `https://proxy.corsfix.com/?https://api.challonge.com/v1/tournaments/${tourney.id}.json?api_key=${APIKey}&include_participants=1&include_matches=1`,
+      `https://api.codetabs.com/v1/proxy?quest=https://api.challonge.com/v1/tournaments/${tourney.id}.json?api_key=${APIKey}&include_participants=1&include_matches=1`,
     )
       .done((data) => {
         for (let player of data.tournament.participants) {
@@ -285,7 +285,7 @@ $(function () {
       inputAPIKey.removeClass("is-valid");
     } else {
       $.ajax(
-        `https://proxy.corsfix.com/?https://api.challonge.com/v1/tournaments.json?api_key=${APIKey}`,
+        `https://api.codetabs.com/v1/proxy?quest=https://api.challonge.com/v1/tournaments.json?api_key=${APIKey}`,
       )
         .done((data) => {
           inputAPIKey.removeClass("is-invalid");
