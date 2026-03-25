@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta name="author" content="Tocxx" />
@@ -30,10 +30,11 @@
             <h1 class="display-5 fw-bold">Tourney Configurator</h1>
             <p class="lead mb-4">
               Before being able to create a tourney, you need to set it up on
-              <a href="https://challonge.com/">challonge</a> and
-              <a href="https://challonge.com/settings/developer.html"
-                >generate an API-key</a
-              >.<br />
+              <a href="https://challonge.com/">challonge</a>,
+              <a href="https://connect.challonge.com/challonge/apps"
+                >create an app</a
+              >
+              and generate an API v1 key (at the bottom).<br />
               <strong>Disclaimer:</strong> This site saves your data with
               browser local storage. If you clear your browser's cache the
               information will get lost.
@@ -159,8 +160,7 @@
                   <div class="col">
                     <h4>Matches in pool</h4>
                     <div class="row">
-                      <div class="col" id="matchesInPool">
-                      </div>
+                      <div class="col" id="matchesInPool"></div>
                     </div>
                   </div>
                 </div>
@@ -168,8 +168,7 @@
                   <div class="col">
                     <h4>Add to pool</h4>
                     <div class="row">
-                      <div class="col" id="matchesNotInAnyPool">
-                      </div>
+                      <div class="col" id="matchesNotInAnyPool"></div>
                     </div>
                   </div>
                 </div>
