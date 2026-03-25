@@ -254,7 +254,7 @@ $(function () {
               saved.challongeData = d.tournament;
             } else {
               tournaments.push({
-                id: d.tournament.id,
+                id: d.id,
                 challongeData: d,
                 config: config,
               });
