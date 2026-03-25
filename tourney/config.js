@@ -140,8 +140,8 @@ $(function () {
       (t) => t.id == $("#slTourney").find(":selected").val(),
     );
     if (!tourney) return;
-    fetchPlayers();
-    fetchMatches();
+    fetchPlayers(tourney.id);
+    fetchMatches(tourney.id);
     compileTourneyConfig();
   });
 
@@ -270,9 +270,9 @@ $(function () {
     }
   }
 
-  function fetchPlayers() {
+  function fetchPlayers(id) {
     $.ajax(
-      `https://challonge-proxy.jonas00.com/proxy/tournaments/${tourney.id}/participants.json?api_key=${APIKey}`,
+      `https://challonge-proxy.jonas00.com/proxy/tournaments/${id}/participants.json?api_key=${APIKey}`,
     )
       .done((data) => {
         console.log("Participants:" + data);
@@ -289,9 +289,9 @@ $(function () {
       });
   }
 
-  function fetchMatches() {
+  function fetchMatches(id) {
     $.ajax(
-      `https://challonge-proxy.jonas00.com/proxy/tournaments/${tourney.id}/participants.json?api_key=${APIKey}`,
+      `https://challonge-proxy.jonas00.com/proxy/tournaments/${id}/participants.json?api_key=${APIKey}`,
     )
       .done((data) => {
         console.log("Matches:" + data);
