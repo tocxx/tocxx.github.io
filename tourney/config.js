@@ -140,52 +140,9 @@ $(function () {
       (t) => t.id == $("#slTourney").find(":selected").val(),
     );
     if (!tourney) return;
-    $.ajax(
-      `https://challonge-proxy.jonas00.com/proxy/tournaments/${tourney.id}.json?api_key=${APIKey}&include_participants=1&include_matches=1`,
-    )
-      .done((data) => {
-        for (let player of data.tournament.participants) {
-          config.players.push(player.participant);
-        }
-        for (let match of data.tournament.matches) {
-          m = match.match;
-          config.matches.push({
-            id: m.suggested_play_order,
-            winner:
-              m.winner_id === m.player1_id
-                ? 1
-                : m.winner_id === m.player2_id
-                  ? 2
-                  : null,
-            loser:
-              m.loser_id === m.player1_id
-                ? 1
-                : m.loser_id === m.player2_id
-                  ? 2
-                  : null,
-            p1: m.player1_id
-              ? {
-                  id: m.player1_id,
-                  name: config.players.find((p) => p.id == m.player1_id)
-                    .display_name,
-                }
-              : null,
-            p2: m.player2_id
-              ? {
-                  id: m.player2_id,
-                  name: config.players.find((p) => p.id == m.player2_id)
-                    .display_name,
-                }
-              : null,
-          });
-          if (m.round > maxRounds) maxRounds = m.round;
-        }
-        compileTourneyConfig();
-      })
-      .fail(() => {
-        inputAPIKey.addClass("is-invalid");
-        inputAPIKey.removeClass("is-valid");
-      });
+    fetchPlayers();
+    fetchMatches();
+    compileTourneyConfig();
   });
 
   $("#slConfigRound").on("change", () => {
@@ -279,7 +236,7 @@ $(function () {
   });
 
   function setupChallonge() {
-    console.log(APIKey);
+    console.log("API Key used:" + APIKey);
     if (!APIKey || APIKey == "") {
       inputAPIKey.addClass("is-invalid");
       inputAPIKey.removeClass("is-valid");
@@ -288,29 +245,96 @@ $(function () {
         `https://challonge-proxy.jonas00.com/proxy/tournaments.json?api_key=${APIKey}`,
       )
         .done((data) => {
+          console.log(data);
           inputAPIKey.removeClass("is-invalid");
           inputAPIKey.addClass("is-valid");
-          for (let d of data.content) {
-            let saved = tournaments.find((t) => t.id === d.tournament.id);
+          for (let d of data.data) {
+            let saved = tournaments.find((t) => t.id === d.id);
             if (saved) {
               saved.challongeData = d.tournament;
             } else {
               tournaments.push({
                 id: d.tournament.id,
-                challongeData: d.tournament,
+                challongeData: d,
                 config: config,
               });
             }
           }
           localStorage.setItem("bst-tournaments", JSON.stringify(tournaments));
           compileTourneyOptions();
-          console.log(data);
         })
         .fail(() => {
           inputAPIKey.addClass("is-invalid");
           inputAPIKey.removeClass("is-valid");
         });
     }
+  }
+
+  function fetchPlayers() {
+    $.ajax(
+      `https://challonge-proxy.jonas00.com/proxy/tournaments/${tourney.id}/participants.json?api_key=${APIKey}`,
+    )
+      .done((data) => {
+        console.log("Participants:" + data);
+        config.players = data.map((p) => {
+          return {
+            id: p.id,
+            ...p.attributes,
+          };
+        });
+      })
+      .fail(() => {
+        inputAPIKey.addClass("is-invalid");
+        inputAPIKey.removeClass("is-valid");
+      });
+  }
+
+  function fetchMatches() {
+    $.ajax(
+      `https://challonge-proxy.jonas00.com/proxy/tournaments/${tourney.id}/participants.json?api_key=${APIKey}`,
+    )
+      .done((data) => {
+        console.log("Matches:" + data);
+        for (let match of data) {
+          attr = match.attributes;
+          config.matches.push({
+            id: attr.suggested_play_order,
+            winner:
+              attr.winner_id === attr.relationships.player1.data.id
+                ? 1
+                : attr.winner_id === attr.relationships.player2.data.id
+                  ? 2
+                  : null,
+            loser:
+              attr.winner_id === attr.relationships.player2.data.id
+                ? 1
+                : attr.winner_id === attr.relationships.player1.data.id
+                  ? 2
+                  : null,
+            p1: attr.relationships.player1.data.id
+              ? {
+                  id: attr.relationships.player1.data.id,
+                  name: config.players.find(
+                    (p) => p.id == attr.relationships.player1.data.id,
+                  ).name,
+                }
+              : null,
+            p2: attr.relationships.player2.data.id
+              ? {
+                  id: attr.relationships.player2.data.id,
+                  name: config.players.find(
+                    (p) => p.id == attr.relationships.player2.data.id,
+                  ).name,
+                }
+              : null,
+          });
+          if (attr.round > maxRounds) maxRounds = attr.round;
+        }
+      })
+      .fail(() => {
+        inputAPIKey.addClass("is-invalid");
+        inputAPIKey.removeClass("is-valid");
+      });
   }
 
   function compileTourneyConfig() {
