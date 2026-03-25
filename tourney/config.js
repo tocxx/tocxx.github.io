@@ -275,8 +275,9 @@ $(function () {
       `https://challonge-proxy.jonas00.com/proxy/tournaments/${id}/participants.json?api_key=${APIKey}`,
     )
       .done((data) => {
-        console.log("Participants:" + data);
-        config.players = data.map((p) => {
+        console.log("Participants:");
+        console.log(data.data);
+        config.players = data.data.map((p) => {
           return {
             id: p.id,
             ...p.attributes,
@@ -291,11 +292,12 @@ $(function () {
 
   function fetchMatches(id) {
     $.ajax(
-      `https://challonge-proxy.jonas00.com/proxy/tournaments/${id}/participants.json?api_key=${APIKey}`,
+      `https://challonge-proxy.jonas00.com/proxy/tournaments/${id}/matches.json?api_key=${APIKey}`,
     )
       .done((data) => {
-        console.log("Matches:" + data);
-        for (let match of data) {
+        console.log("Matches:");
+        console.log(data.data);
+        for (let match of data.data) {
           attr = match.attributes;
           config.matches.push({
             id: attr.suggested_play_order,
