@@ -248,14 +248,14 @@ $(function () {
           console.log(data);
           inputAPIKey.removeClass("is-invalid");
           inputAPIKey.addClass("is-valid");
-          for (let d of data.data) {
-            let saved = tournaments.find((t) => t.id === d.id);
+          for (let tourney of data.data) {
+            let saved = tournaments.find((t) => t.id === tourney.id);
             if (saved) {
-              saved.challongeData = d.tournament;
+              saved.challongeData = tourney.attributes;
             } else {
               tournaments.push({
-                id: d.id,
-                challongeData: d,
+                id: tourney.id,
+                challongeData: tourney.attributes,
                 config: config,
               });
             }
