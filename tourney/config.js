@@ -503,6 +503,7 @@ $(function () {
 
   function compilePlaylistUpload(playlist) {
     currentPool.maps = playlist.songs.map((song) => {
+      console.log(song);
       let diff = 0;
       let diffname = song.difficulties[0].name.toLowerCase();
       if (diffname == "normal") diff = 1;
