@@ -26,6 +26,8 @@ jobs:
         run: |
           npm ci
           npx ng build --base-href /tocxx.github.io/
+      - name: Copy index to 404
+        run: cp dist/tocxxio/browser/index.html dist/tocxxio/browser/404.html
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
