@@ -1,0 +1,306 @@
+<div class="space-y-6 text-white sm:px-3">
+  <!-- Campaign name -->
+  <div class="flex flex-col md:flex-row mb-6">
+    <div class="md:w-1/4">
+      <label class="inputLabel" for="name"> Campaign name </label>
+    </div>
+    <div class="md:w-3/4">
+      <input
+        class="input w-full"
+        id="name"
+        type="text"
+        [value]="campaign()!.name"
+        (input)="onName($event)"
+      />
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="flex flex-col md:flex-row mb-6">
+    <div class="md:w-1/4">
+      <label class="inputLabel" for="desc"> Description </label>
+    </div>
+    <div class="md:w-3/4">
+      <input
+        class="input w-full"
+        id="desc"
+        type="text"
+        [value]="campaign()!.desc"
+        (input)="onDesc($event)"
+      />
+    </div>
+  </div>
+
+  <!-- Big Description (with preview) -->
+  <div class="flex flex-col md:flex-row mb-6">
+    <div class="md:w-1/4">
+      <label class="inputLabel" for="bigDesc"> Big Description </label>
+      <p class="inputLabelHelp">TMPro Rich Text supported</p>
+    </div>
+    <div class="md:w-3/4">
+      <textarea
+        class="input w-full"
+        id="bigDesc"
+        rows="8"
+        [value]="campaign()!.bigDesc"
+        (input)="onBigDesc($event)"
+      ></textarea>
+      @if (campaign()!.bigDesc) {
+      <div class="mt-4">
+        <button
+          type="button"
+          (click)="togglePreview()"
+          class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-300 mb-2"
+        >
+          <span>{{ previewExpanded() ? "▼" : "▶" }}</span>
+          <span>Preview</span>
+        </button>
+        @if (previewExpanded()) {
+        <div class="p-4 bg-gray-800 rounded border border-gray-600">
+          <div
+            [innerHTML]="campaign()!.bigDesc | tmpro"
+            class="text-gray-300"
+          ></div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- All Unlocked -->
+  <div class="flex flex-col md:flex-row mb-6">
+    <div class="md:w-1/4">
+      <label class="inputLabel" for="allUnlocked"> All Unlocked </label>
+    </div>
+    <div class="md:w-3/4 flex items-center">
+      <input
+        class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500"
+        id="allUnlocked"
+        type="checkbox"
+        [checked]="campaign()!.allUnlocked"
+        (change)="onAllUnlocked($event)"
+      />
+      <span class="ml-2 text-sm text-gray-300">
+        {{ campaign()!.allUnlocked ? "Yes" : "No" }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Map Height -->
+  <div class="flex flex-col md:flex-row mb-6">
+    <div class="md:w-1/4">
+      <label class="inputLabel" for="mapHeight"> Map Height </label>
+    </div>
+    <div class="md:w-3/4">
+      <input
+        class="input w-full"
+        id="mapHeight"
+        type="number"
+        [value]="campaign()!.mapHeight"
+        (input)="onMapHeight($event)"
+      />
+    </div>
+  </div>
+
+  <!-- Background Alpha -->
+  <div class="flex flex-col md:flex-row mb-6">
+    <div class="md:w-1/4">
+      <label class="inputLabel" for="backgroundAlpha"> Background Alpha </label>
+      <p class="inputLabelHelp">Range: 0-1</p>
+    </div>
+    <div class="md:w-3/4">
+      <input
+        class="input w-full"
+        id="backgroundAlpha"
+        type="number"
+        min="0"
+        max="1"
+        step="0.01"
+        [value]="campaign()!.backgroundAlpha"
+        (input)="onBackgroundAlpha($event)"
+      />
+      <input
+        class="w-full mt-2"
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        [value]="campaign()!.backgroundAlpha"
+        (input)="onBackgroundAlpha($event)"
+      />
+    </div>
+  </div>
+
+  <!-- Light Color -->
+  <div class="flex flex-col md:flex-row mb-6">
+    <div class="md:w-1/4">
+      <label class="inputLabel"> Light Color (RGB) </label>
+      <p class="inputLabelHelp">Range: 0-1 for each</p>
+    </div>
+    <div class="md:w-3/4">
+      <div class="flex gap-4 items-center">
+        <div class="flex-1">
+          <label class="text-sm text-gray-400 mb-1 block">Red</label>
+          <input
+            class="input w-full"
+            type="number"
+            min="0"
+            max="1"
+            step="0.01"
+            [value]="campaign()!.lightColor.r"
+            (input)="onLightColor('r', $event)"
+          />
+        </div>
+        <div class="flex-1">
+          <label class="text-sm text-gray-400 mb-1 block">Green</label>
+          <input
+            class="input w-full"
+            type="number"
+            min="0"
+            max="1"
+            step="0.01"
+            [value]="campaign()!.lightColor.g"
+            (input)="onLightColor('g', $event)"
+          />
+        </div>
+        <div class="flex-1">
+          <label class="text-sm text-gray-400 mb-1 block">Blue</label>
+          <input
+            class="input w-full"
+            type="number"
+            min="0"
+            max="1"
+            step="0.01"
+            [value]="campaign()!.lightColor.b"
+            (input)="onLightColor('b', $event)"
+          />
+        </div>
+        <div class="flex-shrink-0">
+          <div
+            class="w-16 h-16 rounded border-2 border-gray-400"
+            [style.background-color]="getLightColorRgb()"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Credits -->
+  <div class="flex flex-col md:flex-row mb-6">
+    <div class="md:w-1/4">
+      <label class="inputLabel"> Credits </label>
+      <div class="mt-2 space-y-2">
+        <button
+          type="button"
+          (click)="addCreditHeader()"
+          class="btn bg-indigo-600 text-white text-sm px-3 py-1"
+        >
+          Add Header
+        </button>
+        <button
+          type="button"
+          (click)="addStandaloneTitle()"
+          class="btn bg-indigo-600 text-white text-sm px-3 py-1 block w-full"
+        >
+          Add Title
+        </button>
+      </div>
+    </div>
+    <div class="md:w-3/4">
+      <div class="space-y-4">
+        @for (credit of campaign()!.credits.credits; track $index) {
+        <div class="bg-gray-800 rounded p-4 border border-gray-600">
+          @if (isCreditHeader(credit)) {
+          <!-- Header with titles -->
+          <div class="mb-4">
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-sm font-semibold text-gray-300">Header</label>
+              <button
+                type="button"
+                (click)="removeCredit($index)"
+                class="text-red-400 hover:text-red-300 text-sm"
+              >
+                Remove
+              </button>
+            </div>
+            <input
+              class="input w-full mb-3"
+              type="text"
+              [value]="credit.header.name"
+              (input)="updateHeaderName($index, $event)"
+            />
+            <div class="ml-4 space-y-3">
+              @for (title of credit.header.titles; track $index; let titleIndex
+              = $index) {
+              <div class="bg-gray-700 rounded p-3">
+                <div class="flex items-center justify-between mb-2">
+                  <label class="text-sm text-gray-400">Title</label>
+                  <button
+                    type="button"
+                    (click)="removeTitle($index, titleIndex)"
+                    class="text-red-400 hover:text-red-300 text-xs"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <input
+                  class="input w-full mb-2"
+                  type="text"
+                  [value]="title.title.name"
+                  (input)="updateTitleName($index, titleIndex, $event)"
+                  placeholder="Title name"
+                />
+                <input
+                  class="input w-full"
+                  type="text"
+                  [value]="title.title.people.join(', ')"
+                  (input)="updateTitlePeople($index, titleIndex, $event)"
+                  placeholder="People (comma separated)"
+                />
+              </div>
+              }
+              <button
+                type="button"
+                (click)="addCreditTitle($index)"
+                class="btn bg-indigo-500 text-white text-xs px-2 py-1"
+              >
+                + Add Title
+              </button>
+            </div>
+          </div>
+          } @else {
+          <!-- Standalone title -->
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-sm font-semibold text-gray-300">Title</label>
+            <button
+              type="button"
+              (click)="removeCredit($index)"
+              class="text-red-400 hover:text-red-300 text-sm"
+            >
+              Remove
+            </button>
+          </div>
+          <input
+            class="input w-full mb-2"
+            type="text"
+            [value]="credit.title.name"
+            (input)="updateTitleName(null, $index, $event)"
+            placeholder="Title name"
+          />
+          <input
+            class="input w-full"
+            type="text"
+            [value]="credit.title.people.join(', ')"
+            (input)="updateTitlePeople(null, $index, $event)"
+            placeholder="People (comma separated)"
+          />
+          }
+        </div>
+        } @empty {
+        <p class="text-gray-400 text-sm">No credits added yet.</p>
+        }
+      </div>
+    </div>
+  </div>
+</div>
