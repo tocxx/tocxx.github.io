@@ -24,7 +24,7 @@ export class TournamentPageComponent {
   downloadConfig() {
     const tournament = this._tournament.currentTournament();
     if (!tournament) return;
-    const configString = JSON.stringify(tournament.config, null, 2);
+    const configString = JSON.stringify(tournament, null, 2);
     const blob = new Blob([configString], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
