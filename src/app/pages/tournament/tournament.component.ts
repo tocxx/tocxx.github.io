@@ -28,8 +28,9 @@ export class TournamentPageComponent {
   }
 
   selectChallongeTournament(e: Event) {
-    console.log((e.target as HTMLSelectElement).value);
-    //this._tournament.selectChallongeTournament((e.target as HTMLSelectElement).value)
+    this._tournament.selectChallongeTournament(
+      (e.target as HTMLSelectElement).value,
+    );
   }
 
   onDragEnter(e: DragEvent) {
