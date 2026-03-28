@@ -21,6 +21,19 @@ export class TournamentPageComponent {
     this._tournament.resetCurrent();
   }
 
+  downloadConfig() {
+    const tournament = this._tournament.currentTournament();
+    if (!tournament) return;
+    const configString = JSON.stringify(tournament.config, null, 2);
+    const blob = new Blob([configString], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Tocxxio-${tournament.name.replace(/\s+/g, '_')}.json`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
   onAPIKey(e: Event) {
     this._tournament.fetchChallongeTournaments(
       (e.target as HTMLInputElement).value,

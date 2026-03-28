@@ -1,102 +1,91 @@
-<div
-  class="container visually-hidden border rounded p-3 mb-2"
-  id="tourneyConfig"
->
-  <div class="row mb-2">
-    <div class="col-3">
-      <h3>Upload config</h3>
-    </div>
-    <div class="col-3">
-      <input class="form-control" type="file" id="uploadConfig" />
-    </div>
-    <div class="col">
-      <h3><a href="" id="downloadConfig">Download config</a></h3>
-    </div>
+<div class="row mb-2">
+  <div class="col">
+    <h3><a href="" id="downloadConfig">Download config</a></h3>
   </div>
-  <hr />
-  <div class="row mb-4">
-    <div class="col-3">
-      <h1 class="h2">Pool configuration</h1>
-    </div>
-    <div class="col-3">
-      <select class="form-select mb-3" id="slConfigPool"></select>
-    </div>
-    <div class="col">
-      <button class="btn btn-primary" id="addPool">Add pool</button>
-    </div>
+</div>
+<hr />
+<div class="row mb-4">
+  <div class="col-3">
+    <h1 class="h2">Pool configuration</h1>
   </div>
-  <div class="row mb-2">
-    <div class="col">
-      <div class="row">
-        <div class="col-4">
-          <div class="row mb-2">
-            <div class="col">
-              <h4>Format</h4>
-              <input
-                type="radio"
-                class="btn-check"
-                name="roundFormat"
-                id="roundFormat3"
-                autocomplete="off"
-                value="3"
-                checked
-              />
-              <label class="btn" style="color: white" for="roundFormat3"
-                >Best of 3</label
-              >
-              <input
-                type="radio"
-                class="btn-check"
-                name="roundFormat"
-                id="roundFormat5"
-                value="5"
-                autocomplete="off"
-              />
-              <label class="btn" style="color: white" for="roundFormat5"
-                >Best of 5</label
-              >
-              <input
-                type="radio"
-                class="btn-check"
-                name="roundFormat"
-                id="roundFormat7"
-                value="7"
-                autocomplete="off"
-              />
-              <label class="btn" style="color: white" for="roundFormat7"
-                >Best of 7</label
-              >
-            </div>
+  <div class="col-3">
+    <select class="form-select mb-3" id="slConfigPool"></select>
+  </div>
+  <div class="col">
+    <button class="btn btn-primary" id="addPool">Add pool</button>
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col">
+    <div class="row">
+      <div class="col-4">
+        <div class="row mb-2">
+          <div class="col">
+            <h4>Format</h4>
+            <input
+              type="radio"
+              class="btn-check"
+              name="roundFormat"
+              id="roundFormat3"
+              autocomplete="off"
+              value="3"
+              checked
+            />
+            <label class="btn" style="color: white" for="roundFormat3"
+              >Best of 3</label
+            >
+            <input
+              type="radio"
+              class="btn-check"
+              name="roundFormat"
+              id="roundFormat5"
+              value="5"
+              autocomplete="off"
+            />
+            <label class="btn" style="color: white" for="roundFormat5"
+              >Best of 5</label
+            >
+            <input
+              type="radio"
+              class="btn-check"
+              name="roundFormat"
+              id="roundFormat7"
+              value="7"
+              autocomplete="off"
+            />
+            <label class="btn" style="color: white" for="roundFormat7"
+              >Best of 7</label
+            >
           </div>
-          <div class="row mb-2">
-            <div class="col">
-              <h4>Matches in pool</h4>
-              <div class="row">
-                <div class="col" id="matchesInPool"></div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <h4>Add to pool</h4>
-              <div class="row">
-                <div class="col" id="matchesNotInAnyPool"></div>
-              </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col">
+            <h4>Matches in pool</h4>
+            <div class="row">
+              <div class="col" id="matchesInPool"></div>
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="row">
-            <div class="col-4">
-              <h4>Upload playlist</h4>
-            </div>
-            <div class="col">
-              <input class="form-control" type="file" id="uploadPlaylist" />
+        <div class="row">
+          <div class="col">
+            <h4>Add to pool</h4>
+            <div class="row">
+              <div class="col" id="matchesNotInAnyPool"></div>
             </div>
           </div>
-          <h1 class="h4 mb-4 text-center">Maps</h1>
-          <div class="row" id="mapGrid"></div>
         </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-4">
+            <h4>Upload playlist</h4>
+          </div>
+          <div class="col">
+            <input class="form-control" type="file" id="uploadPlaylist" />
+          </div>
+        </div>
+        <h1 class="h4 mb-4 text-center">Maps</h1>
+        <div class="row" id="mapGrid"></div>
       </div>
     </div>
   </div>

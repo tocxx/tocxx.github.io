@@ -126,8 +126,11 @@
       </div>
     </div>
   } @else {
-    <button class="rounded-md bg-blue-300 p-2" (click)="reset()">
+    <button class="rounded-md bg-blue-300 mb-2" (click)="reset()">
       <- Back to tournament setup
+    </button>
+    <button class="rounded-md bg-blue-300 mb-2" (click)="downloadConfig()">
+      Download config
     </button>
     <router-outlet />
   }
