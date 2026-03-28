@@ -1,4 +1,10 @@
-import { computed, Injectable, signal, WritableSignal } from '@angular/core';
+import {
+  computed,
+  effect,
+  Injectable,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { StorageService } from './storage.service';
 import { TournamentObject } from '@interfaces/tournament';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -23,6 +29,9 @@ export class TournamentService {
     if (tournaments) this.#tournaments.set(JSON.parse(tournaments));
     let apiKey = _storage.get('apiKey');
     if (apiKey) this.fetchChallongeTournaments(apiKey);
+    effect(() => {
+      this._storage.set('tournaments', this.tournaments());
+    });
   }
 
   async fetchChallongeTournaments(apiKey: string) {
@@ -33,6 +42,7 @@ export class TournamentService {
       })
       .subscribe({
         next: (res) => {
+          this._storage.set('apiKey', apiKey);
           this.#challongeTournaments.set(
             res.data.map((t: any) => {
               return {
@@ -60,6 +70,16 @@ export class TournamentService {
     const tournament = this.challongeTournaments().find((t) => t.id === id);
     if (!tournament)
       return console.error("Couldn't pick tournament. Retry the API Key");
+    const saved = this.tournaments().find((t) => t.id === id);
+    if (!saved) {
+      this.#tournaments.update((current) => [...current, tournament]);
+      this.setTournament(tournament);
+    } else {
+      tournament.config = saved.config;
+      this.#tournaments.update((current) =>
+        current.map((t) => (t.id === tournament.id ? tournament : t)),
+      );
+    }
   }
 
   validateTournamentObject(object: any): TournamentObject | undefined {
@@ -83,21 +103,13 @@ export class TournamentService {
   uploadConfig(tournament: TournamentObject) {
     const existing = this.tournaments().find((t) => t.id === tournament.id);
     if (existing) {
-      this.#tournaments.update((current) => {
-        const update = [...current];
-        const index = update.indexOf(existing);
-        if (index) update[index] = tournament;
-        return update;
-      });
+      this.#tournaments.update((current) =>
+        current.map((t) => (t.id === tournament.id ? tournament : t)),
+      );
     } else {
       this.#tournaments.update((current) => [tournament, ...current]);
     }
     this.setTournament(tournament);
-    this.saveTournaments();
-  }
-
-  saveTournaments() {
-    this._storage.set('tournaments', this.tournaments());
   }
 
   setTournament(tournament: TournamentObject) {
