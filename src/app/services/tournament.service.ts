@@ -27,7 +27,6 @@ export class TournamentService {
 
   async fetchChallongeTournaments(apiKey: string) {
     const params = new HttpParams().set('api_key', apiKey);
-
     this._http
       .get<any>('https://challonge-proxy.jonas00.com/proxy/tournaments.json', {
         params,
@@ -103,5 +102,9 @@ export class TournamentService {
 
   setTournament(tournament: TournamentObject) {
     this.#currentTournament.set(tournament);
+  }
+
+  resetCurrent() {
+    this.#currentTournament.set(undefined);
   }
 }
