@@ -1,181 +1,134 @@
 <main>
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl lg:mx-0">
-      <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">
-        Tournaments
-      </h2>
-      <p
-        class="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8"
-      >
-        Import a <a href="https://challonge.com/">challonge</a> tournament,
-        select from saved or upload an existing config to get started
-      </p>
-      <p class="text-white text-pretty">
-        <strong>Disclaimer:</strong> This site saves your data with browser
-        local storage. If you clear your browser's cache your progress will get
-        lost.
-      </p>
-    </div>
-    <div class="mx-auto mt-20 max-w-2xl lg:mx-0 lg:max-w-none">
-      <dl
-        class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <div class="flex flex-col gap-1">
-          <dd class="text-4xl font-semibold tracking-tight text-white mb-2">
-            Import from challonge
-          </dd>
-          <dd class="text-white mb-5">
-            <a href="https://connect.challonge.com/challonge/apps"
-              >Create an app</a
+  @if (!current()) {
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0">
+        <h2
+          class="text-5xl font-semibold tracking-tight text-white sm:text-7xl"
+        >
+          Tournaments
+        </h2>
+        <p
+          class="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8"
+        >
+          Import a
+          <a class="text-blue-300" href="https://challonge.com/">challonge</a>
+          tournament, select from saved or upload an existing config to get
+          started
+        </p>
+        <p class="text-white text-pretty">
+          <strong>Disclaimer:</strong> This site saves your data with browser
+          local storage. If you clear your browser's cache your progress will
+          get lost.
+        </p>
+      </div>
+      <div class="mx-auto mt-20 max-w-2xl lg:mx-0 lg:max-w-none">
+        <dl
+          class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          <div class="flex flex-col gap-1">
+            <dd class="text-4xl font-semibold tracking-tight text-white mb-2">
+              Import from challonge
+            </dd>
+            <dd class="text-white mb-5">
+              <a
+                class="text-blue-300"
+                href="https://connect.challonge.com/challonge/apps"
+                >Create an app</a
+              >
+              and generate an API v1 key (at the bottom).
+            </dd>
+            <label for="apikey" class="block text-sm/6 font-medium text-white"
+              >API v1 Key</label
             >
-            and generate an API v1 key (at the bottom).
-          </dd>
-          <label for="apikey" class="block text-sm/6 font-medium text-white"
-            >API v1 Key</label
-          >
-          <div class="mt-2 mb-5 w-100">
-            <input
-              type="text"
-              name="apikey"
-              id="name"
-              class="input"
-              placeholder="Your key..."
-              (blur)="onAPIKey($event)"
-            />
+            <div class="mt-2 mb-5">
+              <input
+                type="text"
+                name="apikey"
+                id="name"
+                class="input w-full"
+                placeholder="Your key..."
+                (blur)="onAPIKey($event)"
+              />
+            </div>
+            @if (challongeTournaments().length > 0) {
+              <select
+                class="block text-black w-full rounded-md border-0 bg-white p-2 shadow-sm"
+                (change)="selectChallongeTournament($event)"
+              >
+                <option disabled selected>Pick a tournament</option>
+                @for (tourney of challongeTournaments(); track tourney.id) {
+                  <option [value]="tourney.id">{{ tourney.name }}</option>
+                }
+              </select>
+            }
           </div>
-          @if (challongeTournaments().length > 0) {
-            <select (input)="selectChallongeTournament($event)">
-              @for (tourney of challongeTournaments(); track tourney.id) {
-                <option [value]="tourney.id">{{ tourney.name }}</option>
-              }
-            </select>
-          }
-        </div>
-        <div class="flex flex-col gap-1">
-          <dd class="text-4xl font-semibold tracking-tight text-white mb-5">
-            Upload config
-          </dd>
-          <div class="col-span-full">
-            <div
-              class="mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10"
-              (dragenter)="onDragEnter($event)"
-              (dragover)="onDragOver($event)"
-              (dragleave)="onDragLeave($event)"
-              (drop)="onDrop($event)"
-            >
-              <div class="text-center">
-                <div class="flex text-sm/6 text-gray-600">
-                  <label
-                    for="zip-upload"
-                    class="relative cursor-pointer rounded-md font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500"
-                  >
-                    <span>Upload config file</span>
-                    <input
-                      id="zip-upload"
-                      name="zip-upload"
-                      type="file"
-                      accept=".zip"
-                      class="sr-only"
-                      (change)="onFileSelected($event)"
-                    />
-                  </label>
-                  <p class="pl-1">or drag and drop</p>
+          <div class="flex flex-col gap-1">
+            <dd class="text-4xl font-semibold tracking-tight text-white mb-5">
+              Upload config
+            </dd>
+            <div class="col-span-full">
+              <div
+                class="mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10"
+                (dragenter)="onDragEnter($event)"
+                (dragover)="onDragOver($event)"
+                (dragleave)="onDragLeave($event)"
+                (drop)="onDrop($event)"
+              >
+                <div class="text-center">
+                  <div class="flex text-sm/6 text-gray-600">
+                    <label
+                      for="zip-upload"
+                      class="relative cursor-pointer rounded-md font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500"
+                    >
+                      <span>Upload config file</span>
+                      <input
+                        id="zip-upload"
+                        name="zip-upload"
+                        type="file"
+                        accept=".zip"
+                        class="sr-only"
+                        (change)="onFileSelected($event)"
+                      />
+                    </label>
+                    <p class="pl-1">or drag and drop</p>
+                  </div>
+                  @if (fileStatus()) {
+                    <p
+                      [attr.class]="
+                        fileError() ? 'text-red-500' : 'text-green-500'
+                      "
+                    >
+                      {{ fileStatus() }}
+                    </p>
+                  }
                 </div>
-                @if (fileStatus()) {
-                  <p
-                    [attr.class]="
-                      fileError() ? 'text-red-500' : 'text-green-500'
-                    "
+              </div>
+            </div>
+          </div>
+          @if (tournaments().length > 0) {
+            <div class="flex flex-col gap-1">
+              <dd class="text-4xl font-semibold tracking-tight text-white mb-5">
+                Saved tournaments
+              </dd>
+              <div class="grid grid-cols-1">
+                @for (saved of tournaments(); track saved.id) {
+                  <div
+                    class="flex flex-col bg-linear-to-tr hover:cursor-pointer from-[#fff] to-[#776fff] rounded p-3"
+                    (click)="onTournament(saved)"
                   >
-                    {{ fileStatus() }}
-                  </p>
+                    <span>{{ saved.name }}</span>
+                  </div>
                 }
               </div>
             </div>
-          </div>
-        </div>
-        @if (tournaments().length > 0) {
-          <div class="flex flex-col gap-1">
-            <dd class="text-4xl font-semibold tracking-tight text-white mb-5">
-              Saved tournaments
-            </dd>
-            <div class="grid grid-cols-1">
-              @for (saved of tournaments(); track saved.id) {
-                <div
-                  class="flex flex-col bg-linear-to-tr hover:cursor-pointer from-[#fff] to-[#776fff] rounded p-3"
-                  (click)="onTournament(saved)"
-                >
-                  <span>{{ saved.name }}</span>
-                </div>
-              }
-            </div>
-          </div>
-        }
-      </dl>
-    </div>
-  </div>
-
-  <div class="flex px-4 py-5">
-    <div class="row flex-lg-row align-items-center g-5 py-5">
-      <div class="col-6">
-        <h1 class="display-5 fw-bold">Tournament Configurator</h1>
-        <p class="lead mb-4">
-          Before being able to create a tourney, you need to set it up on
-          <a href="https://challonge.com/">challonge</a>,
-          <a href="https://connect.challonge.com/challonge/apps"
-            >create an app</a
-          >
-          and generate an API v1 key (at the bottom).<br />
-          <strong>Disclaimer:</strong> This site saves your data with browser
-          local storage. If you clear your browser's cache the information will
-          get lost.
-        </p>
-        <div class="row">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            id="btnStartOverlay"
-          >
-            Start overlay
-          </button>
-        </div>
-      </div>
-      <div class="col-6">
-        <div id="divAPIInput">
-          <h1 class="h2">Challonge setup</h1>
-          <div class="row needs-validation" id="APIKeyRow">
-            <div class="input-group mb-3">
-              <input
-                type="text"
-                class="form-control"
-                id="APIKey"
-                placeholder="Challonge API key"
-              />
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="btnAPIKey"
-              >
-                Go
-              </button>
-              <div class="invalid-feedback">
-                Something is wrong with this key
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="visually-hidden" id="divPickTourney">
-          <h1 class="h2">Pick a tourney</h1>
-          <div class="row" id="slTourneyRow">
-            <div class="input-group mb-3">
-              <select class="form-select" name="tourney" id="slTourney">
-                <option selected>Choose which tourney</option>
-              </select>
-            </div>
-          </div>
-        </div>
+          }
+        </dl>
       </div>
     </div>
-  </div>
-  <router-outlet />
+  } @else {
+    <button class="rounded-md bg-blue-300 p-2" (click)="reset()">
+      <- Back to tournament setup
+    </button>
+    <router-outlet />
+  }
 </main>

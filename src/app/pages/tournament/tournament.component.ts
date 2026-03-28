@@ -15,6 +15,11 @@ export class TournamentPageComponent {
   tournaments = this._tournament.tournaments;
   fileError = signal(false);
   fileStatus: WritableSignal<string | undefined> = signal(undefined);
+  current = this._tournament.currentTournament;
+
+  reset() {
+    this._tournament.resetCurrent();
+  }
 
   onAPIKey(e: Event) {
     this._tournament.fetchChallongeTournaments(
