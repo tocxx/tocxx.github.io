@@ -25,7 +25,7 @@ jobs:
       - name: Install and Build
         run: |
           npm ci
-          npx ng build --base-href /tocxx.github.io/
+          npx ng build --base-href /
       - name: Copy index to 404
         run: cp dist/tocxxio/browser/index.html dist/tocxxio/browser/404.html
 
