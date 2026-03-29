@@ -92,10 +92,10 @@ export class TournamentService {
       return res.data.map((p: any) => {
         return {
           id: p.id,
-          name: p.attributes,
-          seed: p.seed,
-          tournament_id: p.tournament_id,
-          final_rank: p.final_rank,
+          name: p.attributes.name,
+          seed: p.attributes.seed,
+          tournament_id: p.attributes.tournament_id,
+          final_rank: p.attributes.final_rank,
         };
       });
     } catch (error) {
