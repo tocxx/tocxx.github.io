@@ -44,15 +44,10 @@ interface Difficulty {
 
 export interface Match {
   id: number;
-  p1: MatchPlayer;
-  p2: MatchPlayer;
+  p1: string;
+  p2: string;
   loser?: number;
   winner?: number;
-}
-
-interface MatchPlayer {
-  id: number;
-  name: string;
 }
 
 export interface Player {
