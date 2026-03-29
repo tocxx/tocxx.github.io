@@ -1,0 +1,41 @@
+@if (map.metadata) {
+  <div
+    class="grid grid-cols-3 overflow-hidden rounded-xl border-[3px] shadow-lg transition-transform hover:scale-[1.02]"
+    [style.borderColor]="map.metadata.category.color"
+    [style.backgroundColor]="map.metadata.category.color"
+  >
+    <div class="p-2" [style.backgroundColor]="map.metadata.difficulty.color">
+      <div class="relative">
+        <img
+          [src]="map.metadata.cover"
+          class="aspect-square w-full rounded-lg object-cover shadow-inner"
+          alt="coverImage"
+        />
+      </div>
+      <h6
+        class="mt-2 text-center text-sm font-black uppercase tracking-wider text-white"
+      >
+        {{ map.metadata.difficulty.title.toUpperCase() }}
+      </h6>
+    </div>
+    <div class="p-4 text-white col-span-2">
+      <span
+        class="-translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold text-white shadow-md"
+        [style.backgroundColor]="map.metadata.category.color"
+      >
+        {{ map.metadata.category.title }}
+      </span>
+      <h6 class="line-clamp-1 text-lg font-bold leading-tight">
+        {{ map.metadata.artist }} - {{ map.metadata.title }}
+      </h6>
+      <p class="mt-2 line-clamp-2 text-sm opacity-80 italic">
+        {{ map.metadata.description }}
+      </p>
+      <button
+        class="mt-4 w-full rounded-lg bg-white/20 py-2 text-sm font-semibold transition-colors hover:bg-white/30 active:bg-white/10"
+      >
+        Edit Map
+      </button>
+    </div>
+  </div>
+}
