@@ -2,27 +2,29 @@
   <div class="col-span-full text-center">
     <p class="text-white font-semibold text-3xl mb-5">Pool configuration</p>
   </div>
-  <div class="border-right border-white">
+  <div class="block border-right border-white mt-7">
     @for (pool of pools(); track $index) {
       <button
         class="btn w-full py-1 mb-2 rounded-md font-semibold text-2xl text-white"
-        [class.bg-blue-500]="selectedPoolIndex() === $index"
+        [class.bg-blue-500]="currentPoolId() === $index"
         (click)="selectPool($index)"
       >
         Pool {{ $index + 1 }}
       </button>
     }
-    <button class="btn text-white border-white" (click)="addPool()">
-      Add pool
-    </button>
+    <div class="flex justify-center w-full">
+      <button class="btn text-white border-white" (click)="addPool()">
+        Add pool
+      </button>
+    </div>
   </div>
   <div class="col-span-4 text-white">
     <div class="grid grid-cols-2">
       <div>
         <div class="text-center text-lg">
           <p>Maps in pool</p>
-          @if (selectedPool(); as pool) {
-            @if (pool.maps) {
+          @if (currentPool(); as pool) {
+            @if (pool.maps.length > 0) {
               <div class="grid grid-cols-1 gap-2">
                 @for (map of pool.maps; track map.id) {
                   <tournament-mapcard [map]="map"></tournament-mapcard>

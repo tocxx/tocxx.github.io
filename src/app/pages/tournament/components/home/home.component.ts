@@ -1,8 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TournamentService } from '@services/tournament.service';
 import { TournamentMapcardComponent } from '../mapcard/mapcard.component';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'tournament-home',
@@ -18,16 +17,16 @@ export class TournamentHomeComponent {
   players = computed(
     () => this._tournament.currentTournament()!.config.players,
   );
-  selectedPoolIndex = signal(0);
-  selectedPool = computed(() => {
-    const i = this.selectedPoolIndex();
+  currentPoolId = this._tournament.currentPoolId;
+  currentPool = computed(() => {
+    const i = this.currentPoolId();
     return this.pools()[i];
   });
 
-  constructor(private _http: HttpClient) {}
+  constructor() {}
 
   selectPool(index: number) {
-    this.selectedPoolIndex.set(index);
+    this._tournament.selectPool(index);
   }
 
   addPool() {
@@ -54,11 +53,7 @@ export class TournamentHomeComponent {
       const content = await file.text();
       const jsonObject = JSON.parse(content);
       if (!jsonObject || !jsonObject.songs) return;
-      this._tournament.playlistUpload(
-        this.selectedPool(),
-        this.selectedPoolIndex(),
-        jsonObject,
-      );
+      this._tournament.playlistUpload(this.currentPool(), jsonObject);
     } catch (err) {
       console.error(err);
     }

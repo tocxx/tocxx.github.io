@@ -9,6 +9,7 @@ import { StorageService } from './storage.service';
 import { Map, Pool, TournamentObject } from '@interfaces/tournament';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { categories, difficulties } from '../pages/tournament/consts';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,8 @@ export class TournamentService {
   currentTournament = computed(() =>
     this.tournaments().find((t) => t.id === this.currentId()),
   );
+  #currentPoolId: WritableSignal<number> = signal(0);
+  currentPoolId = computed(() => this.#currentPoolId());
 
   constructor(
     private _http: HttpClient,
@@ -69,20 +72,96 @@ export class TournamentService {
       });
   }
 
-  selectChallongeTournament(id: string) {
-    const tournament = this.challongeTournaments().find((t) => t.id === id);
-    if (!tournament)
-      return console.error("Couldn't pick tournament. Retry the API Key");
-    const saved = this.tournaments().find((t) => t.id === id);
-    if (!saved) {
-      this.#tournaments.update((current) => [...current, tournament]);
-      this.setTournament(tournament);
-    } else {
-      tournament.config = saved.config;
-      this.#tournaments.update((current) =>
-        current.map((t) => (t.id === tournament.id ? tournament : t)),
-      );
+  async fetchParticipants(id: string) {
+    const apiKey = this._storage.get('apiKey');
+    if (!apiKey) {
+      console.error(`Challonge API Key not found.`);
+      return undefined;
     }
+    const params = new HttpParams().set('api_key', apiKey);
+    try {
+      const res: any = await lastValueFrom(
+        this._http.get(
+          `https://challonge-proxy.jonas00.com/proxy/tournaments/${id}/participants.json`,
+          {
+            params,
+          },
+        ),
+      );
+      return res.data.map((p: any) => {
+        return {
+          id: p.id,
+          name: p.attributes,
+          seed: p.seed,
+          tournament_id: p.tournament_id,
+          final_rank: p.final_rank,
+        };
+      });
+    } catch (error) {
+      console.error(`Error while fetching participants`, error);
+      return undefined;
+    }
+  }
+
+  async fetchMatches(id: string) {
+    const apiKey = this._storage.get('apiKey');
+    if (!apiKey) {
+      console.error(`Challonge API Key not found.`);
+      return undefined;
+    }
+    const params = new HttpParams().set('api_key', apiKey);
+    try {
+      const res: any = await lastValueFrom(
+        this._http.get(
+          `https://challonge-proxy.jonas00.com/proxy/tournaments/${id}/matches.json`,
+          {
+            params,
+          },
+        ),
+      );
+      return res.data.map((m: any) => {
+        return {
+          id: m.id,
+          p1: m.relationships.player1.data.id,
+          p2: m.relationships.player2.data.id,
+          loser: m.winner_id
+            ? m.winner_id === m.relationships.player1.data.id
+              ? m.relationships.player2.data.id
+              : m.relationships.player1.data.id
+            : undefined,
+          winner: m.winner_id ? m.winner_id : undefined,
+        };
+      });
+    } catch (error) {
+      console.error(`Error while fetching matches`, error);
+      return undefined;
+    }
+  }
+
+  async selectChallongeTournament(id: string) {
+    const challongeBase = this.challongeTournaments().find((t) => t.id === id);
+    if (!challongeBase) return console.error('Tournament not found');
+    const [matches, participants] = await Promise.all([
+      this.fetchMatches(id),
+      this.fetchParticipants(id),
+    ]);
+    const saved = this.tournaments().find((t) => t.id === id);
+    const updatedConfig = {
+      ...(saved?.config || challongeBase.config),
+      ...(matches && { matches }),
+      ...(participants && { players: participants }), // Fikset her!
+    };
+    const updatedTournament = {
+      ...challongeBase,
+      config: updatedConfig,
+    };
+    this.#tournaments.update((current) => {
+      const exists = current.some((t) => t.id === id);
+      return exists
+        ? current.map((t) => (t.id === id ? updatedTournament : t))
+        : [...current, updatedTournament];
+    });
+    this.setTournament(updatedTournament);
   }
 
   validateTournamentObject(object: any): TournamentObject | undefined {
@@ -155,7 +234,7 @@ export class TournamentService {
     );
   }
 
-  updatePool(index: number, update: Pool) {
+  updatePool(update: Pool) {
     this.#tournaments.update((current) =>
       current.map((t) =>
         t.id === this.currentId()
@@ -163,7 +242,9 @@ export class TournamentService {
               ...t,
               config: {
                 ...t.config,
-                pools: t.config.pools.map((p, i) => (i === index ? update : p)),
+                pools: t.config.pools.map((p, i) =>
+                  i === this.currentPoolId() ? update : p,
+                ),
               },
             }
           : t,
@@ -171,9 +252,9 @@ export class TournamentService {
     );
   }
 
-  playlistUpload(pool: Pool, poolIndex: number, jsonObject: any) {
-    const maps: Map[] = jsonObject.songs.map((song: any) => {
-      const existing = maps.find((m) => m.id === song.key);
+  async playlistUpload(pool: Pool, jsonObject: any) {
+    const mapPromises = jsonObject.songs.map(async (song: any) => {
+      const existing = pool.maps.find((m) => m.id === song.key);
       let diff = 0;
       if (song.difficulties) {
         let diffname = song.difficulties[0].name.toLowerCase();
@@ -183,36 +264,31 @@ export class TournamentService {
         if (diffname == 'expertplus') diff = 4;
       }
       if (!existing || !existing.metadata) {
-        return this._http
-          .get(`https://api.beatsaver.com/maps/id/${song.key}`)
-          .subscribe({
-            next: (res: any) => {
-              let version = res.versions.find(
-                (v: any) => v.state === 'Published',
-              );
-              if (!version)
-                return console.error(
-                  `Couldn't find a published version of map ${song.key}`,
-                );
-              return {
-                id: song.key,
-                metadata: {
-                  category: categories[0],
-                  difficulty: difficulties[diff],
-                  cover: version.coverURL,
-                  artist: res.metadata.songAuthorName,
-                  title: res.metadata.songName,
-                  description: `Mapped by ${res.metadata.levelAuthorName}`,
-                },
-              };
+        try {
+          const res: any = await lastValueFrom(
+            this._http.get(`https://api.beatsaver.com/maps/id/${song.key}`),
+          );
+          let version = res.versions.find((v: any) => v.state === 'Published');
+          if (!version)
+            throw new Error(`No publish version of map ${song.key}`);
+          return {
+            id: song.key,
+            metadata: {
+              category: categories[0],
+              difficulty: difficulties[diff],
+              cover: version.coverURL,
+              artist: res.metadata.songAuthorName,
+              title: res.metadata.songName,
+              description: `Mapped by ${res.metadata.levelAuthorName}`,
             },
-            error: (err: any) => {
-              console.error(
-                `Failed to fetch map info from Beatsaver for ${song.key}`,
-                err,
-              );
-            },
-          });
+          };
+        } catch (error) {
+          console.error(
+            `Failed to fetch map info from Beatsaver for ${song.key}`,
+            error,
+          );
+          return { id: song.key };
+        }
       }
       if (existing.metadata.difficulty !== difficulties[diff])
         return {
@@ -221,9 +297,21 @@ export class TournamentService {
         };
       return existing;
     });
+    const maps = await Promise.all(mapPromises);
     if (maps.length <= 0) return;
-    const update = { ...pool };
-    update.maps = maps;
-    this.updatePool(poolIndex, update);
+    const update = { ...pool, maps: maps };
+    this.updatePool(update);
+  }
+
+  updateMap(id: string, update: Map) {
+    const pool = {
+      ...this.currentTournament()!.config.pools[this.currentPoolId()],
+    };
+    pool.maps = [...pool.maps.map((m) => (m.id === id ? update : m))];
+    this.updatePool(pool);
+  }
+
+  selectPool(index: number) {
+    this.#currentPoolId.set(index);
   }
 }
