@@ -149,7 +149,7 @@ export class TournamentService {
     const updatedConfig = {
       ...(saved?.config || challongeBase.config),
       ...(matches && { matches }),
-      ...(participants && { players: participants }), // Fikset her!
+      ...(participants && { players: participants }),
     };
     const updatedTournament = {
       ...challongeBase,
