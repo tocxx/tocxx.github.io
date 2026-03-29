@@ -1,57 +1,75 @@
-<div class="grid grid-cols-3 gap-2 mb-4">
-  <div>
-    <h1 class="h2">Pool configuration</h1>
+<div class="grid grid-cols-5 gap-2 mb-4 border border-white p-2 rounded-md">
+  <div class="col-span-full text-center">
+    <p class="text-white font-semibold text-3xl mb-5">Pool configuration</p>
   </div>
-  <div>
-    <select class="input mb-3" id="slConfigPool"></select>
+  <div class="border-right border-white">
+    @for (pool of pools(); track $index) {
+      <button
+        class="btn w-full py-1 mb-2 rounded-md font-semibold text-2xl text-white"
+        [class.bg-blue-500]="selectedPoolIndex() === $index"
+        (click)="selectPool($index)"
+      >
+        Pool {{ $index + 1 }}
+      </button>
+    }
+    <button class="btn text-white border-white" (click)="addPool()">
+      Add pool
+    </button>
   </div>
-  <div>
-    <button class="btn btn-primary" id="addPool">Add pool</button>
+  <div class="col-span-4 text-white">
+    <div class="grid grid-cols-2">
+      <div>
+        <div class="text-center text-lg">
+          <p>Maps in pool</p>
+          @if (selectedPool(); as pool) {
+            @if (pool.maps) {
+              <div class="grid grid-cols-1 gap-2">
+                @for (map of pool.maps; track map.id) {
+                  <tournament-mapcard [map]="map"></tournament-mapcard>
+                }
+              </div>
+            } @else {
+              <div
+                class="mt-2 flex justify-center rounded-lg border border-dashed border-white px-6 py-10"
+                (dragenter)="onDragEnter($event)"
+                (dragover)="onDragOver($event)"
+                (dragleave)="onDragLeave($event)"
+                (drop)="onDrop($event)"
+              >
+                <div class="text-center">
+                  <div class="flex text-sm/6 text-gray-600">
+                    <label
+                      for="zip-upload"
+                      class="relative cursor-pointer rounded-md font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500"
+                    >
+                      <span>Upload a playlist</span>
+                      <input
+                        id="zip-upload"
+                        type="file"
+                        accept=".bplist"
+                        class="sr-only"
+                        (change)="onPlaylist($event)"
+                      />
+                    </label>
+                    <p class="pl-1">or drag and drop</p>
+                  </div>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
+      <div>
+        <div class="text-center text-lg"><p>Matches in pool</p></div>
+      </div>
+    </div>
+    <p></p>
   </div>
 </div>
 <div class="row mb-2">
   <div class="col">
     <div class="row">
       <div class="col-4">
-        <div class="row mb-2">
-          <div class="col">
-            <h4>Format</h4>
-            <input
-              type="radio"
-              class="btn-check"
-              name="roundFormat"
-              id="roundFormat3"
-              autocomplete="off"
-              value="3"
-              checked
-            />
-            <label class="btn" style="color: white" for="roundFormat3"
-              >Best of 3</label
-            >
-            <input
-              type="radio"
-              class="btn-check"
-              name="roundFormat"
-              id="roundFormat5"
-              value="5"
-              autocomplete="off"
-            />
-            <label class="btn" style="color: white" for="roundFormat5"
-              >Best of 5</label
-            >
-            <input
-              type="radio"
-              class="btn-check"
-              name="roundFormat"
-              id="roundFormat7"
-              value="7"
-              autocomplete="off"
-            />
-            <label class="btn" style="color: white" for="roundFormat7"
-              >Best of 7</label
-            >
-          </div>
-        </div>
         <div class="row mb-2">
           <div class="col">
             <h4>Matches in pool</h4>

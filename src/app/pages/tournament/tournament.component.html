@@ -1,6 +1,6 @@
-<main>
+<main class="mx-auto max-w-7xl px-6 lg:px-8">
   @if (!current()) {
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div>
       <div class="mx-auto max-w-2xl lg:mx-0">
         <h2
           class="text-5xl font-semibold tracking-tight text-white sm:text-7xl"
@@ -43,8 +43,6 @@
             <div class="mt-2 mb-5">
               <input
                 type="text"
-                name="apikey"
-                id="name"
                 class="input w-full"
                 placeholder="Your key..."
                 (blur)="onAPIKey($event)"
@@ -83,9 +81,8 @@
                       <span>Upload config file</span>
                       <input
                         id="zip-upload"
-                        name="zip-upload"
                         type="file"
-                        accept=".zip"
+                        accept=".json"
                         class="sr-only"
                         (change)="onFileSelected($event)"
                       />
@@ -127,16 +124,16 @@
     </div>
   } @else {
     <button
-      class="rounded-md bg-blue-300 mb-2 me-2 px-2 py-1"
+      class="btn rounded-md bg-blue-500 mb-2 me-2 px-2 py-1 font-semibold text-white"
       (click)="reset()"
     >
-      <- Back to tournament setup
+      <i class="bi bi-arrow-left-short"></i> Back to tournament setup
     </button>
     <button
-      class="rounded-md bg-blue-300 mb-2 px-2 py-1"
+      class="btn rounded-md bg-blue-500 mb-2 px-2 py-1 font-semibold text-white"
       (click)="downloadConfig()"
     >
-      Download config
+      <i class="bi bi-box-arrow-in-down"></i> Export config
     </button>
     <router-outlet />
   }

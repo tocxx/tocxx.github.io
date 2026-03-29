@@ -18,10 +18,28 @@ export interface Pool {
   maps: Map[];
 }
 
-interface Map {
+export interface Map {
   id: string;
-  diff: number;
-  category: number;
+  metadata?: MapMetadata;
+}
+
+export interface MapMetadata {
+  category: Category;
+  difficulty: Difficulty;
+  cover: string;
+  artist: string;
+  title: string;
+  description: string;
+}
+
+interface Category {
+  title: string;
+  color: string;
+}
+
+interface Difficulty {
+  title: string;
+  color: string;
 }
 
 export interface Match {

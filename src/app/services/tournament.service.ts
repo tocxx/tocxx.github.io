@@ -6,8 +6,9 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { StorageService } from './storage.service';
-import { TournamentObject } from '@interfaces/tournament';
+import { Map, Pool, TournamentObject } from '@interfaces/tournament';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { categories, difficulties } from '../pages/tournament/consts';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,11 @@ export class TournamentService {
   challongeTournaments = computed(() => this.#challongeTournaments());
   #tournaments: WritableSignal<TournamentObject[]> = signal([]);
   tournaments = computed(() => this.#tournaments());
-  #currentTournament: WritableSignal<TournamentObject | undefined> =
-    signal(undefined);
-  currentTournament = computed(() => this.#currentTournament());
+  #currentId: WritableSignal<string | undefined> = signal(undefined);
+  currentId = computed(() => this.#currentId());
+  currentTournament = computed(() =>
+    this.tournaments().find((t) => t.id === this.currentId()),
+  );
 
   constructor(
     private _http: HttpClient,
@@ -113,10 +116,114 @@ export class TournamentService {
   }
 
   setTournament(tournament: TournamentObject) {
-    this.#currentTournament.set(tournament);
+    this.#currentId.set(tournament.id);
   }
 
   resetCurrent() {
-    this.#currentTournament.set(undefined);
+    this.#currentId.set(undefined);
+  }
+
+  addPool() {
+    this.#tournaments.update((current) =>
+      current.map((t) =>
+        t.id === this.currentId()
+          ? {
+              ...t,
+              config: {
+                ...t.config,
+                pools: [...t.config.pools, { matchIds: [], maps: [] }],
+              },
+            }
+          : t,
+      ),
+    );
+  }
+
+  deletePool(index: number) {
+    this.#tournaments.update((current) =>
+      current.map((t) =>
+        t.id === this.currentId()
+          ? {
+              ...t,
+              config: {
+                ...t.config,
+                pools: t.config.pools.filter((p, i) => i !== index),
+              },
+            }
+          : t,
+      ),
+    );
+  }
+
+  updatePool(index: number, update: Pool) {
+    this.#tournaments.update((current) =>
+      current.map((t) =>
+        t.id === this.currentId()
+          ? {
+              ...t,
+              config: {
+                ...t.config,
+                pools: t.config.pools.map((p, i) => (i === index ? update : p)),
+              },
+            }
+          : t,
+      ),
+    );
+  }
+
+  playlistUpload(pool: Pool, poolIndex: number, jsonObject: any) {
+    const maps: Map[] = jsonObject.songs.map((song: any) => {
+      const existing = maps.find((m) => m.id === song.key);
+      let diff = 0;
+      if (song.difficulties) {
+        let diffname = song.difficulties[0].name.toLowerCase();
+        if (diffname == 'normal') diff = 1;
+        if (diffname == 'hard') diff = 2;
+        if (diffname == 'expert') diff = 3;
+        if (diffname == 'expertplus') diff = 4;
+      }
+      if (!existing || !existing.metadata) {
+        return this._http
+          .get(`https://api.beatsaver.com/maps/id/${song.key}`)
+          .subscribe({
+            next: (res: any) => {
+              let version = res.versions.find(
+                (v: any) => v.state === 'Published',
+              );
+              if (!version)
+                return console.error(
+                  `Couldn't find a published version of map ${song.key}`,
+                );
+              return {
+                id: song.key,
+                metadata: {
+                  category: categories[0],
+                  difficulty: difficulties[diff],
+                  cover: version.coverURL,
+                  artist: res.metadata.songAuthorName,
+                  title: res.metadata.songName,
+                  description: `Mapped by ${res.metadata.levelAuthorName}`,
+                },
+              };
+            },
+            error: (err: any) => {
+              console.error(
+                `Failed to fetch map info from Beatsaver for ${song.key}`,
+                err,
+              );
+            },
+          });
+      }
+      if (existing.metadata.difficulty !== difficulties[diff])
+        return {
+          ...existing,
+          metadata: { ...existing.metadata, difficulty: difficulties[diff] },
+        };
+      return existing;
+    });
+    if (maps.length <= 0) return;
+    const update = { ...pool };
+    update.maps = maps;
+    this.updatePool(poolIndex, update);
   }
 }
