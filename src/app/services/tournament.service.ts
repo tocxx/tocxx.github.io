@@ -41,6 +41,7 @@ export class TournamentService {
   }
 
   async fetchChallongeTournaments(apiKey: string) {
+    if (apiKey === '') apiKey = this._storage.get('apiKey') ?? '';
     const params = new HttpParams().set('api_key', apiKey);
     this._http
       .get<any>('https://challonge-proxy.jonas00.com/proxy/tournaments.json', {
@@ -78,7 +79,7 @@ export class TournamentService {
       console.error(`Challonge API Key not found.`);
       return undefined;
     }
-    const params = new HttpParams().set('api_key', apiKey);
+    const params = new HttpParams().set('api_key', JSON.parse(apiKey));
     try {
       const res: any = await lastValueFrom(
         this._http.get(
@@ -109,7 +110,7 @@ export class TournamentService {
       console.error(`Challonge API Key not found.`);
       return undefined;
     }
-    const params = new HttpParams().set('api_key', apiKey);
+    const params = new HttpParams().set('api_key', JSON.parse(apiKey));
     try {
       const res: any = await lastValueFrom(
         this._http.get(
