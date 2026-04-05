@@ -76,7 +76,7 @@
             class="block text-black w-full rounded-md border-0 bg-white p-2 shadow-sm"
             (change)="addMatchToPool($event)"
           >
-            <option disabled selected>Add a match</option>
+            <option value="" disabled selected>Add a match</option>
             @for (match of matchesNotInAnyPool(); track match.id) {
               <option [value]="match.id">
                 Round {{ match.round }} - {{ getPlayerName(match.p1) }} vs

@@ -16,8 +16,7 @@ export class TournamentHomeComponent {
   players = computed(() => this.currentTournament()!.config.players);
   currentPoolId = this._tournament.currentPoolId;
   currentPool = computed(() => {
-    const i = this.currentPoolId();
-    return this.pools()[i];
+    return this.pools()[this.currentPoolId()];
   });
   matchesInPool = computed(() => {
     return this.matches().filter((m) =>
@@ -117,14 +116,16 @@ export class TournamentHomeComponent {
   }
 
   addMatchToPool(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    const val = select.value;
+    if (!val) return;
+    const matchId = Number(val);
     const current = this.currentPool();
     const update = {
       ...current,
-      matchIds: [
-        ...current.matchIds,
-        Number((e.target as HTMLSelectElement).value),
-      ],
+      matchIds: [...current.matchIds, matchId],
     };
     this._tournament.updatePool(update);
+    select.selectedIndex = 0;
   }
 }

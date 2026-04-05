@@ -122,7 +122,7 @@ export class TournamentService {
       );
       return res.data.map((m: any) => {
         return {
-          id: m.id,
+          id: Number(m.id),
           p1: m.attributes.points_by_participant[0].participant_id,
           p2: m.attributes.points_by_participant[1].participant_id,
           round: m.attributes.round,
