@@ -91,7 +91,7 @@ export class TournamentService {
       );
       return res.data.map((p: any) => {
         return {
-          id: p.id,
+          id: Number(p.id),
           name: p.attributes.name,
           seed: p.attributes.seed,
           tournament_id: p.attributes.tournament_id,
