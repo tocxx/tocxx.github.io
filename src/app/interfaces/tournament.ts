@@ -44,8 +44,9 @@ interface Difficulty {
 
 export interface Match {
   id: number;
-  p1: string;
-  p2: string;
+  p1: number;
+  p2: number;
+  round: number;
   loser?: number;
   winner?: number;
 }
@@ -63,8 +64,8 @@ export interface Round {
 }
 
 type TournamentType =
-  | 'single elimination'
-  | 'double elimination'
-  | 'round robin'
-  | 'swiss'
-  | 'free for all';
+  | "single elimination"
+  | "double elimination"
+  | "round robin"
+  | "swiss"
+  | "free for all";

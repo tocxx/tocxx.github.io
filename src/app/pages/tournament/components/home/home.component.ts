@@ -10,20 +10,36 @@ import { TournamentMapcardComponent } from "../mapcard/mapcard.component";
 })
 export class TournamentHomeComponent {
   _tournament = inject(TournamentService);
-  pools = computed(() => this._tournament.currentTournament()!.config.pools);
-  matches = computed(
-    () => this._tournament.currentTournament()!.config.matches,
-  );
-  players = computed(
-    () => this._tournament.currentTournament()!.config.players,
-  );
+  currentTournament = this._tournament.currentTournament;
+  pools = computed(() => this.currentTournament()!.config.pools);
+  matches = computed(() => this.currentTournament()!.config.matches);
+  players = computed(() => this.currentTournament()!.config.players);
   currentPoolId = this._tournament.currentPoolId;
   currentPool = computed(() => {
     const i = this.currentPoolId();
     return this.pools()[i];
   });
+  matchesInPool = computed(() => {
+    return this.matches().filter((m) =>
+      this.currentPool().matchIds.includes(m.id),
+    );
+  });
+  matchesNotInAnyPool = computed(() => {
+    return this.matches().filter((m) => {
+      for (let pool of this.currentTournament()!.config.pools) {
+        if (pool.matchIds.includes(m.id)) return false;
+      }
+      return true;
+    });
+  });
 
   constructor() {}
+
+  getPlayerName(id: number) {
+    const player = this.players().find((p) => p.id === Number(id));
+    if (player) return player.name;
+    return "unknown";
+  }
 
   selectPool(index: number) {
     this._tournament.selectPool(index);
@@ -98,5 +114,17 @@ export class TournamentHomeComponent {
 
   refreshMatches() {
     this._tournament.refreshMatches();
+  }
+
+  addMatchToPool(e: Event) {
+    const current = this.currentPool();
+    const update = {
+      ...current,
+      matchIds: [
+        ...current.matchIds,
+        Number((e.target as HTMLSelectElement).value),
+      ],
+    };
+    this._tournament.updatePool(update);
   }
 }
