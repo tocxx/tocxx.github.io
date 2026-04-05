@@ -1,12 +1,12 @@
-import { Component, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TournamentService } from '@services/tournament.service';
-import { TournamentMapcardComponent } from '../mapcard/mapcard.component';
+import { Component, computed, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { TournamentService } from "@services/tournament.service";
+import { TournamentMapcardComponent } from "../mapcard/mapcard.component";
 
 @Component({
-  selector: 'tournament-home',
+  selector: "tournament-home",
   imports: [CommonModule, TournamentMapcardComponent],
-  templateUrl: './home.component.html',
+  templateUrl: "./home.component.html",
 })
 export class TournamentHomeComponent {
   _tournament = inject(TournamentService);
@@ -42,7 +42,7 @@ export class TournamentHomeComponent {
     const files = target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      if (file.name.toLowerCase().endsWith('.bplist'))
+      if (file.name.toLowerCase().endsWith(".bplist"))
         return this.loadPlaylist(file);
     }
     return;
@@ -62,37 +62,41 @@ export class TournamentHomeComponent {
   onDragEnter(e: DragEvent) {
     e.preventDefault();
     e.stopPropagation();
-    (e.target as HTMLElement).classList.remove('border-dashed');
-    (e.target as HTMLElement).classList.add('border-solid');
+    (e.target as HTMLElement).classList.remove("border-dashed");
+    (e.target as HTMLElement).classList.add("border-solid");
   }
 
   onDragOver(e: DragEvent) {
     e.preventDefault();
     e.stopPropagation();
-    (e.target as HTMLElement).classList.remove('border-dashed');
-    (e.target as HTMLElement).classList.add('border-solid');
+    (e.target as HTMLElement).classList.remove("border-dashed");
+    (e.target as HTMLElement).classList.add("border-solid");
   }
 
   onDragLeave(e: DragEvent) {
     e.preventDefault();
     e.stopPropagation();
-    (e.target as HTMLElement).classList.remove('border-solid');
-    (e.target as HTMLElement).classList.add('border-dashed');
+    (e.target as HTMLElement).classList.remove("border-solid");
+    (e.target as HTMLElement).classList.add("border-dashed");
   }
 
   onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    (event.target as HTMLElement).classList.remove('border-solid');
-    (event.target as HTMLElement).classList.add('border-dashed');
+    (event.target as HTMLElement).classList.remove("border-solid");
+    (event.target as HTMLElement).classList.add("border-dashed");
     const files = event.dataTransfer?.files;
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const isJson = file.name.toLowerCase().endsWith('.bplist');
+        const isJson = file.name.toLowerCase().endsWith(".bplist");
         if (isJson) return this.loadPlaylist(file);
       }
     }
     return;
+  }
+
+  refreshMatches() {
+    this._tournament.refreshMatches();
   }
 }
