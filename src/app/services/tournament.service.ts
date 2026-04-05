@@ -120,6 +120,7 @@ export class TournamentService {
           },
         ),
       );
+      console.log(res);
       return res.data.map((m: any) => {
         return {
           id: m.id,
@@ -142,7 +143,6 @@ export class TournamentService {
   async refreshMatches() {
     const current = this.currentTournament();
     if (!current) return;
-
     const [matches, participants] = await Promise.all([
       this.fetchMatches(current.id),
       this.fetchParticipants(current.id),
