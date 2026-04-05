@@ -128,4 +128,13 @@ export class TournamentHomeComponent {
     this._tournament.updatePool(update);
     select.selectedIndex = 0;
   }
+
+  removeMatchFromPool(id: number) {
+    const current = this.currentPool();
+    const update = {
+      ...current,
+      matchIds: current.matchIds.filter((mId) => mId !== id),
+    };
+    this._tournament.updatePool(update);
+  }
 }

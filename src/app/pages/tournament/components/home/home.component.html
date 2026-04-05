@@ -87,9 +87,19 @@
         </div>
         <div>
           @for (match of matchesInPool(); track match.id) {
-            <div>
-              Round {{ match.round }} - {{ getPlayerName(match.p1) }} vs
-              {{ getPlayerName(match.p2) }}
+            <div
+              class="flex items-center justify-between p-2 rounded-md border mt-2 bg-white/5 border-white/10 text-white"
+            >
+              <span class="text-left font-medium">
+                Round {{ match.round }} - {{ getPlayerName(match.p1) }} vs
+                {{ getPlayerName(match.p2) }}
+              </span>
+              <span
+                class="ml-4 px-2 py-1 hover:cursor-pointer hover:bg-red-500/20 rounded transition-colors text-red-400 font-bold"
+                (click)="removeMatchFromPool(match.id)"
+              >
+                ✕
+              </span>
             </div>
           }
         </div>
@@ -97,79 +107,6 @@
     </div>
     <p></p>
   </div>
-</div>
-<div class="row mb-2">
-  <div class="col">
-    <div class="row">
-      <div class="col-4">
-        <div class="row mb-2">
-          <div class="col">
-            <h4>Matches in pool</h4>
-            <div class="row">
-              <div class="col" id="matchesInPool"></div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <h4>Add to pool</h4>
-            <div class="row">
-              <div class="col" id="matchesNotInAnyPool"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="row">
-          <div class="col-4">
-            <h4>Upload playlist</h4>
-          </div>
-          <div class="col">
-            <input class="form-control" type="file" id="uploadPlaylist" />
-          </div>
-        </div>
-        <h1 class="h4 mb-4 text-center">Maps</h1>
-        <div class="row" id="mapGrid"></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-6 visually-hidden" id="players">
-      <table class="table table-dark">
-        <thead>
-          <tr>
-            <th scope="col">Seed</th>
-            <th scope="col">Name</th>
-          </tr>
-        </thead>
-        <tbody id="tbPlayers"></tbody>
-      </table>
-    </div>
-    <div class="col-6 visually-hidden" id="matches">
-      <table class="table table-dark table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Round</th>
-            <th scope="col">Match</th>
-          </tr>
-        </thead>
-        <tbody id="tbMatches"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<div class="container visually-hidden" id="bracket">
-  <iframe
-    src=""
-    width="100%"
-    height="500"
-    frameborder="0"
-    scrolling="auto"
-    allowtransparency="true"
-    id="bracketIF"
-  ></iframe>
 </div>
 <div class="container text-center mb-5 visually-hidden" id="mainbracket">
   <div class="row">
