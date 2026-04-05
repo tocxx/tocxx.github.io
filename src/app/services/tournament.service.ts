@@ -95,7 +95,7 @@ export class TournamentService {
           name: p.attributes.name,
           seed: p.attributes.seed,
           tournament_id: p.attributes.tournament_id,
-          final_rank: p.attributes.final_rank,
+          final_rank: p.attributes.final_rank ?? undefined,
         };
       });
     } catch (error) {
@@ -120,18 +120,18 @@ export class TournamentService {
           },
         ),
       );
-      console.log(res);
       return res.data.map((m: any) => {
         return {
           id: m.id,
-          p1: m.relationships.player1.data.id,
-          p2: m.relationships.player2.data.id,
-          loser: m.winner_id
-            ? m.winner_id === m.relationships.player1.data.id
-              ? m.relationships.player2.data.id
-              : m.relationships.player1.data.id
+          p1: m.attributes.points_by_participant[0].participant_id,
+          p2: m.attributes.points_by_participant[1].participant_id,
+          loser: m.attributes.winner_id
+            ? m.attributes.winner_id ===
+              m.attributes.points_by_participant[0].participant_id
+              ? m.attributes.points_by_participant[1].participant_id
+              : m.attributes.points_by_participant[0].participant_id
             : undefined,
-          winner: m.winner_id ? m.winner_id : undefined,
+          winner: m.attributes.winner_id ? m.attributes.winner_id : undefined,
         };
       });
     } catch (error) {
