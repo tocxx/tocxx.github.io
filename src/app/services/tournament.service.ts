@@ -4,15 +4,15 @@ import {
   Injectable,
   signal,
   WritableSignal,
-} from '@angular/core';
-import { StorageService } from './storage.service';
-import { Map, Pool, TournamentObject } from '@interfaces/tournament';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { categories, difficulties } from '../pages/tournament/consts';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+} from "@angular/core";
+import { StorageService } from "./storage.service";
+import { Map, Pool, TournamentObject } from "@interfaces/tournament";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { categories, difficulties } from "../pages/tournament/consts";
+import { firstValueFrom, lastValueFrom } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TournamentService {
   #challongeTournaments: WritableSignal<TournamentObject[]> = signal([]);
@@ -31,25 +31,25 @@ export class TournamentService {
     private _http: HttpClient,
     private _storage: StorageService,
   ) {
-    let tournaments = _storage.get('tournaments');
+    let tournaments = _storage.get("tournaments");
     if (tournaments) this.#tournaments.set(JSON.parse(tournaments));
-    let apiKey = _storage.get('apiKey');
+    let apiKey = _storage.get("apiKey");
     if (apiKey) this.fetchChallongeTournaments(apiKey);
     effect(() => {
-      this._storage.set('tournaments', this.tournaments());
+      this._storage.set("tournaments", this.tournaments());
     });
   }
 
   async fetchChallongeTournaments(apiKey: string) {
-    if (apiKey === '') apiKey = this._storage.get('apiKey') ?? '';
-    const params = new HttpParams().set('api_key', apiKey);
+    if (apiKey === "") apiKey = this._storage.get("apiKey") ?? "";
+    const params = new HttpParams().set("api_key", apiKey);
     this._http
-      .get<any>('https://challonge-proxy.jonas00.com/proxy/tournaments.json', {
+      .get<any>("https://challonge-proxy.jonas00.com/proxy/tournaments.json", {
         params,
       })
       .subscribe({
         next: (res) => {
-          this._storage.set('apiKey', apiKey);
+          this._storage.set("apiKey", apiKey);
           this.#challongeTournaments.set(
             res.data.map((t: any) => {
               return {
@@ -68,18 +68,18 @@ export class TournamentService {
           );
         },
         error: (err) => {
-          console.error('Could not fetch challonge data', err);
+          console.error("Could not fetch challonge data", err);
         },
       });
   }
 
   async fetchParticipants(id: string) {
-    const apiKey = this._storage.get('apiKey');
+    const apiKey = this._storage.get("apiKey");
     if (!apiKey) {
       console.error(`Challonge API Key not found.`);
       return undefined;
     }
-    const params = new HttpParams().set('api_key', JSON.parse(apiKey));
+    const params = new HttpParams().set("api_key", JSON.parse(apiKey));
     try {
       const res: any = await lastValueFrom(
         this._http.get(
@@ -105,12 +105,12 @@ export class TournamentService {
   }
 
   async fetchMatches(id: string) {
-    const apiKey = this._storage.get('apiKey');
+    const apiKey = this._storage.get("apiKey");
     if (!apiKey) {
       console.error(`Challonge API Key not found.`);
       return undefined;
     }
-    const params = new HttpParams().set('api_key', JSON.parse(apiKey));
+    const params = new HttpParams().set("api_key", JSON.parse(apiKey));
     try {
       const res: any = await lastValueFrom(
         this._http.get(
@@ -139,9 +139,33 @@ export class TournamentService {
     }
   }
 
+  async refreshMatches() {
+    const current = this.currentTournament();
+    if (!current) return;
+
+    const [matches, participants] = await Promise.all([
+      this.fetchMatches(current.id),
+      this.fetchParticipants(current.id),
+    ]);
+    if (!matches && !participants) return;
+    this.#tournaments.update((ts) =>
+      ts.map((t) => {
+        if (t.id !== current.id) return t;
+        return {
+          ...t,
+          config: {
+            ...t.config,
+            ...(matches && { matches }),
+            ...(participants && { players: participants }),
+          },
+        };
+      }),
+    );
+  }
+
   async selectChallongeTournament(id: string) {
     const challongeBase = this.challongeTournaments().find((t) => t.id === id);
-    if (!challongeBase) return console.error('Tournament not found');
+    if (!challongeBase) return console.error("Tournament not found");
     const [matches, participants] = await Promise.all([
       this.fetchMatches(id),
       this.fetchParticipants(id),
@@ -259,17 +283,17 @@ export class TournamentService {
       let diff = 0;
       if (song.difficulties) {
         let diffname = song.difficulties[0].name.toLowerCase();
-        if (diffname == 'normal') diff = 1;
-        if (diffname == 'hard') diff = 2;
-        if (diffname == 'expert') diff = 3;
-        if (diffname == 'expertplus') diff = 4;
+        if (diffname == "normal") diff = 1;
+        if (diffname == "hard") diff = 2;
+        if (diffname == "expert") diff = 3;
+        if (diffname == "expertplus") diff = 4;
       }
       if (!existing || !existing.metadata) {
         try {
           const res: any = await lastValueFrom(
             this._http.get(`https://api.beatsaver.com/maps/id/${song.key}`),
           );
-          let version = res.versions.find((v: any) => v.state === 'Published');
+          let version = res.versions.find((v: any) => v.state === "Published");
           if (!version)
             throw new Error(`No publish version of map ${song.key}`);
           return {

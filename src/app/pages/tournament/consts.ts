@@ -3,7 +3,7 @@ export const categories = [
   { title: 'Balanced', color: '#61be7d' },
   { title: 'Tech', color: '#874dd6' },
   { title: 'Speed', color: '#b23c45' },
-  { title: 'Objectively Perfect', color: '#f0714f' },
+  { title: 'Spicy', color: '#f0714f' },
 ];
 export const difficulties = [
   { title: 'Easy', color: '#008055' },
