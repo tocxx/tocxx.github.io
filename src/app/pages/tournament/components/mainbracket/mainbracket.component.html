@@ -1,0 +1,44 @@
+<div class="flex overflow-x-auto gap-8 p-8 bg-gray-900 min-h-[500px]">
+  @for (round of rounds(); track round.number) {
+    <div class="flex flex-col justify-around min-w-[200px]">
+      <h3 class="text-center text-gray-400 font-bold uppercase text-xs mb-4">
+        Round {{ round.number }}
+      </h3>
+
+      <div class="flex flex-col gap-4 h-full justify-center">
+        @for (match of round.matches; track match.id) {
+          <div
+            class="bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden"
+          >
+            <div
+              class="flex justify-between items-center p-2 border-b border-gray-700"
+              [class.bg-green-900]="match.winner === match.p1"
+            >
+              <span class="text-sm text-white truncate px-2">
+                {{ getPlayerName(match.p1) }}
+              </span>
+              <span
+                class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
+              >
+                {{ match.winner === match.p1 ? "W" : "" }}
+              </span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2"
+              [class.bg-green-900]="match.winner === match.p2"
+            >
+              <span class="text-sm text-white truncate px-2">
+                {{ getPlayerName(match.p2) }}
+              </span>
+              <span
+                class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
+              >
+                {{ match.winner === match.p2 ? "W" : "" }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
