@@ -2,10 +2,15 @@ import { Component, computed, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TournamentService } from "@services/tournament.service";
 import { TournamentMapcardComponent } from "../mapcard/mapcard.component";
+import { TournamentMainBracketComponent } from "../mainbracket/mainbracket.component";
 
 @Component({
   selector: "tournament-home",
-  imports: [CommonModule, TournamentMapcardComponent],
+  imports: [
+    CommonModule,
+    TournamentMapcardComponent,
+    TournamentMainBracketComponent,
+  ],
   templateUrl: "./home.component.html",
 })
 export class TournamentHomeComponent {
