@@ -1,30 +1,24 @@
-import {
-  computed,
-  effect,
-  Injectable,
-  signal,
-  WritableSignal,
-} from "@angular/core";
+import { computed, effect, Injectable, signal } from "@angular/core";
 import { StorageService } from "./storage.service";
 import { Map, Pool, TournamentObject } from "@interfaces/tournament";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { categories, difficulties } from "../pages/tournament/consts";
-import { firstValueFrom, lastValueFrom } from "rxjs";
+import { lastValueFrom } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class TournamentService {
-  #challongeTournaments: WritableSignal<TournamentObject[]> = signal([]);
+  #challongeTournaments = signal<TournamentObject[]>([]);
   challongeTournaments = computed(() => this.#challongeTournaments());
-  #tournaments: WritableSignal<TournamentObject[]> = signal([]);
+  #tournaments = signal<TournamentObject[]>([]);
   tournaments = computed(() => this.#tournaments());
-  #currentId: WritableSignal<string | undefined> = signal(undefined);
+  #currentId = signal<string | undefined>(undefined);
   currentId = computed(() => this.#currentId());
   currentTournament = computed(() =>
     this.tournaments().find((t) => t.id === this.currentId()),
   );
-  #currentPoolId: WritableSignal<number> = signal(0);
+  #currentPoolId = signal<number>(0);
   currentPoolId = computed(() => this.#currentPoolId());
 
   constructor(
@@ -32,11 +26,15 @@ export class TournamentService {
     private _storage: StorageService,
   ) {
     let tournaments = _storage.get("tournaments");
-    if (tournaments) this.#tournaments.set(JSON.parse(tournaments));
+    if (tournaments) this.#tournaments.set(tournaments);
     let apiKey = _storage.get("apiKey");
     if (apiKey) this.fetchChallongeTournaments(apiKey);
+    let currentId = this._storage.get("tournament-currentId");
+    if (currentId) this.#currentId.set(currentId);
     effect(() => {
       this._storage.set("tournaments", this.tournaments());
+      let currentId = this.#currentId();
+      if (currentId) this._storage.set("tournament-currentId", currentId);
     });
   }
 

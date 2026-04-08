@@ -51,6 +51,24 @@ export interface Match {
   winner?: number;
 }
 
+export interface OngoingMatch {
+  id: number;
+  p1: {
+    id: number;
+    name: string;
+    luid?: string;
+  };
+  p2: {
+    id: number;
+    name: string;
+    luid?: string;
+  };
+  loser?: number;
+  winner?: number;
+  picks: Map[];
+  bans: Map[];
+}
+
 export interface Player {
   id: number;
   name: string;
@@ -69,3 +87,15 @@ type TournamentType =
   | "round robin"
   | "swiss"
   | "free for all";
+
+export interface LobbyPlayer {
+  id: string;
+  name: string;
+}
+
+export interface ScoreData {
+  luid: string;
+  accuracy: number;
+  combo: number;
+  missCount: number;
+}
