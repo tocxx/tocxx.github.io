@@ -1,0 +1,15 @@
+<main class="p-4 min-h-screen">
+  <div class="flex flex-row justify-between gap-16">
+    @for (group of groupedMaps(); track group.title) {
+      <div class="flex-1 min-w-[300px]">
+        <div class="flex flex-col gap-6 text-white">
+          @for (map of group.maps; track map.id) {
+            <streaming-mapview [map]="map" />
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="w-full text-center py-20">No maps in this pool yet.</div>
+    }
+  </div>
+</main>

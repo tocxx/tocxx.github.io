@@ -1,16 +1,17 @@
-import { Routes } from '@angular/router';
-import { StreamingPageComponent } from './streaming.component';
+import { Routes } from "@angular/router";
+import { StreamingPageComponent } from "./streaming.component";
+import { StreamingPoolComponent } from "./components/pool/pool.component";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: StreamingPageComponent,
     children: [
-      /*{
-        path: 'pool/:id',
+      {
+        path: "pool/:id",
         component: StreamingPoolComponent,
       },
-      {
+      /*{
         path: 'bracket/:type',
         component: StreamingBracketComponent,
       },

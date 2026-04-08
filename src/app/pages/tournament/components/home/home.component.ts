@@ -3,13 +3,17 @@ import { CommonModule } from "@angular/common";
 import { TournamentService } from "@services/tournament.service";
 import { TournamentMapcardComponent } from "../mapcard/mapcard.component";
 import { TournamentMainBracketComponent } from "../mainbracket/mainbracket.component";
+import { StreamingPoolComponent } from "src/app/pages/streaming/components/pool/pool.component";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "tournament-home",
   imports: [
     CommonModule,
+    RouterLink,
     TournamentMapcardComponent,
     TournamentMainBracketComponent,
+    StreamingPoolComponent,
   ],
   templateUrl: "./home.component.html",
 })
