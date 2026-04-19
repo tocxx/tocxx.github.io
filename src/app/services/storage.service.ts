@@ -6,6 +6,8 @@ import { Injectable } from "@angular/core";
 export class StorageService {
   get(key: string) {
     let value = localStorage.getItem(`tocxxio-${key}`);
+    console.log(key);
+    console.log(value);
     if (value) return JSON.parse(value);
     return undefined;
   }
