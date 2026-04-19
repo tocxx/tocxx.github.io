@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { StreamingPageComponent } from "./streaming.component";
 import { StreamingPoolComponent } from "./components/pool/pool.component";
+import { StreamingBracketComponent } from "./components/bracket/bracket.component";
 
 export const routes: Routes = [
   {
@@ -11,11 +12,11 @@ export const routes: Routes = [
         path: "pool/:id",
         component: StreamingPoolComponent,
       },
-      /*{
-        path: 'bracket/:type',
+      {
+        path: "bracket/:type",
         component: StreamingBracketComponent,
       },
-      {
+      /*{
         path: 'match/next',
         component: StreamingMatchNextComponent,
       },
