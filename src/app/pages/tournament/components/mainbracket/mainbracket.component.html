@@ -1,42 +1,71 @@
-<div class="flex overflow-x-auto gap-8 p-8 bg-gray-900 min-h-[500px]">
+<div class="flex gap-12 p-2 min-h-[600px]">
   @for (round of rounds(); track round.number) {
-    <div class="flex flex-col justify-around min-w-[200px]">
-      <h3 class="text-center text-gray-400 font-bold uppercase text-xs mb-4">
+    <div class="flex flex-col min-w-[220px]">
+      <h3 class="text-center text-gray-400 font-bold uppercase text-xs mb-6">
         Round {{ round.number }}
       </h3>
-
-      <div class="flex flex-col gap-4 h-full justify-center">
+      <div class="flex flex-col h-full">
         @for (match of round.matches; track match.id) {
-          <div
-            class="bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden"
-          >
+          @if (round.number === 1) {
+            @for (sam of getSpacingMatches(match); track sam.id) {
+              <div class="flex flex-col justify-center flex-1 py-4">
+                <div class="overflow-hidden">
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm truncate px-2">&nbsp;</span>
+                  </div>
+                  <div class="flex justify-between items-center p-2">
+                    <span class="text-sm truncate px-2">&nbsp;</span>
+                  </div>
+                </div>
+              </div>
+            }
+          }
+          <div class="flex flex-col justify-center flex-1 py-4">
             <div
-              class="flex justify-between items-center p-2 border-b border-gray-700"
-              [class.bg-green-900]="match.winner === match.p1"
+              class="bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden"
             >
-              <span class="text-sm text-white truncate px-2">
-                {{ getPlayerName(match.p1) }}
-              </span>
-              <span
-                class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
+              <div
+                class="flex justify-between items-center p-2 border-b border-gray-700"
+                [class.bg-green-900]="match.winner === match.p1"
               >
-                {{ match.winner === match.p1 ? "W" : "" }}
-              </span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2"
-              [class.bg-green-900]="match.winner === match.p2"
-            >
-              <span class="text-sm text-white truncate px-2">
-                {{ getPlayerName(match.p2) }}
-              </span>
-              <span
-                class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
+                <span class="text-sm text-white truncate px-2">
+                  {{ getPlayerName(match.p1) || `&nbsp;` }}
+                </span>
+                <span
+                  class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
+                >
+                  {{ match.winner === match.p1 ? "W" : "" }}
+                </span>
+              </div>
+              <div
+                class="flex justify-between items-center p-2"
+                [class.bg-green-900]="match.winner === match.p2"
               >
-                {{ match.winner === match.p2 ? "W" : "" }}
-              </span>
+                <span class="text-sm text-white truncate px-2">
+                  {{ getPlayerName(match.p2) || `&nbsp;` }}
+                </span>
+                <span
+                  class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
+                >
+                  {{ match.winner === match.p2 ? "W" : "" }}
+                </span>
+              </div>
             </div>
           </div>
+        }
+        @if (round.number === 1) {
+          @for (sam of getEndingSpacingMatches(); track sam.id) {
+            <div class="flex flex-col justify-center flex-1 py-4">
+              <div class="overflow-hidden">
+                <div class="flex justify-between items-center p-2">
+                  <span class="text-sm truncate px-2">&nbsp;</span>
+                </div>
+                <div class="flex justify-between items-center p-2">
+                  <span class="text-sm truncate px-2">&nbsp;</span>
+                </div>
+              </div>
+            </div>
+          }
         }
       </div>
     </div>
