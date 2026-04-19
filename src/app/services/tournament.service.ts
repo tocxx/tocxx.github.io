@@ -77,7 +77,7 @@ export class TournamentService {
       console.error(`Challonge API Key not found.`);
       return undefined;
     }
-    const params = new HttpParams().set("api_key", JSON.parse(apiKey));
+    const params = new HttpParams().set("api_key", apiKey);
     try {
       const res: any = await lastValueFrom(
         this._http.get(
@@ -108,7 +108,7 @@ export class TournamentService {
       console.error(`Challonge API Key not found.`);
       return undefined;
     }
-    const params = new HttpParams().set("api_key", JSON.parse(apiKey));
+    const params = new HttpParams().set("api_key", apiKey);
     try {
       const res: any = await lastValueFrom(
         this._http.get(
