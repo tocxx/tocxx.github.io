@@ -44,6 +44,7 @@ interface Difficulty {
 
 export interface Match {
   id: number;
+  number: number;
   p1: number;
   p2: number;
   round: number;

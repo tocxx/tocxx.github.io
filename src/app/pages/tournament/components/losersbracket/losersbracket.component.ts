@@ -3,26 +3,24 @@ import { CommonModule } from "@angular/common";
 import { Match, Player, Pool } from "@interfaces/tournament";
 
 @Component({
-  selector: "tournament-mainbracket",
+  selector: "tournament-losersbracket",
   imports: [CommonModule],
-  templateUrl: "./mainbracket.component.html",
+  templateUrl: "./losersbracket.component.html",
 })
-export class TournamentMainBracketComponent {
+export class TournamentLosersBracketComponent {
   matches = input.required<Match[]>();
   players = input.required<Player[]>();
   pools = input.required<Pool[]>();
   rounds = computed(() => {
     const grouped: { [key: number]: Match[] } = {};
-    const upperBracket = this.matches().filter(
-      (m) => m.round > 0 && m.round < 6,
-    );
+    const upperBracket = this.matches().filter((m) => m.round < 0);
     upperBracket.forEach((m) => {
       if (!grouped[m.round]) grouped[m.round] = [];
       grouped[m.round].push(m);
     });
     return Object.keys(grouped)
       .map(Number)
-      .sort((a, b) => a - b)
+      .sort((a, b) => b - a)
       .map((r) => ({
         number: r,
         matches: grouped[r],
@@ -45,23 +43,20 @@ export class TournamentMainBracketComponent {
     return slots;
   });
 
-  getPlayerName(id: number | undefined) {
-    if (!id) return undefined;
-    return this.players().find((p) => p.id === id)?.name || "Unknown";
+  getPlayerName(match: Match, player: "p1" | "p2") {
+    const id = player === "p1" ? match.p1 : match.p2;
+    if (id) return this.players().find((p) => p.id === id)?.name || "Unknown";
+    const text = [{ p1: 15, p2: 1 }];
+    const rounds = this.rounds();
+    const matchIndex = rounds[0].matches.indexOf(match);
+    return undefined;
   }
 
   getSpacingMatches(match: Match) {
     const rounds = this.rounds();
     const matchIndex = rounds[0].matches.indexOf(match);
-    if (matchIndex === 0) return [];
-    const matches = rounds[1].matches;
-    const potentialNextMatches = matches.filter((m) => !m.p1 || !m.p2);
-    const startIndex =
-      matches.indexOf(potentialNextMatches[matchIndex - 1]) + 1;
-    const endIndex = matches.indexOf(potentialNextMatches[matchIndex]);
-    const spacingMatches = matches.slice(startIndex, endIndex);
-    if (match.winner) spacingMatches.pop();
-    return spacingMatches;
+    if (matchIndex === 0) return [match];
+    return [];
   }
 
   getEndingSpacingMatches() {

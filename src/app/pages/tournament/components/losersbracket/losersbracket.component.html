@@ -6,7 +6,7 @@
       </h3>
       <div class="flex flex-col h-full">
         @for (match of round.matches; track match.id) {
-          @if (round.number === 1) {
+          @if (round.number === -1) {
             @for (sam of getSpacingMatches(match); track sam.id) {
               <div class="flex flex-col justify-center flex-1 py-4">
                 <div class="overflow-hidden">
@@ -25,7 +25,7 @@
               class="grid grid-cols-10 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden"
             >
               <div
-                class="flex justify-center items-center bg-purple-700 col-span-1 text-white text-center"
+                class="flex justify-center items-center bg-green-300 col-span-1 text-center"
               >
                 <span>33</span>
               </div>
@@ -35,7 +35,7 @@
                   [class.bg-green-900]="match.winner === match.p1"
                 >
                   <span class="text-sm text-white truncate px-2">
-                    {{ getPlayerName(match.p1) || `&nbsp;` }}
+                    {{ getPlayerName(match, "p1") || `&nbsp;` }}
                   </span>
                   <span
                     class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
@@ -48,7 +48,7 @@
                   [class.bg-green-900]="match.winner === match.p2"
                 >
                   <span class="text-sm text-white truncate px-2">
-                    {{ getPlayerName(match.p2) || `&nbsp;` }}
+                    {{ getPlayerName(match, "p2") || `&nbsp;` }}
                   </span>
                   <span
                     class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"

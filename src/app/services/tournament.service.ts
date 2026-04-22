@@ -121,6 +121,7 @@ export class TournamentService {
       return res.data.map((m: any) => {
         return {
           id: Number(m.id),
+          number: m.attributes.suggested_play_order,
           p1: m.attributes.points_by_participant[0].participant_id,
           p2: m.attributes.points_by_participant[1].participant_id,
           round: m.attributes.round,
