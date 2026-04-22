@@ -5,14 +5,14 @@
     [pools]="pools() ?? []"
   />
 }
-<!--@if (routeType() === "losers") {
+@if (routeType() === "losers") {
   <tournament-losersbracket
-    [matches]="matches()"
-    [players]="players()"
-    [pools]="pools()"
+    [matches]="matches() ?? []"
+    [players]="players() ?? []"
+    [pools]="pools() ?? []"
   />
 }
-@if (routeType() === "final") {
+<!--@if (routeType() === "final") {
   <tournament-finalbracket
     [matches]="matches()"
     [players]="players()"
