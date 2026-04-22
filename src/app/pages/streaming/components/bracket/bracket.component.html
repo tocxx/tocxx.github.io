@@ -1,3 +1,22 @@
 @if (routeType() === "main") {
-  <tournament-mainbracket [matches]="matches()" [players]="players()" />
+  <tournament-mainbracket
+    [matches]="matches() ?? []"
+    [players]="players() ?? []"
+    [pools]="pools() ?? []"
+  />
 }
+<!--@if (routeType() === "losers") {
+  <tournament-losersbracket
+    [matches]="matches()"
+    [players]="players()"
+    [pools]="pools()"
+  />
+}
+@if (routeType() === "final") {
+  <tournament-finalbracket
+    [matches]="matches()"
+    [players]="players()"
+    [pools]="pools()"
+  />
+}
+-->
