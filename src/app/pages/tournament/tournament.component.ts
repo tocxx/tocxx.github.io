@@ -1,13 +1,12 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { TournamentObject } from '@interfaces/tournament';
-import { TournamentService } from '@services/tournament.service';
+import { Component, inject, signal, WritableSignal } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { TournamentObject } from "@interfaces/tournament";
+import { TournamentService } from "@services/tournament.service";
 
 @Component({
-  selector: 'tournament',
-  templateUrl: './tournament.component.html',
+  selector: "tournament",
+  templateUrl: "./tournament.component.html",
   imports: [RouterModule],
-  providers: [TournamentService],
 })
 export class TournamentPageComponent {
   _tournament = inject(TournamentService);
@@ -25,11 +24,11 @@ export class TournamentPageComponent {
     const tournament = this._tournament.currentTournament();
     if (!tournament) return;
     const configString = JSON.stringify(tournament, null, 2);
-    const blob = new Blob([configString], { type: 'application/json' });
+    const blob = new Blob([configString], { type: "application/json" });
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
-    link.download = `Tocxxio-${tournament.name.replace(/\s+/g, '_')}.json`;
+    link.download = `Tocxxio-${tournament.name.replace(/\s+/g, "_")}.json`;
     link.click();
     window.URL.revokeObjectURL(url);
   }
@@ -49,38 +48,38 @@ export class TournamentPageComponent {
   onDragEnter(e: DragEvent) {
     e.preventDefault();
     e.stopPropagation();
-    (e.target as HTMLElement).classList.remove('border-dashed');
-    (e.target as HTMLElement).classList.add('border-solid');
+    (e.target as HTMLElement).classList.remove("border-dashed");
+    (e.target as HTMLElement).classList.add("border-solid");
   }
 
   onDragOver(e: DragEvent) {
     e.preventDefault();
     e.stopPropagation();
-    (e.target as HTMLElement).classList.remove('border-dashed');
-    (e.target as HTMLElement).classList.add('border-solid');
+    (e.target as HTMLElement).classList.remove("border-dashed");
+    (e.target as HTMLElement).classList.add("border-solid");
   }
 
   onDragLeave(e: DragEvent) {
     e.preventDefault();
     e.stopPropagation();
-    (e.target as HTMLElement).classList.remove('border-solid');
-    (e.target as HTMLElement).classList.add('border-dashed');
+    (e.target as HTMLElement).classList.remove("border-solid");
+    (e.target as HTMLElement).classList.add("border-dashed");
   }
 
   onDrop(event: DragEvent) {
     this.fileError.set(false);
-    this.fileStatus.set('File dropped');
+    this.fileStatus.set("File dropped");
     event.preventDefault();
     event.stopPropagation();
-    (event.target as HTMLElement).classList.remove('border-solid');
-    (event.target as HTMLElement).classList.add('border-dashed');
+    (event.target as HTMLElement).classList.remove("border-solid");
+    (event.target as HTMLElement).classList.add("border-dashed");
     const files = event.dataTransfer?.files;
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const isJson =
-          file.type === 'application/json' ||
-          file.name.toLowerCase().endsWith('.json');
+          file.type === "application/json" ||
+          file.name.toLowerCase().endsWith(".json");
         if (isJson) return this.loadConfig(file);
         this.fileError.set(true);
         this.fileStatus.set(
@@ -97,12 +96,12 @@ export class TournamentPageComponent {
 
   onFileSelected(event: Event) {
     this.fileError.set(false);
-    this.fileStatus.set('File selected');
+    this.fileStatus.set("File selected");
     const target = event.target as HTMLInputElement;
     const files = target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      if (file.name.toLowerCase().endsWith('.json'))
+      if (file.name.toLowerCase().endsWith(".json"))
         return this.loadConfig(file);
       this.fileError.set(true);
       return this.fileStatus.set(
@@ -119,16 +118,16 @@ export class TournamentPageComponent {
       const jsonObject = JSON.parse(content);
       if (!jsonObject) {
         this.fileError.set(true);
-        return this.fileStatus.set('Config file is empty or corrupt.');
+        return this.fileStatus.set("Config file is empty or corrupt.");
       }
       const tournament = this._tournament.validateTournamentObject(jsonObject);
       if (!tournament) {
         this.fileError.set(true);
         return this.fileStatus.set(
-          'Config file is not a valid tournament config file.',
+          "Config file is not a valid tournament config file.",
         );
       }
-      this.fileStatus.set('Config validated, processing...');
+      this.fileStatus.set("Config validated, processing...");
       this._tournament.uploadConfig(tournament);
     } catch (err) {
       this.fileError.set(true);

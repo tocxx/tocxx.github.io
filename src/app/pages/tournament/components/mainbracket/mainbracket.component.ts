@@ -1,6 +1,6 @@
 import { Component, computed, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { Match, Player } from "@interfaces/tournament";
+import { Match, Player, Pool } from "@interfaces/tournament";
 
 @Component({
   selector: "tournament-mainbracket",
@@ -10,9 +10,12 @@ import { Match, Player } from "@interfaces/tournament";
 export class TournamentMainBracketComponent {
   matches = input.required<Match[]>();
   players = input.required<Player[]>();
+  pools = input.required<Pool[]>();
   rounds = computed(() => {
     const grouped: { [key: number]: Match[] } = {};
-    const upperBracket = this.matches().filter((m) => m.round > 0);
+    const upperBracket = this.matches().filter(
+      (m) => m.round > 0 && m.round < 6,
+    );
     upperBracket.forEach((m) => {
       if (!grouped[m.round]) grouped[m.round] = [];
       grouped[m.round].push(m);
@@ -23,7 +26,16 @@ export class TournamentMainBracketComponent {
       .map((r) => ({
         number: r,
         matches: grouped[r],
-      }));
+      }))
+      .map((r) => {
+        const poolIndex = this.pools().findIndex((p) =>
+          p.matchIds.includes(r.matches[0]?.id),
+        );
+        return {
+          ...r,
+          pool: poolIndex !== -1 ? poolIndex + 1 : null,
+        };
+      });
   });
   maxSlotsPerRound = computed(() => {
     let slots = 0;
@@ -47,7 +59,9 @@ export class TournamentMainBracketComponent {
     const startIndex =
       matches.indexOf(potentialNextMatches[matchIndex - 1]) + 1;
     const endIndex = matches.indexOf(potentialNextMatches[matchIndex]);
-    return matches.slice(startIndex, endIndex);
+    const spacingMatches = matches.slice(startIndex, endIndex);
+    if (match.winner) spacingMatches.pop();
+    return spacingMatches;
   }
 
   getEndingSpacingMatches() {

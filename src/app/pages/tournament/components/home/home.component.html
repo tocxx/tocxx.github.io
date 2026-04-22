@@ -112,7 +112,11 @@
     <p></p>
   </div>
 </div>
-<tournament-mainbracket [matches]="matches()" [players]="players()" />
+<tournament-mainbracket
+  [matches]="matches()"
+  [players]="players()"
+  [pools]="pools()"
+/>
 <streaming-pool />
 <div class="container text-center visually-hidden" id="losersbracket">
   <div class="row">
