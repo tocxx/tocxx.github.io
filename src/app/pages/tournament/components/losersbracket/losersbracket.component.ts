@@ -42,14 +42,32 @@ export class TournamentLosersBracketComponent {
     }
     return slots;
   });
+  loserOfs: Record<number, { p1: number; p2?: number }> = {
+    22: { p1: 15, p2: 1 },
+    21: { p1: 13, p2: 2 },
+    20: { p1: 12, p2: 3 },
+    19: { p1: 11, p2: 4 },
+    18: { p1: 10, p2: 5 },
+    16: { p1: 8, p2: 6 },
+    17: { p1: 9, p2: 7 },
+    26: { p1: 14, p2: undefined },
+    32: { p1: 28, p2: undefined },
+    31: { p1: 27, p2: undefined },
+    34: { p1: 30, p2: undefined },
+    33: { p1: 29, p2: undefined },
+    40: { p1: 38, p2: undefined },
+    39: { p1: 37, p2: undefined },
+  };
 
   getPlayerName(match: Match, player: "p1" | "p2") {
     const id = player === "p1" ? match.p1 : match.p2;
     if (id) return this.players().find((p) => p.id === id)?.name || "Unknown";
-    const text = [{ p1: 15, p2: 1 }];
-    const rounds = this.rounds();
-    const matchIndex = rounds[0].matches.indexOf(match);
-    return undefined;
+    const loserOf = this.loserOfs[match.number];
+    return loserOf
+      ? loserOf[player]
+        ? `Loser of ${loserOf[player]}`
+        : undefined
+      : undefined;
   }
 
   getSpacingMatches(match: Match) {

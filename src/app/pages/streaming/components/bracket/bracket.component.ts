@@ -13,10 +13,15 @@ import { TournamentMainBracketComponent } from "src/app/pages/tournament/compone
 import { TournamentService } from "@services/tournament.service";
 import { HttpClient } from "@angular/common/http";
 import { Match, Player, Pool } from "@interfaces/tournament";
+import { TournamentLosersBracketComponent } from "src/app/pages/tournament/components/losersbracket/losersbracket.component";
 
 @Component({
   selector: "streaming-bracket",
-  imports: [CommonModule, TournamentMainBracketComponent],
+  imports: [
+    CommonModule,
+    TournamentMainBracketComponent,
+    TournamentLosersBracketComponent,
+  ],
   templateUrl: "./bracket.component.html",
 })
 export class StreamingBracketComponent implements AfterViewInit {

@@ -32,29 +32,41 @@
               <div class="col-span-9">
                 <div
                   class="flex justify-between items-center p-2 border-b border-gray-700"
-                  [class.bg-green-900]="match.winner === match.p1"
+                  [class.font-bold]="match.winner === match.p1"
+                  [class.line-through]="match.loser === match.p1"
                 >
-                  <span class="text-sm text-white truncate px-2">
+                  <span
+                    class="text-sm text-white truncate px-2"
+                    [class.italic]="!match.p1"
+                  >
                     {{ getPlayerName(match, "p1") || `&nbsp;` }}
                   </span>
-                  <span
-                    class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
-                  >
-                    {{ match.winner === match.p1 ? "W" : "" }}
-                  </span>
+                  @if (match.winner === match.p1) {
+                    <span
+                      class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
+                    >
+                      W
+                    </span>
+                  }
                 </div>
                 <div
                   class="flex justify-between items-center p-2"
-                  [class.bg-green-900]="match.winner === match.p2"
+                  [class.font-bold]="match.winner === match.p2"
+                  [class.line-through]="match.loser === match.p2"
                 >
-                  <span class="text-sm text-white truncate px-2">
+                  <span
+                    class="text-sm text-white truncate px-2"
+                    [class.italic]="!match.p2"
+                  >
                     {{ getPlayerName(match, "p2") || `&nbsp;` }}
                   </span>
-                  <span
-                    class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
-                  >
-                    {{ match.winner === match.p2 ? "W" : "" }}
-                  </span>
+                  @if (match.winner === match.p2) {
+                    <span
+                      class="text-xs font-bold text-gray-400 bg-black/30 px-2 py-1 rounded"
+                    >
+                      W
+                    </span>
+                  }
                 </div>
               </div>
             </div>
