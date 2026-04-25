@@ -38,6 +38,7 @@
                   <span
                     class="text-sm text-white truncate px-2"
                     [class.italic]="!match.p1"
+                    [class.text-gray-700]="!match.p1"
                   >
                     {{ getPlayerName(match, "p1") || `&nbsp;` }}
                   </span>
@@ -57,6 +58,7 @@
                   <span
                     class="text-sm text-white truncate px-2"
                     [class.italic]="!match.p2"
+                    [class.text-gray-700]="!match.p2"
                   >
                     {{ getPlayerName(match, "p2") || `&nbsp;` }}
                   </span>
