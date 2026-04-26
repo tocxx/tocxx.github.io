@@ -12,33 +12,25 @@ import { map } from "rxjs";
   templateUrl: "./pool.component.html",
 })
 export class StreamingPoolComponent {
-  private tournamentService = inject(TournamentService);
+  private _tournament = inject(TournamentService);
   private route = inject(ActivatedRoute);
   routeId = toSignal(this.route.params.pipe(map((p) => Number(p["id"]))));
-
   currentPool = computed(() => {
-    const tournament = this.tournamentService.currentTournament();
+    const tournament = this._tournament.currentTournament();
     const index = this.routeId();
-    console.log(tournament);
-    console.log(index);
-    if (tournament && index !== undefined) {
+    if (tournament && index !== undefined)
       return tournament.config.pools[index];
-    }
     return undefined;
   });
-
   groupedMaps = computed(() => {
     const pool = this.currentPool();
     if (!pool) return [];
-
     const groups: { [key: string]: any[] } = {};
-
     pool.maps.forEach((map) => {
       const catTitle = map.metadata!.category.title;
       if (!groups[catTitle]) groups[catTitle] = [];
       groups[catTitle].push(map);
     });
-
     return Object.keys(groups).map((title) => ({
       title,
       maps: groups[title],
