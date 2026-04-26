@@ -1,15 +1,15 @@
-import { computed, Injectable, signal } from "@angular/core";
+import { computed, Injectable, signal } from '@angular/core';
 import {
   Match,
   MatchPlayer,
   OngoingMatch,
   PBMap,
-} from "@interfaces/tournament";
-import { TournamentService } from "./tournament.service";
-import { WebsocketService } from "./websocket.service";
+} from '@interfaces/tournament';
+import { TournamentService } from './tournament.service';
+import { WebsocketService } from './websocket.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class MatchService {
   private _ws?: WebsocketService;
@@ -18,7 +18,7 @@ export class MatchService {
   #secondPick = signal<MatchPlayer | undefined>(undefined);
   currentMatch = computed(() => this.#currentMatch());
   lobbyStatus = computed(() =>
-    this._ws?.isConnected() ? "Connected to lobby" : undefined,
+    this._ws?.isConnected() ? 'Connected to lobby' : undefined,
   );
   lobbyPlayers = this._ws?.lobbyPlayers;
   firstPick = computed(() => this.#firstPick());
@@ -27,6 +27,8 @@ export class MatchService {
   constructor(private _tournament: TournamentService) {}
 
   setMatch(match: Match) {
+    this.#firstPick.set(undefined);
+    this.#secondPick.set(undefined);
     this.#currentMatch.set({
       ...match,
       p1: {
@@ -47,7 +49,7 @@ export class MatchService {
       .currentTournament()!
       .config.players.find((p) => p.id === Number(id));
     if (player) return player.name;
-    return "unknown";
+    return 'unknown';
   }
 
   setFirstPick(id: number) {
@@ -66,6 +68,12 @@ export class MatchService {
   pickMap(pbmap: PBMap) {
     this.#currentMatch.update((cm) => {
       return cm ? { ...cm, picks: [...cm.picks, pbmap] } : undefined;
+    });
+  }
+
+  resetPB() {
+    this.#currentMatch.update((cm) => {
+      return cm ? { ...cm, picks: [], bans: [] } : undefined;
     });
   }
 }

@@ -4,22 +4,36 @@
       <div class="flex-1 min-w-[300px]">
         <div class="flex flex-col gap-6 text-white">
           @for (map of group.maps; track map.id) {
-            <div class="flex" (click)="clickMap(map)">
+            <div class="flex relative" (click)="clickMap(map)">
               @if (isBanned(map)) {
-                <div class="absolute bg-red z-10 justify-self-center">
-                  <p>Banned by {{ isBanned(map) }}</p>
+                <div
+                  class="absolute text-xl font-bold p-1 top-50 text-center bg-red-400 w-70 z-10"
+                >
+                  <span>Banned by {{ isBanned(map)?.playerName }}</span>
                 </div>
               } @else if (isPicked(map)) {
-                <div class="absolute bg-red z-10 justify-self-center">
-                  <p>Picked by {{ isBanned(map) }}</p>
+                <div
+                  class="absolute text-xl font-bold p-1 top-50 text-center bg-[#61be7d] w-70 z-10"
+                >
+                  <p>
+                    {{
+                      isPicked(map)?.playerName
+                        ? `Picked by ${isPicked(map)?.playerName}`
+                        : "Tiebreaker"
+                    }}
+                  </p>
                 </div>
               }
               <streaming-mapview [map]="map" />
             </div>
           }
-          <div>
-            {{ currentState() }}
-          </div>
+          @if (group.title === "Spicy") {
+            <div class="flex flex-col text-black h-100 justify-center">
+              <span class="text-center font-bold text-xl">{{
+                currentState()
+              }}</span>
+            </div>
+          }
         </div>
       </div>
     } @empty {

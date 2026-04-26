@@ -1,16 +1,16 @@
-import { Component, computed, inject } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { TournamentService } from "@services/tournament.service";
-import { StreamingMapviewComponent } from "../mapview/mapview.component";
-import { MatchService } from "@services/match.service";
-import { Map, PBMap } from "@interfaces/tournament";
+import { Component, computed, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TournamentService } from '@services/tournament.service';
+import { StreamingMapviewComponent } from '../mapview/mapview.component';
+import { MatchService } from '@services/match.service';
+import { Map, PBMap } from '@interfaces/tournament';
 
 @Component({
-  selector: "streaming-picksbans",
+  selector: 'streaming-picksbans',
   imports: [CommonModule, StreamingMapviewComponent],
-  templateUrl: "./picksbans.component.html",
+  templateUrl: './picksbans.component.html',
 })
-export class StreamingPoolComponent {
+export class StreamingPicksBansComponent {
   private _match = inject(MatchService);
   currentTournament = inject(TournamentService).currentTournament;
   currentMatch = this._match.currentMatch;
@@ -136,12 +136,42 @@ export class StreamingPoolComponent {
     const match = this.currentMatch();
     if (!match) return;
     const { picks } = match;
+    console.log(picks.find((pbm) => pbm.map === map));
     return picks.find((pbm) => pbm.map === map);
   }
 
   currentState() {
     const match = this.currentMatch();
-    if (!match) return "No match chosen";
-    return ``;
+    const firstPick = this.firstPick();
+    const secondPick = this.secondPick();
+    if (!match) return 'No match chosen';
+    if (!firstPick || !secondPick)
+      return `${match.p1.name} VS ${match.p2.name}`;
+    switch (this.pbState()) {
+      case 1:
+        return `${firstPick.name} is banning`;
+      case 2:
+        return `${secondPick.name} is banning`;
+      case 3:
+        return `${secondPick.name} is picking`;
+      case 4:
+        return `${firstPick.name} is picking`;
+      case 5:
+        if (this.bestOf() === 5) return `${firstPick.name} is picking`;
+        return `${secondPick.name} is banning`;
+      case 6:
+        if (this.bestOf() === 5) return `${secondPick.name} is picking`;
+        return `${firstPick.name} is banning`;
+      case 7:
+        return `${firstPick.name} is picking`;
+      case 8:
+        return `${secondPick.name} is picking`;
+      case 9:
+        return `${firstPick.name} is picking`;
+      case 10:
+        return `${secondPick.name} is picking`;
+      default:
+        return `${match.p1.name} VS ${match.p2.name}`;
+    }
   }
 }
