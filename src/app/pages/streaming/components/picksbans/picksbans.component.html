@@ -1,0 +1,29 @@
+<main class="p-4 min-h-screen">
+  <div class="flex flex-row justify-between gap-16">
+    @for (group of groupedMaps(); track group.title) {
+      <div class="flex-1 min-w-[300px]">
+        <div class="flex flex-col gap-6 text-white">
+          @for (map of group.maps; track map.id) {
+            <div class="flex" (click)="clickMap(map)">
+              @if (isBanned(map)) {
+                <div class="absolute bg-red z-10 justify-self-center">
+                  <p>Banned by {{ isBanned(map) }}</p>
+                </div>
+              } @else if (isPicked(map)) {
+                <div class="absolute bg-red z-10 justify-self-center">
+                  <p>Picked by {{ isBanned(map) }}</p>
+                </div>
+              }
+              <streaming-mapview [map]="map" />
+            </div>
+          }
+          <div>
+            {{ currentState() }}
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="w-full text-center py-20">No maps in this match.</div>
+    }
+  </div>
+</main>

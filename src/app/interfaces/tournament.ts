@@ -54,20 +54,23 @@ export interface Match {
 
 export interface OngoingMatch {
   id: number;
-  p1: {
-    id: number;
-    name: string;
-    luid?: string;
-  };
-  p2: {
-    id: number;
-    name: string;
-    luid?: string;
-  };
+  p1: MatchPlayer;
+  p2: MatchPlayer;
   loser?: number;
   winner?: number;
-  picks: Map[];
-  bans: Map[];
+  picks: PBMap[];
+  bans: PBMap[];
+}
+
+export interface MatchPlayer {
+  id: number;
+  name: string;
+  luid?: string;
+}
+
+export interface PBMap {
+  playerName?: string;
+  map: Map;
 }
 
 export interface Player {
