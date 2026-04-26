@@ -1,20 +1,25 @@
-import { Routes } from "@angular/router";
-import { StreamingPageComponent } from "./streaming.component";
-import { StreamingPoolComponent } from "./components/pool/pool.component";
-import { StreamingBracketComponent } from "./components/bracket/bracket.component";
+import { Routes } from '@angular/router';
+import { StreamingPageComponent } from './streaming.component';
+import { StreamingPoolComponent } from './components/pool/pool.component';
+import { StreamingBracketComponent } from './components/bracket/bracket.component';
+import { StreamingPicksBansComponent } from './components/picksbans/picksbans.component';
 
 export const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: StreamingPageComponent,
     children: [
       {
-        path: "pool/:id",
+        path: 'pool/:id',
         component: StreamingPoolComponent,
       },
       {
-        path: "bracket/:type",
+        path: 'bracket/:type',
         component: StreamingBracketComponent,
+      },
+      {
+        path: 'match/pb',
+        component: StreamingPicksBansComponent,
       },
       /*{
         path: 'match/next',
@@ -27,10 +32,6 @@ export const routes: Routes = [
       {
         path: 'match/view',
         component: StreamingMatchViewComponent,
-      },
-      {
-        path: 'match/pb/:number',
-        component: StreamingMatchPicksBansComponent,
       },
       {
         path: 'match/results',
