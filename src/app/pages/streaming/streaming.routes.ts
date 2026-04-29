@@ -4,6 +4,7 @@ import { StreamingPoolComponent } from './components/pool/pool.component';
 import { StreamingBracketComponent } from './components/bracket/bracket.component';
 import { StreamingPicksBansComponent } from './components/picksbans/picksbans.component';
 import { StreamingNextComponent } from './components/next/next.component';
+import { StreamingDetailsComponent } from './components/details/details.component';
 
 export const routes: Routes = [
   {
@@ -26,11 +27,11 @@ export const routes: Routes = [
         path: 'match/next',
         component: StreamingNextComponent,
       },
-      /*{
-        path: 'match/details',
-        component: StreamingMatchDetailsComponent,
-      },
       {
+        path: 'match/details',
+        component: StreamingDetailsComponent,
+      },
+      /*{
         path: 'match/view',
         component: StreamingMatchViewComponent,
       },
