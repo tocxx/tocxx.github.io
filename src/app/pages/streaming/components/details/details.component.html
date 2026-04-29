@@ -1,0 +1,42 @@
+<main class="p-4 min-w-screen">
+  <div class="flex min-h-[600px] flex-row gap-16">
+    <div class="flex-1 min-w-[300px]">
+      <div class="flex gap-6 text-white justify-between">
+        @for (map of pickedMaps(); track map.map.id) {
+          <div class="flex relative">
+            <div
+              class="absolute text-xl font-bold p-1 top-50 text-center bg-[#61be7d] w-70 z-10"
+            >
+              <p>
+                {{
+                  map.playerName ? `Picked by ${map.playerName}` : "Tiebreaker"
+                }}
+              </p>
+            </div>
+            <streaming-mapview [map]="map.map" />
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row justify-center">
+    <div
+      class="w-200 text-[#ff90be] text-6xl font-black tracking-wider text-right"
+      style="-webkit-text-stroke: 3px black"
+    >
+      <span>{{ currentMatch()?.p1?.name ?? "Player 1" }}</span>
+    </div>
+    <div
+      class="text-gray-100 text-6xl font-black tracking-wider mx-10"
+      style="-webkit-text-stroke: 3px black"
+    >
+      <span>vs</span>
+    </div>
+    <div
+      class="w-200 text-[#6decff] text-6xl font-black tracking-wider"
+      style="-webkit-text-stroke: 3px black"
+    >
+      <span>{{ currentMatch()?.p2?.name ?? "Player 2" }}</span>
+    </div>
+  </div>
+</main>
