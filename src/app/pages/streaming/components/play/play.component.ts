@@ -47,12 +47,4 @@ export class StreamingPlayComponent {
     if (!match || !p2Score) return undefined;
     return { p: match.p2, s: p2Score };
   });
-  lead = computed(() => {
-    const p1 = this.p1();
-    const p2 = this.p2();
-    const p1Score = p1?.s();
-    const p2Score = p2?.s();
-    if (!p1Score || !p2Score) return undefined;
-    return p1Score.accuracy > p2Score.accuracy ? p1?.p.id : p2?.p.id;
-  });
 }
