@@ -22,6 +22,18 @@ export class MatchService {
     this._ws?.isConnected() ? 'Connected to lobby' : undefined,
   );
   lobbyPlayers = this._ws?.lobbyPlayers;
+  p1Score = computed(() => {
+    const p1Luid = this.currentMatch()?.p1.luid;
+    if (p1Luid && p1Luid === this._ws?.leftLUID()) return this._ws?.leftScore;
+    if (p1Luid && p1Luid === this._ws?.rightLUID()) return this._ws?.rightScore;
+    return undefined;
+  });
+  p2Score = computed(() => {
+    const p2Luid = this.currentMatch()?.p2.luid;
+    if (p2Luid && p2Luid === this._ws?.leftLUID()) return this._ws?.leftScore;
+    if (p2Luid && p2Luid === this._ws?.rightLUID()) return this._ws?.rightScore;
+    return undefined;
+  });
   firstPick = computed(() => this.#firstPick());
   secondPick = computed(() => this.#secondPick());
 
@@ -46,14 +58,24 @@ export class MatchService {
       p1: {
         id: match.p1,
         name: this.getPlayerName(match.p1),
+        maps: [],
       },
       p2: {
         id: match.p2,
         name: this.getPlayerName(match.p2),
+        maps: [],
       },
       picks: [],
       bans: [],
     });
+  }
+
+  linkP1(luid: string) {
+    this._ws?.leftLUID.set(luid);
+  }
+
+  linkP2(luid: string) {
+    this._ws?.rightLUID.set(luid);
   }
 
   getPlayerName(id: number) {

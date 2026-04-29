@@ -66,6 +66,7 @@ export interface MatchPlayer {
   id: number;
   name: string;
   luid?: string;
+  maps: Map[];
 }
 
 export interface PBMap {
@@ -86,11 +87,11 @@ export interface Round {
 }
 
 type TournamentType =
-  | "single elimination"
-  | "double elimination"
-  | "round robin"
-  | "swiss"
-  | "free for all";
+  | 'single elimination'
+  | 'double elimination'
+  | 'round robin'
+  | 'swiss'
+  | 'free for all';
 
 export interface LobbyPlayer {
   id: string;

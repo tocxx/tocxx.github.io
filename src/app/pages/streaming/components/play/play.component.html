@@ -1,0 +1,86 @@
+<main class="min-w-screen min-h-screen">
+  <div class="absolute left-[100px] bottom-[100px]">
+    <p class="text-white" style="font-size: 45px">
+      <strong>{{ p1() ? p1()!.p.name : "Link player" }}</strong>
+    </p>
+  </div>
+  <div class="absolute text-right right-[100px] bottom-[100px] w-[450px]">
+    <p class="text-white" style="font-size: 45px">
+      <strong>{{ p2() ? p2()!.p.name : "Link player" }}</strong>
+    </p>
+  </div>
+  <div class="absolute left-[370px] top-[28px]">
+    <div class="flex items-center gap-1.5">
+      @for (_ of [].constructor(neededToWin()); track $index) {
+        <div
+          class="rounded-full border-2 transition-all duration-300"
+          [class]="
+            $index < (p1() ? p1()!.p.maps.length : 0)
+              ? 'w-8 h-8 bg-green-500 border-green-600 scale-100 opacity-100'
+              : 'w-8 h-8 bg-gray-400 border-gray-500 scale-[0.8] opacity-50'
+          "
+        ></div>
+      }
+    </div>
+  </div>
+  <div class="absolute right-[355px] top-[28px]">
+    <div class="flex items-center gap-1.5">
+      @for (_ of [].constructor(neededToWin()); track $index) {
+        <div
+          class="rounded-full border-2 transition-all duration-300"
+          [class]="
+            $index < (p1() ? p1()!.p.maps.length : 0)
+              ? 'w-8 h-8 bg-green-500 border-green-600 scale-100 opacity-100'
+              : 'w-8 h-8 bg-gray-400 border-gray-500 scale-[0.8] opacity-50'
+          "
+        ></div>
+      }
+    </div>
+  </div>
+  <div
+    class="absolute text-right p-2 font-bold lh-1 w-[230px] left-[570px] bottom-[60px]"
+  >
+    <p
+      class="mb-2 text-white"
+      style="font-size: 45px; -webkit-text-stroke: 2px black"
+    >
+      {{ p1() ? p1()!.s()?.accuracy : "99.99%" }}
+    </p>
+    <p
+      class="mb-1 text-[#004545]"
+      [class.font-bold]="lead() === (p1() ? p1()!.p.id : 0)"
+      style="font-size: 30px"
+    >
+      {{ p1() ? p1()!.s()?.combo : "9999" }}
+    </p>
+    <p
+      class="text-white"
+      style="font-size: 30px; -webkit-text-stroke: 2px #6decff"
+    >
+      {{ p1() ? p1()!.s()?.missCount : "99" }}
+    </p>
+  </div>
+  <div
+    class="absolute p-2 font-bold lh-1 w-[230px] left-[1130px] bottom-[60px]"
+  >
+    <p
+      class="mb-2 text-white"
+      style="font-size: 45px; -webkit-text-stroke: 2px black"
+    >
+      {{ p2() ? p2()!.s()?.accuracy : "99.99%" }}
+    </p>
+    <p
+      class="mb-1 text-[#004545]"
+      [class.font-bold]="lead() === (p2() ? p2()!.p.id : 0)"
+      style="font-size: 30px"
+    >
+      {{ p2() ? p2()!.s()?.combo : "9999" }}
+    </p>
+    <p
+      class="text-white"
+      style="font-size: 30px; -webkit-text-stroke: 2px #ff90be"
+    >
+      {{ p2() ? p2()!.s()?.missCount : "99" }}
+    </p>
+  </div>
+</main>
