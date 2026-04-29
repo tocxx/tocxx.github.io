@@ -1,36 +1,36 @@
 <main class="p-4 min-w-screen">
-  <div class="flex flex-row justify-center mb-50">
+  <div class="flex flex-row justify-center mb-60">
     <div
-      class="w-200 text-[#ff90be] text-7xl font-black tracking-wider text-right"
-      style="-webkit-text-stroke: 2.5px black"
+      class="w-200 text-[#ff90be] text-8xl font-black tracking-wider text-right"
+      style="-webkit-text-stroke: 4px black"
     >
       <span>{{ currentMatch()?.p1?.name ?? "Player 1" }}</span>
     </div>
     <div
-      class="text-gray-100 text-7xl font-black tracking-wider mx-10"
-      style="-webkit-text-stroke: 2.5px black"
+      class="text-gray-100 text-8xl font-black tracking-wider mx-10"
+      style="-webkit-text-stroke: 4px black"
     >
       <span>vs</span>
     </div>
     <div
-      class="w-200 text-[#6decff] text-7xl font-black tracking-wider"
-      style="-webkit-text-stroke: 2.5px black"
+      class="w-200 text-[#6decff] text-8xl font-black tracking-wider"
+      style="-webkit-text-stroke: 4px black"
     >
       <span>{{ currentMatch()?.p2?.name ?? "Player 2" }}</span>
     </div>
   </div>
-  <div class="flex flex-row justify-center mb-15">
+  <div class="flex flex-row justify-center mb-20">
     <div
-      class="text-gray-100 text-6xl font-black tracking-wider"
-      style="-webkit-text-stroke: 2.5px black"
+      class="text-gray-100 text-7xl font-black tracking-wider"
+      style="-webkit-text-stroke: 4px black"
     >
       <span>Pool {{ poolNumber() }}</span>
     </div>
   </div>
-  <div class="flex flex-row justify-center mb-15">
+  <div class="flex flex-row justify-center mb-20">
     <div
-      class="text-gray-100 text-6xl font-black tracking-wider"
-      style="-webkit-text-stroke: 2.5px black"
+      class="text-gray-100 text-7xl font-black tracking-wider"
+      style="-webkit-text-stroke: 4px black"
     >
       <span>Best of {{ bestOf() }}</span>
     </div>
