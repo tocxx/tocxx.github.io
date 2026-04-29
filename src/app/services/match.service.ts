@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import {
   Match,
   MatchPlayer,
@@ -7,6 +7,7 @@ import {
 } from '@interfaces/tournament';
 import { TournamentService } from './tournament.service';
 import { WebsocketService } from './websocket.service';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,18 @@ export class MatchService {
   firstPick = computed(() => this.#firstPick());
   secondPick = computed(() => this.#secondPick());
 
-  constructor(private _tournament: TournamentService) {}
+  constructor(
+    private _tournament: TournamentService,
+    private _storage: StorageService,
+  ) {
+    let currentMatch = this._storage.get('tournament-currentMatch');
+    if (currentMatch) this.#currentMatch.set(currentMatch);
+    effect(() => {
+      let currentMatch = this.#currentMatch();
+      if (currentMatch)
+        this._storage.set('tournament-currentMatch', currentMatch);
+    });
+  }
 
   setMatch(match: Match) {
     this.#firstPick.set(undefined);
