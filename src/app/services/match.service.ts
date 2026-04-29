@@ -76,4 +76,10 @@ export class MatchService {
       return cm ? { ...cm, picks: [], bans: [] } : undefined;
     });
   }
+
+  swapPlayers() {
+    this.#currentMatch.update((cm) => {
+      return cm ? { ...cm, p1: cm.p2, p2: cm.p1 } : undefined;
+    });
+  }
 }
