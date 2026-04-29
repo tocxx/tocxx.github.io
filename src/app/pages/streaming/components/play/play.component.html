@@ -45,7 +45,9 @@
     </p>
     <p
       class="text-[#004545]"
-      [class.font-bold]="lead() === (p1() ? p1()!.p.id : 0)"
+      [class.font-black]="
+        p1()?.s()?.missCount ? p1()!.s()!.missCount === 0 : false
+      "
       style="font-size: 30px"
     >
       {{ p1() ? p1()!.s()?.combo : "999" }}
@@ -65,7 +67,9 @@
     </p>
     <p
       class="text-[#004545]"
-      [class.font-bold]="lead() === (p2() ? p2()!.p.id : 0)"
+      [class.font-black]="
+        p2()?.s()?.missCount ? p2()!.s()!.missCount === 0 : false
+      "
       style="font-size: 30px"
     >
       {{ p2() ? p2()!.s()?.combo : "999" }}
