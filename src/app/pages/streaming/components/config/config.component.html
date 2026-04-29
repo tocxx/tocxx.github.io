@@ -28,22 +28,27 @@
           </div>
           <div class="pt-2 border-t border-white/10 space-y-2">
             <p class="text-white text-lg font-bold text-center">Match</p>
-            <div>
-              <select
-                class="block text-black w-full rounded-md border-0 bg-white p-2 shadow-sm"
-                (change)="selectMatch($event)"
-              >
-                <option value="" disabled selected>Select match</option>
-                @for (match of availableMatches(); track match.id) {
-                  <option
+            <div
+              class="flex flex-col gap-2 max-h-60 overflow-y-auto p-1 border border-gray-200 rounded-lg shadow-inner"
+            >
+              @for (match of availableMatches(); track match.id) {
+                <label
+                  class="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-gray-50 bg-white shadow-sm shrink-0"
+                >
+                  <input
+                    type="radio"
+                    name="matchSelection"
+                    class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                     [value]="match.id"
-                    [selected]="currentMatch()?.id === match.id"
-                  >
+                    [checked]="currentMatch()?.id === match.id"
+                    (change)="selectMatch($event)"
+                  />
+                  <span class="text-black text-sm">
                     Round {{ match.round }} - {{ getPlayerName(match.p1) }} vs
                     {{ getPlayerName(match.p2) }}
-                  </option>
-                }
-              </select>
+                  </span>
+                </label>
+              }
             </div>
             @if (currentMatch()) {
               <div>
@@ -67,34 +72,31 @@
                   </div>
                 }
                 <div class="grid grid-cols-3 p-2">
-                  <div class="flex flex-col justify-center">
+                  <div class="flex flex-col justify-start pt-2">
                     <p class="text-white text-lg">First pick</p>
                   </div>
-                  <div class="col-span-2">
-                    <select
-                      class="block text-black w-full rounded-md border-0 bg-white p-2 shadow-sm"
-                      (change)="selectFirstPick($event)"
-                    >
-                      <option value="" disabled selected>
-                        Select first pick
-                      </option>
-                      <option
-                        [value]="currentMatch()!.p1.id"
-                        [selected]="
-                          _match.firstPick()?.id === currentMatch()!.p1.id
-                        "
+
+                  <div class="col-span-2 flex flex-col gap-2">
+                    @for (
+                      player of [currentMatch()?.p1, currentMatch()?.p2];
+                      track player?.id
+                    ) {
+                      <label
+                        class="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-gray-50 bg-white shadow-sm"
                       >
-                        {{ currentMatch()!.p1.name }}
-                      </option>
-                      <option
-                        [value]="currentMatch()!.p2.id"
-                        [selected]="
-                          _match.firstPick()?.id === currentMatch()!.p2.id
-                        "
-                      >
-                        {{ currentMatch()!.p2.name }}
-                      </option>
-                    </select>
+                        <input
+                          type="radio"
+                          name="firstPick"
+                          class="h-4 w-4 text-blue-600 border-gray-300"
+                          [value]="player?.id"
+                          [checked]="_match.firstPick()?.id === player?.id"
+                          (change)="selectFirstPick($event)"
+                        />
+                        <span class="text-black font-medium">{{
+                          player?.name
+                        }}</span>
+                      </label>
+                    }
                   </div>
                 </div>
                 <div class="p-2">
