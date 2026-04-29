@@ -3,6 +3,7 @@ import { StreamingPageComponent } from './streaming.component';
 import { StreamingPoolComponent } from './components/pool/pool.component';
 import { StreamingBracketComponent } from './components/bracket/bracket.component';
 import { StreamingPicksBansComponent } from './components/picksbans/picksbans.component';
+import { StreamingNextComponent } from './components/next/next.component';
 
 export const routes: Routes = [
   {
@@ -21,11 +22,11 @@ export const routes: Routes = [
         path: 'match/pb',
         component: StreamingPicksBansComponent,
       },
-      /*{
-        path: 'match/next',
-        component: StreamingMatchNextComponent,
-      },
       {
+        path: 'match/next',
+        component: StreamingNextComponent,
+      },
+      /*{
         path: 'match/details',
         component: StreamingMatchDetailsComponent,
       },

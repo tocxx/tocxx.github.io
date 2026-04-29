@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TournamentService } from '@services/tournament.service';
 import { StreamingMapviewComponent } from '../mapview/mapview.component';
 import { MatchService } from '@services/match.service';
-import { Map, PBMap } from '@interfaces/tournament';
+import { Map } from '@interfaces/tournament';
 
 @Component({
   selector: 'streaming-picksbans',

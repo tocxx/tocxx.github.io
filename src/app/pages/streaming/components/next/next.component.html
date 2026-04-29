@@ -1,0 +1,168 @@
+<main class="p-4 min-w-screen">
+  <div class="flex flex-row justify-center mb-50">
+    <div
+      class="w-200 text-[#ff90be] text-7xl font-bold tracking-wider text-right"
+      style="
+        text-shadow:
+          1px 1px 0 #000,
+          -1px 1px 0 #000,
+          1px -1px 0 #000,
+          -1px -1px 0 #000,
+          0px 1px 0 #000,
+          0px -1px 0 #000,
+          -1px 0px 0 #000,
+          1px 0px 0 #000,
+          2px 2px 0 #000,
+          -2px 2px 0 #000,
+          2px -2px 0 #000,
+          -2px -2px 0 #000,
+          0px 2px 0 #000,
+          0px -2px 0 #000,
+          -2px 0px 0 #000,
+          2px 0px 0 #000,
+          1px 2px 0 #000,
+          -1px 2px 0 #000,
+          1px -2px 0 #000,
+          -1px -2px 0 #000,
+          2px 1px 0 #000,
+          -2px 1px 0 #000,
+          2px -1px 0 #000,
+          -2px -1px 0 #000;
+      "
+    >
+      <span>{{ currentMatch()?.p1?.name ?? "Player 1" }}</span>
+    </div>
+    <div
+      class="text-white text-7xl font-bold tracking-wider mx-10"
+      style="
+        text-shadow:
+          1px 1px 0 #000,
+          -1px 1px 0 #000,
+          1px -1px 0 #000,
+          -1px -1px 0 #000,
+          0px 1px 0 #000,
+          0px -1px 0 #000,
+          -1px 0px 0 #000,
+          1px 0px 0 #000,
+          2px 2px 0 #000,
+          -2px 2px 0 #000,
+          2px -2px 0 #000,
+          -2px -2px 0 #000,
+          0px 2px 0 #000,
+          0px -2px 0 #000,
+          -2px 0px 0 #000,
+          2px 0px 0 #000,
+          1px 2px 0 #000,
+          -1px 2px 0 #000,
+          1px -2px 0 #000,
+          -1px -2px 0 #000,
+          2px 1px 0 #000,
+          -2px 1px 0 #000,
+          2px -1px 0 #000,
+          -2px -1px 0 #000;
+      "
+    >
+      <span>vs</span>
+    </div>
+    <div
+      class="w-200 text-[#6decff] text-7xl font-bold tracking-wider"
+      style="
+        text-shadow:
+          1px 1px 0 #000,
+          -1px 1px 0 #000,
+          1px -1px 0 #000,
+          -1px -1px 0 #000,
+          0px 1px 0 #000,
+          0px -1px 0 #000,
+          -1px 0px 0 #000,
+          1px 0px 0 #000,
+          2px 2px 0 #000,
+          -2px 2px 0 #000,
+          2px -2px 0 #000,
+          -2px -2px 0 #000,
+          0px 2px 0 #000,
+          0px -2px 0 #000,
+          -2px 0px 0 #000,
+          2px 0px 0 #000,
+          1px 2px 0 #000,
+          -1px 2px 0 #000,
+          1px -2px 0 #000,
+          -1px -2px 0 #000,
+          2px 1px 0 #000,
+          -2px 1px 0 #000,
+          2px -1px 0 #000,
+          -2px -1px 0 #000;
+      "
+    >
+      <span>{{ currentMatch()?.p2?.name ?? "Player 2" }}</span>
+    </div>
+  </div>
+  <div class="flex flex-row justify-center mb-15">
+    <div
+      class="text-white text-6xl font-bold tracking-wider"
+      style="
+        text-shadow:
+          1px 1px 0 #000,
+          -1px 1px 0 #000,
+          1px -1px 0 #000,
+          -1px -1px 0 #000,
+          0px 1px 0 #000,
+          0px -1px 0 #000,
+          -1px 0px 0 #000,
+          1px 0px 0 #000,
+          2px 2px 0 #000,
+          -2px 2px 0 #000,
+          2px -2px 0 #000,
+          -2px -2px 0 #000,
+          0px 2px 0 #000,
+          0px -2px 0 #000,
+          -2px 0px 0 #000,
+          2px 0px 0 #000,
+          1px 2px 0 #000,
+          -1px 2px 0 #000,
+          1px -2px 0 #000,
+          -1px -2px 0 #000,
+          2px 1px 0 #000,
+          -2px 1px 0 #000,
+          2px -1px 0 #000,
+          -2px -1px 0 #000;
+      "
+    >
+      <span>Pool {{ poolNumber() }}</span>
+    </div>
+  </div>
+  <div class="flex flex-row justify-center mb-15">
+    <div
+      class="text-white text-6xl font-bold tracking-wider"
+      style="
+        text-shadow:
+          1px 1px 0 #000,
+          -1px 1px 0 #000,
+          1px -1px 0 #000,
+          -1px -1px 0 #000,
+          0px 1px 0 #000,
+          0px -1px 0 #000,
+          -1px 0px 0 #000,
+          1px 0px 0 #000,
+          2px 2px 0 #000,
+          -2px 2px 0 #000,
+          2px -2px 0 #000,
+          -2px -2px 0 #000,
+          0px 2px 0 #000,
+          0px -2px 0 #000,
+          -2px 0px 0 #000,
+          2px 0px 0 #000,
+          1px 2px 0 #000,
+          -1px 2px 0 #000,
+          1px -2px 0 #000,
+          -1px -2px 0 #000,
+          2px 1px 0 #000,
+          -2px 1px 0 #000,
+          2px -1px 0 #000,
+          -2px -1px 0 #000;
+      "
+    >
+      <span>Best of {{ bestOf() }}</span>
+    </div>
+  </div>
+</main>
