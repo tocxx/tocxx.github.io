@@ -33,7 +33,7 @@ export class StreamingPlayComponent {
     return 7;
   });
   neededToWin = computed(() =>
-    Math.ceil(this.bestOf() ? this.bestOf()! : 5 / 2),
+    Math.ceil((this.bestOf() ? this.bestOf()! : 5) / 2),
   );
   p1 = computed(() => {
     const match = this.currentMatch();
