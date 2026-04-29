@@ -40,10 +40,7 @@
   <div
     class="absolute text-right p-2 font-bold lh-1 w-[230px] left-[570px] bottom-[60px]"
   >
-    <p
-      class="mt-3 text-white"
-      style="font-size: 45px; -webkit-text-stroke: 2px black"
-    >
+    <p class="mb-1 text-white text-5xl" style="-webkit-text-stroke: 2px black">
       {{ p1() ? p1()!.s()?.accuracy : "99.99%" }}
     </p>
     <p
@@ -51,7 +48,7 @@
       [class.font-bold]="lead() === (p1() ? p1()!.p.id : 0)"
       style="font-size: 30px"
     >
-      {{ p1() ? p1()!.s()?.combo : "9999" }}
+      {{ p1() ? p1()!.s()?.combo : "999" }}
     </p>
     <p
       class="text-white"
@@ -63,10 +60,7 @@
   <div
     class="absolute p-2 font-bold lh-1 w-[230px] left-[1130px] bottom-[60px]"
   >
-    <p
-      class="mt-3 text-white"
-      style="font-size: 45px; -webkit-text-stroke: 2px black"
-    >
+    <p class="mb-1 text-white text-5xl" style="-webkit-text-stroke: 2px black">
       {{ p2() ? p2()!.s()?.accuracy : "99.99%" }}
     </p>
     <p
@@ -74,7 +68,7 @@
       [class.font-bold]="lead() === (p2() ? p2()!.p.id : 0)"
       style="font-size: 30px"
     >
-      {{ p2() ? p2()!.s()?.combo : "9999" }}
+      {{ p2() ? p2()!.s()?.combo : "999" }}
     </p>
     <p
       class="text-white"
