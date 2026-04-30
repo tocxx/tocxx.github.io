@@ -1,12 +1,12 @@
 <main class="min-w-screen min-h-screen">
   <div class="absolute left-[100px] bottom-[100px]">
     <p class="text-white" style="font-size: 45px">
-      <strong>{{ p1() ? p1()!.p.name : "Link player" }}</strong>
+      <strong>{{ p1() ? p1()!.name : "Link player" }}</strong>
     </p>
   </div>
   <div class="absolute text-right right-[100px] bottom-[100px] w-[450px]">
     <p class="text-white" style="font-size: 45px">
-      <strong>{{ p2() ? p2()!.p.name : "Link player" }}</strong>
+      <strong>{{ p2() ? p2()!.name : "Link player" }}</strong>
     </p>
   </div>
   <div class="absolute left-[370px] top-[28px]">
@@ -15,7 +15,7 @@
         <div
           class="rounded-full border-2 transition-all duration-300"
           [class]="
-            $index < (p1() ? p1()!.p.maps.length : 0)
+            $index < (p1() ? p1()!.maps.length : 0)
               ? 'w-8 h-8 bg-green-500 border-green-600 scale-100 opacity-100'
               : 'w-8 h-8 bg-gray-400 border-gray-500 scale-[0.8] opacity-50'
           "
@@ -29,7 +29,7 @@
         <div
           class="rounded-full border-2 transition-all duration-300"
           [class]="
-            $index < (p1() ? p1()!.p.maps.length : 0)
+            $index < (p1() ? p1()!.maps.length : 0)
               ? 'w-8 h-8 bg-green-500 border-green-600 scale-100 opacity-100'
               : 'w-8 h-8 bg-gray-400 border-gray-500 scale-[0.8] opacity-50'
           "
@@ -41,44 +41,40 @@
     class="absolute text-right p-2 font-bold lh-1 w-[230px] left-[570px] bottom-[60px]"
   >
     <p class="mb-1 text-white text-5xl" style="-webkit-text-stroke: 2px black">
-      {{ p1() ? p1()!.s()?.accuracy : "99.99%" }}
+      {{ p1Acc() }}
     </p>
     <p
       class="text-[#004545]"
-      [class.font-black]="
-        p1()?.s()?.missCount ? p1()!.s()!.missCount === 0 : false
-      "
+      [class.font-black]="p1Miss() ? p1Miss() === 0 : false"
       style="font-size: 30px"
     >
-      {{ p1() ? p1()!.s()?.combo : "999" }}
+      {{ p1Combo() }}
     </p>
     <p
       class="text-white"
       style="font-size: 30px; -webkit-text-stroke: 2px #ff90be"
     >
-      {{ p1() ? p1()!.s()?.missCount : "99" }}
+      {{ p1Miss() }}
     </p>
   </div>
   <div
     class="absolute p-2 font-bold lh-1 w-[230px] left-[1130px] bottom-[60px]"
   >
     <p class="mb-1 text-white text-5xl" style="-webkit-text-stroke: 2px black">
-      {{ p2() ? p2()!.s()?.accuracy : "99.99%" }}
+      {{ p2Acc() }}
     </p>
     <p
       class="text-[#004545]"
-      [class.font-black]="
-        p2()?.s()?.missCount ? p2()!.s()!.missCount === 0 : false
-      "
+      [class.font-black]="p2Miss() ? p2Miss() === 0 : false"
       style="font-size: 30px"
     >
-      {{ p2() ? p2()!.s()?.combo : "999" }}
+      {{ p2Combo() }}
     </p>
     <p
       class="text-white"
       style="font-size: 30px; -webkit-text-stroke: 2px #6decff"
     >
-      {{ p2() ? p2()!.s()?.missCount : "99" }}
+      {{ p2Miss() }}
     </p>
   </div>
 </main>
