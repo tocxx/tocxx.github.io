@@ -52,22 +52,22 @@
             </div>
             @if (currentMatch()) {
               <div>
-                @if (_match.lobbyStatus()) {
+                @if (_ws.isConnected()) {
                   <label class="block text-gray-400 mb-1 italic text-xs"
                     >Lobby Status</label
                   >
                   <div class="flex items-center gap-2">
                     <span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
-                    <span class="text-green-400">{{
-                      _match.lobbyStatus()!
-                    }}</span>
+                    <span class="text-green-400">Connected to lobby</span>
                   </div>
                   <label class="block text-gray-400 mb-1 italic text-xs">
                     Link players
                   </label>
                   <div class="flex flex-row items-between">
                     <div class="w-50">
-                      <span>{{ currentMatch()?.p1?.name }}</span>
+                      <span class="text-white">{{
+                        currentMatch()?.p1?.name
+                      }}</span>
                       @for (player of _ws.lobbyPlayers(); track player.id) {
                         <label
                           class="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-gray-50 bg-white shadow-sm"
@@ -87,7 +87,9 @@
                       }
                     </div>
                     <div class="w-50">
-                      <span>{{ currentMatch()?.p2?.name }}</span>
+                      <span class="text-white">{{
+                        currentMatch()?.p2?.name
+                      }}</span>
                       @for (player of _ws.lobbyPlayers(); track player.id) {
                         <label
                           class="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-gray-50 bg-white shadow-sm"

@@ -18,9 +18,7 @@ export class MatchService {
   #firstPick = signal<MatchPlayer | undefined>(undefined);
   #secondPick = signal<MatchPlayer | undefined>(undefined);
   currentMatch = computed(() => this.#currentMatch());
-  lobbyStatus = computed(() =>
-    this._ws?.isConnected() ? 'Connected to lobby' : undefined,
-  );
+  lobbyStatus = computed(() => this._ws?.isConnected());
   lobbyPlayers = this._ws?.lobbyPlayers;
   p1Score = computed(() => {
     const p1Luid = this.currentMatch()?.p1.luid;

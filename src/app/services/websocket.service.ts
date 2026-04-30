@@ -1,11 +1,11 @@
-import { Injectable, signal } from "@angular/core";
-import { LobbyPlayer, ScoreData } from "@interfaces/tournament";
+import { Injectable, signal } from '@angular/core';
+import { LobbyPlayer, ScoreData } from '@interfaces/tournament';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class WebsocketService {
   private socket?: WebSocket;
   isConnected = signal(false);
-  host = signal("Not found");
+  host = signal('Not found');
   lobbyPlayers = signal<LobbyPlayer[]>([]);
   leftScore = signal<ScoreData | undefined>(undefined);
   rightScore = signal<ScoreData | undefined>(undefined);
@@ -17,41 +17,42 @@ export class WebsocketService {
   }
 
   private connect() {
-    this.socket = new WebSocket("ws://localhost:2948/socket");
+    this.socket = new WebSocket('ws://localhost:2948/socket');
     this.socket.onopen = () => this.isConnected.set(true);
     this.socket.onclose = () => {
       this.isConnected.set(false);
       setTimeout(() => this.connect(), 3000);
     };
     this.socket.onmessage = (msg) => {
+      console.log(this.isConnected());
       const data = JSON.parse(msg.data);
       this.handleMessage(data);
     };
   }
 
   private handleMessage(data: any) {
-    if (data._type === "handshake") {
+    if (data._type === 'handshake') {
       this.host.set(data.LocalUserName);
     }
-    if (data._type === "event") {
+    if (data._type === 'event') {
       switch (data._event) {
-        case "RoomJoined":
+        case 'RoomJoined':
           break;
-        case "RoomLeaved":
+        case 'RoomLeaved':
           this.lobbyPlayers.set([]);
           break;
-        case "PlayerJoined":
+        case 'PlayerJoined':
           this.lobbyPlayers.update((prev) => [
             ...prev,
             { id: data.PlayerJoined.LUID, name: data.PlayerJoined.UserName },
           ]);
           break;
-        case "PlayerLeaved":
+        case 'PlayerLeaved':
           this.lobbyPlayers.update((prev) =>
             prev.filter((p) => p.id !== data.PlayerLeaved.LUID),
           );
           break;
-        case "Score":
+        case 'Score':
           this.processScore(data.Score);
           break;
       }
@@ -70,7 +71,7 @@ export class WebsocketService {
   }
 
   formatAcc(acc: number | undefined): string {
-    if (acc === undefined) return "0.00%";
-    return (acc * 100).toFixed(2) + "%";
+    if (acc === undefined) return '0.00%';
+    return (acc * 100).toFixed(2) + '%';
   }
 }
