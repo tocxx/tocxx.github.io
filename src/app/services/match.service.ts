@@ -94,7 +94,6 @@ export class MatchService {
   }
 
   winMap(map: Map, n: 1 | 2) {
-    console.log('win');
     if (n === 1) {
       this.#currentMatch.update((cm) => {
         return cm
@@ -123,7 +122,6 @@ export class MatchService {
   }
 
   loseMap(map: Map) {
-    console.log('lose');
     this.#currentMatch.update((cm) => {
       return cm
         ? {
