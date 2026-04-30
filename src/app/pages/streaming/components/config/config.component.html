@@ -62,6 +62,51 @@
                       _match.lobbyStatus()!
                     }}</span>
                   </div>
+                  <label class="block text-gray-400 mb-1 italic text-xs">
+                    Link players
+                  </label>
+                  <div class="flex flex-row items-between">
+                    <div class="w-50">
+                      <span>{{ currentMatch()?.p1?.name }}</span>
+                      @for (player of _ws.lobbyPlayers(); track player.id) {
+                        <label
+                          class="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-gray-50 bg-white shadow-sm"
+                        >
+                          <input
+                            type="radio"
+                            name="leftPick"
+                            class="h-4 w-4 text-blue-600 border-gray-300"
+                            [value]="player?.id"
+                            [checked]="_ws.leftLUID() === player.id"
+                            (change)="linkP1($event)"
+                          />
+                          <span class="text-black font-medium">{{
+                            player.name
+                          }}</span>
+                        </label>
+                      }
+                    </div>
+                    <div class="w-50">
+                      <span>{{ currentMatch()?.p2?.name }}</span>
+                      @for (player of _ws.lobbyPlayers(); track player.id) {
+                        <label
+                          class="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-gray-50 bg-white shadow-sm"
+                        >
+                          <input
+                            type="radio"
+                            name="leftPick"
+                            class="h-4 w-4 text-blue-600 border-gray-300"
+                            [value]="player?.id"
+                            [checked]="_ws.rightLUID() === player.id"
+                            (change)="linkP2($event)"
+                          />
+                          <span class="text-black font-medium">{{
+                            player.name
+                          }}</span>
+                        </label>
+                      }
+                    </div>
+                  </div>
                 } @else {
                   <label class="block text-gray-400 mb-1 italic text-xs"
                     >Lobby Status</label
