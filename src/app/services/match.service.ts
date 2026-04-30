@@ -1,5 +1,6 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
 import {
+  Map,
   Match,
   MatchPlayer,
   OngoingMatch,
@@ -89,6 +90,54 @@ export class MatchService {
   swapPlayers() {
     this.#currentMatch.update((cm) => {
       return cm ? { ...cm, p1: cm.p2, p2: cm.p1 } : undefined;
+    });
+  }
+
+  winMap(map: Map, n: 1 | 2) {
+    console.log('win');
+    if (n === 1) {
+      this.#currentMatch.update((cm) => {
+        return cm
+          ? {
+              ...cm,
+              p1: {
+                ...cm.p1,
+                maps: [...cm.p1.maps, map],
+              },
+            }
+          : undefined;
+      });
+    } else {
+      this.#currentMatch.update((cm) => {
+        return cm
+          ? {
+              ...cm,
+              p2: {
+                ...cm.p2,
+                maps: [...cm.p2.maps, map],
+              },
+            }
+          : undefined;
+      });
+    }
+  }
+
+  loseMap(map: Map) {
+    console.log('lose');
+    this.#currentMatch.update((cm) => {
+      return cm
+        ? {
+            ...cm,
+            p1: {
+              ...cm.p1,
+              maps: cm.p1.maps.filter((m) => m.id != map.id),
+            },
+            p2: {
+              ...cm.p2,
+              maps: cm.p2.maps.filter((m) => m.id != map.id),
+            },
+          }
+        : undefined;
     });
   }
 }

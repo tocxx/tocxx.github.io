@@ -1,8 +1,15 @@
-import { Component, computed, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  HostListener,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TournamentService } from '@services/tournament.service';
 import { MatchService } from '@services/match.service';
 import { StreamingMapviewComponent } from '../mapview/mapview.component';
+import { Map } from '@interfaces/tournament';
 
 @Component({
   selector: 'streaming-details',
@@ -46,4 +53,39 @@ export class StreamingDetailsComponent {
     if (pool.length < 8) return 5;
     return 7;
   });
+  currentWinner = signal<1 | 2>(1);
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (
+      event.key.toLowerCase() === '1' &&
+      !(event.target instanceof HTMLInputElement)
+    ) {
+      this.currentWinner.set(1);
+    } else if (event.key === '2') {
+      this.currentWinner.set(2);
+    }
+  }
+
+  toggleMap(map: Map) {
+    if (!this.isWon(map.id))
+      return this._match.winMap(map, this.currentWinner());
+    this._match.loseMap(map);
+  }
+
+  isWon(id: string) {
+    const match = this.currentMatch();
+    if (!match) return false;
+    const won = [...match.p1.maps, ...match.p2.maps];
+    if (won.find((m) => m.id === id)) return true;
+    return false;
+  }
+
+  getWinner(id: string) {
+    const match = this.currentMatch();
+    if (!match) return 'Player';
+    if (match.p1.maps.find((m) => m.id === id)) return match.p1.name;
+    if (match.p2.maps.find((m) => m.id === id)) return match.p2.name;
+    return 'Player';
+  }
 }

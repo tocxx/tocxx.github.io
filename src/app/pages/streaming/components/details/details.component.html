@@ -3,7 +3,16 @@
     <div class="flex-1 min-w-[300px]">
       <div class="flex gap-6 text-white justify-evenly">
         @for (map of pickedMaps(); track map.map.id) {
-          <div class="flex relative">
+          <div class="flex relative" (click)="toggleMap(map.map)">
+            @if (isWon(map.map.id)) {
+              <div
+                class="absolute text-xl font-bold p-1 top-20 text-center bg-[#61be7d] w-70 z-10"
+              >
+                <p>
+                  {{ `Won by ${getWinner(map.map.id)}` }}
+                </p>
+              </div>
+            }
             <div
               class="absolute text-xl font-bold p-1 top-50 text-center bg-[#61be7d] w-70 z-10"
             >
