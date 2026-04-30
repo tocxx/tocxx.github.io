@@ -76,7 +76,7 @@
                             type="radio"
                             name="leftPick"
                             class="h-4 w-4 text-blue-600 border-gray-300"
-                            [value]="player?.id"
+                            [value]="player.id"
                             [checked]="_ws.leftLUID() === player.id"
                             (change)="linkP1($event)"
                           />
@@ -98,7 +98,7 @@
                             type="radio"
                             name="rightPick"
                             class="h-4 w-4 text-blue-600 border-gray-300"
-                            [value]="player?.id"
+                            [value]="player.id"
                             [checked]="_ws.rightLUID() === player.id"
                             (change)="linkP2($event)"
                           />

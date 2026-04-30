@@ -4,16 +4,16 @@ import {
   HostListener,
   inject,
   computed,
-} from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { TournamentService } from "@services/tournament.service";
-import { MatchService } from "@services/match.service";
-import { WebsocketService } from "@services/websocket.service";
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TournamentService } from '@services/tournament.service';
+import { MatchService } from '@services/match.service';
+import { WebsocketService } from '@services/websocket.service';
 
 @Component({
-  selector: "streaming-config",
+  selector: 'streaming-config',
   imports: [CommonModule],
-  templateUrl: "./config.component.html",
+  templateUrl: './config.component.html',
 })
 export class StreamingConfigComponent {
   _tournament = inject(TournamentService);
@@ -26,14 +26,14 @@ export class StreamingConfigComponent {
   currentMatch = this._match.currentMatch;
   isVisible = signal(false);
 
-  @HostListener("window:keydown", ["$event"])
+  @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (
-      event.key.toLowerCase() === "c" &&
+      event.key.toLowerCase() === 'c' &&
       !(event.target instanceof HTMLInputElement)
     ) {
       this.isVisible.update((v) => !v);
-    } else if (event.key === "Escape" && this.isVisible()) {
+    } else if (event.key === 'Escape' && this.isVisible()) {
       this.isVisible.set(false);
     }
   }
@@ -67,13 +67,13 @@ export class StreamingConfigComponent {
     const select = e.target as HTMLSelectElement;
     const val = select.value;
     if (!val) return;
-    this._match.linkP1(val);
+    this._ws.leftLUID.set(Number(val));
   }
 
   linkP2(e: Event) {
     const select = e.target as HTMLSelectElement;
     const val = select.value;
     if (!val) return;
-    this._match.linkP2(val);
+    this._ws.rightLUID.set(Number(val));
   }
 }

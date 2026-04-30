@@ -2,6 +2,8 @@ import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TournamentService } from '@services/tournament.service';
 import { MatchService } from '@services/match.service';
+import { WebsocketService } from '@services/websocket.service';
+import { MatchPlayer, ScoreData } from '@interfaces/tournament';
 
 @Component({
   selector: 'streaming-play',
@@ -10,6 +12,7 @@ import { MatchService } from '@services/match.service';
 })
 export class StreamingPlayComponent {
   private _match = inject(MatchService);
+  private _ws = inject(WebsocketService);
   currentTournament = inject(TournamentService).currentTournament;
   currentMatch = this._match.currentMatch;
   pickedMaps = computed(() => {
@@ -37,14 +40,36 @@ export class StreamingPlayComponent {
   );
   p1 = computed(() => {
     const match = this.currentMatch();
-    const p1Score = this._match.p1Score();
-    if (!match || !p1Score) return undefined;
-    return { p: match.p1, s: p1Score };
+    if (!match) return undefined;
+    return match.p1;
   });
   p2 = computed(() => {
     const match = this.currentMatch();
-    const p2Score = this._match.p2Score();
-    if (!match || !p2Score) return undefined;
-    return { p: match.p2, s: p2Score };
+    if (!match) return undefined;
+    return match.p2;
+  });
+  p1Acc = computed(() => {
+    const lScore = this._ws.leftScore();
+    return lScore ? lScore.accuracy : '00.00%';
+  });
+  p1Combo = computed(() => {
+    const lScore = this._ws.leftScore();
+    return lScore ? lScore.combo : '000';
+  });
+  p1Miss = computed(() => {
+    const lScore = this._ws.leftScore();
+    return lScore ? lScore.missCount : '00';
+  });
+  p2Acc = computed(() => {
+    const rScore = this._ws.rightScore();
+    return rScore ? rScore.accuracy : '00.00%';
+  });
+  p2Combo = computed(() => {
+    const rScore = this._ws.rightScore();
+    return rScore ? rScore.combo : '000';
+  });
+  p2Miss = computed(() => {
+    const rScore = this._ws.rightScore();
+    return rScore ? rScore.missCount : '00';
   });
 }

@@ -13,25 +13,10 @@ import { StorageService } from './storage.service';
   providedIn: 'root',
 })
 export class MatchService {
-  private _ws?: WebsocketService;
   #currentMatch = signal<OngoingMatch | undefined>(undefined);
   #firstPick = signal<MatchPlayer | undefined>(undefined);
   #secondPick = signal<MatchPlayer | undefined>(undefined);
   currentMatch = computed(() => this.#currentMatch());
-  lobbyStatus = computed(() => this._ws?.isConnected());
-  lobbyPlayers = this._ws?.lobbyPlayers;
-  p1Score = computed(() => {
-    const p1Luid = this.currentMatch()?.p1.luid;
-    if (p1Luid && p1Luid === this._ws?.leftLUID()) return this._ws?.leftScore;
-    if (p1Luid && p1Luid === this._ws?.rightLUID()) return this._ws?.rightScore;
-    return undefined;
-  });
-  p2Score = computed(() => {
-    const p2Luid = this.currentMatch()?.p2.luid;
-    if (p2Luid && p2Luid === this._ws?.leftLUID()) return this._ws?.leftScore;
-    if (p2Luid && p2Luid === this._ws?.rightLUID()) return this._ws?.rightScore;
-    return undefined;
-  });
   firstPick = computed(() => this.#firstPick());
   secondPick = computed(() => this.#secondPick());
 
@@ -66,14 +51,6 @@ export class MatchService {
       picks: [],
       bans: [],
     });
-  }
-
-  linkP1(luid: string) {
-    this._ws?.leftLUID.set(luid);
-  }
-
-  linkP2(luid: string) {
-    this._ws?.rightLUID.set(luid);
   }
 
   getPlayerName(id: number) {

@@ -65,7 +65,7 @@ export interface OngoingMatch {
 export interface MatchPlayer {
   id: number;
   name: string;
-  luid?: string;
+  luid?: number;
   maps: Map[];
 }
 
@@ -94,13 +94,13 @@ type TournamentType =
   | 'free for all';
 
 export interface LobbyPlayer {
-  id: string;
+  id: number;
   name: string;
 }
 
 export interface ScoreData {
   luid: string;
-  accuracy: number;
+  accuracy: string;
   combo: number;
   missCount: number;
 }
