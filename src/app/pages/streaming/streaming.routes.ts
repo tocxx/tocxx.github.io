@@ -6,6 +6,7 @@ import { StreamingPicksBansComponent } from './components/picksbans/picksbans.co
 import { StreamingNextComponent } from './components/next/next.component';
 import { StreamingDetailsComponent } from './components/details/details.component';
 import { StreamingPlayComponent } from './components/play/play.component';
+import { StreamingResultComponent } from './components/result/result.component';
 
 export const routes: Routes = [
   {
@@ -36,10 +37,10 @@ export const routes: Routes = [
         path: 'match/play',
         component: StreamingPlayComponent,
       },
-      /*{
+      {
         path: 'match/result',
-        component: StreamingMatchResultsComponent,
-      },*/
+        component: StreamingResultComponent,
+      },
     ],
   },
 ];
