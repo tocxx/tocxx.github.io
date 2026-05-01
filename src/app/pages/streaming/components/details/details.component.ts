@@ -69,7 +69,7 @@ export class StreamingDetailsComponent {
 
   toggleMap(map: Map) {
     if (!this.isWon(map.id))
-      return this._match.winMap(map, this.currentWinner());
+      return this._match.winMap(map, this.currentWinner(), this.bestOf());
     this._match.loseMap(map);
   }
 

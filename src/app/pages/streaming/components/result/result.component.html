@@ -1,10 +1,13 @@
 <main class="p-4 min-w-screen">
-  <div class="flex min-h-[550px] flex-row">
+  <div class="flex min-h-[300px] flex-row">
     <div class="flex-1 min-w-[300px]">
       <div class="flex gap-6 text-white justify-center">
-        <div class="w-100"></div>
-        <div class="w-100">
-          <p class="text-7xl text-white" style="-webkit-text-stroke: 3px black">
+        <div class="w-200"></div>
+        <div class="w-200 ps-25">
+          <p
+            class="text-7xl font-black tracking-wider"
+            style="-webkit-text-stroke: 3px black"
+          >
             {{ winnerName() }}
           </p>
         </div>
@@ -16,8 +19,10 @@
       class="w-200 text-[#ff90be] text-6xl font-black tracking-wider text-right"
       style="-webkit-text-stroke: 3px black"
     >
-      <p>{{ currentMatch()?.p1?.name ?? "Player 1" }}</p>
-      <p>{{ currentMatch()?.p1?.maps?.length ?? 0 }}</p>
+      <p>
+        {{ currentMatch()?.p1?.name ?? "Player 1" }}
+        {{ currentMatch()?.p1?.maps?.length ?? 0 }}
+      </p>
     </div>
     <div
       class="text-gray-100 text-6xl font-black tracking-wider mx-10"
@@ -29,8 +34,10 @@
       class="w-200 text-[#6decff] text-6xl font-black tracking-wider"
       style="-webkit-text-stroke: 3px black"
     >
-      <p>{{ currentMatch()?.p2?.maps?.length ?? 0 }}</p>
-      <p>{{ currentMatch()?.p2?.name ?? "Player 2" }}</p>
+      <p>
+        {{ currentMatch()?.p2?.maps?.length ?? 0 }}
+        {{ currentMatch()?.p2?.name ?? "Player 2" }}
+      </p>
     </div>
   </div>
 </main>
