@@ -7,7 +7,7 @@
       <div class="flex flex-col h-full">
         @for (match of round.matches; track match.id) {
           @if (round.number === 1) {
-            @for (sam of getSpacingMatches(match); track sam.id) {
+            @if (match.number === 2) {
               <div class="flex flex-col justify-center flex-1 py-4">
                 <div class="overflow-hidden">
                   <div class="flex justify-between items-center p-2">
@@ -65,20 +65,6 @@
               </div>
             </div>
           </div>
-        }
-        @if (round.number === 1) {
-          @for (sam of getEndingSpacingMatches(); track sam.id) {
-            <div class="flex flex-col justify-center flex-1 py-4">
-              <div class="overflow-hidden">
-                <div class="flex justify-between items-center p-2">
-                  <span class="text-sm truncate px-2">&nbsp;</span>
-                </div>
-                <div class="flex justify-between items-center p-2">
-                  <span class="text-sm truncate px-2">&nbsp;</span>
-                </div>
-              </div>
-            </div>
-          }
         }
       </div>
     </div>
