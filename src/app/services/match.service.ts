@@ -93,7 +93,7 @@ export class MatchService {
     });
   }
 
-  winMap(map: Map, n: 1 | 2) {
+  winMap(map: Map, n: 1 | 2, bestOf?: number) {
     if (n === 1) {
       this.#currentMatch.update((cm) => {
         return cm
@@ -103,6 +103,14 @@ export class MatchService {
                 ...cm.p1,
                 maps: [...cm.p1.maps, map],
               },
+              winner:
+                cm.p1.maps.length >= Math.ceil((bestOf ?? 999) / 2)
+                  ? cm.p1.id
+                  : undefined,
+              loser:
+                cm.p1.maps.length >= Math.ceil((bestOf ?? 999) / 2)
+                  ? cm.p2.id
+                  : undefined,
             }
           : undefined;
       });
@@ -115,13 +123,21 @@ export class MatchService {
                 ...cm.p2,
                 maps: [...cm.p2.maps, map],
               },
+              winner:
+                cm.p2.maps.length >= Math.ceil((bestOf ?? 999) / 2)
+                  ? cm.p2.id
+                  : undefined,
+              loser:
+                cm.p2.maps.length >= Math.ceil((bestOf ?? 999) / 2)
+                  ? cm.p1.id
+                  : undefined,
             }
           : undefined;
       });
     }
   }
 
-  loseMap(map: Map) {
+  loseMap(map: Map, bestOf?: number) {
     this.#currentMatch.update((cm) => {
       return cm
         ? {
@@ -134,6 +150,16 @@ export class MatchService {
               ...cm.p2,
               maps: cm.p2.maps.filter((m) => m.id != map.id),
             },
+            winner:
+              cm.p1.maps.length < Math.ceil((bestOf ?? 999) / 2) &&
+              cm.p2.maps.length < Math.ceil((bestOf ?? 999) / 2)
+                ? undefined
+                : cm.winner,
+            loser:
+              cm.p1.maps.length < Math.ceil((bestOf ?? 999) / 2) &&
+              cm.p2.maps.length < Math.ceil((bestOf ?? 999) / 2)
+                ? undefined
+                : cm.loser,
           }
         : undefined;
     });
