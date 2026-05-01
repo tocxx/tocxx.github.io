@@ -93,75 +93,42 @@ export class MatchService {
     });
   }
 
-  winMap(map: Map, n: 1 | 2, bestOf?: number) {
-    if (n === 1) {
-      this.#currentMatch.update((cm) => {
-        return cm
-          ? {
-              ...cm,
-              p1: {
-                ...cm.p1,
-                maps: [...cm.p1.maps, map],
-              },
-              winner:
-                cm.p1.maps.length >= Math.ceil((bestOf ?? 999) / 2)
-                  ? cm.p1.id
-                  : undefined,
-              loser:
-                cm.p1.maps.length >= Math.ceil((bestOf ?? 999) / 2)
-                  ? cm.p2.id
-                  : undefined,
-            }
-          : undefined;
-      });
-    } else {
-      this.#currentMatch.update((cm) => {
-        return cm
-          ? {
-              ...cm,
-              p2: {
-                ...cm.p2,
-                maps: [...cm.p2.maps, map],
-              },
-              winner:
-                cm.p2.maps.length >= Math.ceil((bestOf ?? 999) / 2)
-                  ? cm.p2.id
-                  : undefined,
-              loser:
-                cm.p2.maps.length >= Math.ceil((bestOf ?? 999) / 2)
-                  ? cm.p1.id
-                  : undefined,
-            }
-          : undefined;
-      });
-    }
+  winMap(map: Map, n: 1 | 2, bestOf: number = 999) {
+    const threshold = Math.ceil(bestOf / 2);
+    this.#currentMatch.update((cm) => {
+      if (!cm) return undefined;
+      const isP1 = n === 1;
+      const playerKey = isP1 ? 'p1' : 'p2';
+      const opponentKey = isP1 ? 'p2' : 'p1';
+      const updatedMaps = [...cm[playerKey].maps, map];
+      const hasWonMatch = updatedMaps.length >= threshold;
+      return {
+        ...cm,
+        [playerKey]: {
+          ...cm[playerKey],
+          maps: updatedMaps,
+        },
+        winner: hasWonMatch ? cm[playerKey].id : undefined,
+        loser: hasWonMatch ? cm[opponentKey].id : undefined,
+      };
+    });
   }
 
-  loseMap(map: Map, bestOf?: number) {
+  loseMap(map: Map, bestOf: number = 999) {
+    const threshold = Math.ceil(bestOf / 2);
     this.#currentMatch.update((cm) => {
-      return cm
-        ? {
-            ...cm,
-            p1: {
-              ...cm.p1,
-              maps: cm.p1.maps.filter((m) => m.id != map.id),
-            },
-            p2: {
-              ...cm.p2,
-              maps: cm.p2.maps.filter((m) => m.id != map.id),
-            },
-            winner:
-              cm.p1.maps.length < Math.ceil((bestOf ?? 999) / 2) &&
-              cm.p2.maps.length < Math.ceil((bestOf ?? 999) / 2)
-                ? undefined
-                : cm.winner,
-            loser:
-              cm.p1.maps.length < Math.ceil((bestOf ?? 999) / 2) &&
-              cm.p2.maps.length < Math.ceil((bestOf ?? 999) / 2)
-                ? undefined
-                : cm.loser,
-          }
-        : undefined;
+      if (!cm) return undefined;
+      const p1Maps = cm.p1.maps.filter((m) => m.id !== map.id);
+      const p2Maps = cm.p2.maps.filter((m) => m.id !== map.id);
+      const p1Wins = p1Maps.length >= threshold;
+      const p2Wins = p2Maps.length >= threshold;
+      return {
+        ...cm,
+        p1: { ...cm.p1, maps: p1Maps },
+        p2: { ...cm.p2, maps: p2Maps },
+        winner: p1Wins ? cm.p1.id : p2Wins ? cm.p2.id : undefined,
+        loser: p1Wins ? cm.p2.id : p2Wins ? cm.p1.id : undefined,
+      };
     });
   }
 }
