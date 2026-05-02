@@ -25,7 +25,19 @@ export class MatchService {
     private _storage: StorageService,
   ) {
     let currentMatch = this._storage.get("tournament-currentMatch");
-    if (currentMatch) this.#currentMatch.set(currentMatch);
+    if (currentMatch) {
+      const players = this._tournament.currentTournament()?.config.players;
+      if (players) {
+        const fresh = (id: number) =>
+          players.find((p) => p.id === id)?.name ?? "Unknown";
+        currentMatch = {
+          ...currentMatch,
+          p1: { ...currentMatch.p1, name: fresh(currentMatch.p1.id) },
+          p2: { ...currentMatch.p2, name: fresh(currentMatch.p2.id) },
+        };
+      }
+      this.#currentMatch.set(currentMatch);
+    }
     effect(() => {
       let currentMatch = this.#currentMatch();
       if (currentMatch)
@@ -55,10 +67,9 @@ export class MatchService {
 
   getPlayerName(id: number) {
     const player = this._tournament
-      .currentTournament()!
-      .config.players.find((p) => p.id === Number(id));
-    if (player) return player.name;
-    return "unknown";
+      .currentTournament()
+      ?.config.players.find((p) => p.id === Number(id));
+    return player?.name ?? "unknown";
   }
 
   setFirstPick(id: number) {
