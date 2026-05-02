@@ -1,0 +1,409 @@
+<div class="min-h-screen min-w-screen bg-gray-950 text-white p-6">
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+      <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
+      <h1 class="text-2xl font-bold tracking-tight">Stream Dashboard</h1>
+    </div>
+    @if (tournament()) {
+      <span class="text-gray-400 text-sm truncate max-w-xs">{{
+        tournament()!.name
+      }}</span>
+    }
+  </div>
+
+  @if (!tournament()) {
+    <div class="flex items-center justify-center h-64 text-gray-500">
+      No tournament selected — go to
+      <a routerLink="/tourneys" class="text-indigo-400 ml-1">Tournaments</a>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+      <!-- ── Col 1: Match setup ─────────────────────── -->
+      <div class="flex flex-col gap-4">
+        <!-- Match selector -->
+        <section class="bg-gray-900 rounded-xl border border-white/10 p-4">
+          <div class="flex items-center justify-between mb-3">
+            <h2
+              class="font-semibold text-sm uppercase tracking-wider text-gray-400"
+            >
+              Match
+            </h2>
+            <button
+              (click)="refreshMatches()"
+              class="text-xs text-gray-400 hover:text-white transition-colors flex items-center gap-1"
+            >
+              <i class="bi bi-arrow-clockwise"></i> Refresh
+            </button>
+          </div>
+          <div class="flex flex-col gap-2 max-h-56 overflow-y-auto pr-1">
+            @for (match of availableMatches(); track match.id) {
+              <label
+                class="flex items-center gap-3 p-2.5 rounded-lg cursor-pointer border border-transparent hover:border-indigo-500/50 hover:bg-indigo-500/10 transition-all"
+                [ngClass]="{
+                  'border-indigo-500': currentMatch()?.id === match.id,
+                  'bg-indigo-500/10': currentMatch()?.id === match.id,
+                }"
+              >
+                <input
+                  type="radio"
+                  name="matchSelection"
+                  class="hidden"
+                  [value]="match.id"
+                  [checked]="currentMatch()?.id === match.id"
+                  (change)="selectMatch($event)"
+                />
+                <span class="text-sm">
+                  <span class="text-gray-400 mr-1">R{{ match.round }}</span>
+                  {{ getPlayerName(match.p1) }}
+                  <span class="text-gray-500 mx-1">vs</span>
+                  {{ getPlayerName(match.p2) }}
+                </span>
+              </label>
+            } @empty {
+              <p class="text-gray-500 text-sm text-center py-4">
+                No open matches
+              </p>
+            }
+          </div>
+        </section>
+
+        @if (currentMatch()) {
+          <!-- First pick -->
+          <section class="bg-gray-900 rounded-xl border border-white/10 p-4">
+            <h2
+              class="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3"
+            >
+              First Pick
+            </h2>
+            <div class="grid grid-cols-2 gap-2">
+              @for (
+                player of [currentMatch()!.p1, currentMatch()!.p2];
+                track player.id
+              ) {
+                <label
+                  class="flex items-center justify-center p-2.5 rounded-lg cursor-pointer border border-transparent hover:border-indigo-500/50 transition-all text-sm font-medium"
+                  [ngClass]="{
+                    'border-indigo-500 bg-indigo-500/20 text-indigo-300':
+                      firstPick()?.id === player.id,
+                    'text-gray-300': firstPick()?.id !== player.id,
+                  }"
+                >
+                  <input
+                    type="radio"
+                    name="firstPick"
+                    class="hidden"
+                    [value]="player.id"
+                    [checked]="firstPick()?.id === player.id"
+                    (change)="selectFirstPick($event)"
+                  />
+                  {{ player.name }}
+                </label>
+              }
+            </div>
+          </section>
+
+          <!-- Actions -->
+          <section class="bg-gray-900 rounded-xl border border-white/10 p-4">
+            <h2
+              class="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3"
+            >
+              Actions
+            </h2>
+            <div class="flex flex-col gap-2">
+              <button
+                (click)="resetPB()"
+                class="w-full py-2 px-4 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-300 text-sm font-medium transition-colors border border-red-500/20 hover:border-red-500/40"
+              >
+                <i class="bi bi-arrow-counterclockwise mr-1"></i> Reset Picks &
+                Bans
+              </button>
+              <button
+                (click)="swapPlayers()"
+                class="w-full py-2 px-4 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-sm font-medium transition-colors border border-white/10"
+              >
+                <i class="bi bi-arrow-left-right mr-1"></i> Flip Players
+              </button>
+            </div>
+          </section>
+
+          <!-- Lobby / WS link -->
+          <section class="bg-gray-900 rounded-xl border border-white/10 p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h2
+                class="font-semibold text-sm uppercase tracking-wider text-gray-400"
+              >
+                Lobby
+              </h2>
+              <div
+                class="flex items-center gap-1.5 text-xs"
+                [class.text-green-400]="_ws.isConnected()"
+                [class.text-red-400]="!_ws.isConnected()"
+              >
+                <span
+                  class="w-1.5 h-1.5 rounded-full"
+                  [class.bg-green-400]="_ws.isConnected()"
+                  [class.bg-red-400]="!_ws.isConnected()"
+                ></span>
+                {{ _ws.isConnected() ? "Connected" : "Not connected" }}
+              </div>
+            </div>
+            @if (_ws.isConnected() && _ws.lobbyPlayers().length) {
+              <div class="grid grid-cols-2 gap-3">
+                @for (
+                  side of [
+                    {
+                      label: currentMatch()!.p1.name,
+                      event: "p1",
+                      checked: _ws.leftLUID,
+                    },
+                    {
+                      label: currentMatch()!.p2.name,
+                      event: "p2",
+                      checked: _ws.rightLUID,
+                    },
+                  ];
+                  track side.label
+                ) {
+                  <div>
+                    <p class="text-xs text-gray-500 mb-1.5">{{ side.label }}</p>
+                    @for (player of _ws.lobbyPlayers(); track player.id) {
+                      <label
+                        class="flex items-center gap-2 p-1.5 rounded cursor-pointer hover:bg-white/5 text-xs"
+                        [class.text-indigo-300]="side.checked() === player.id"
+                        [class.text-gray-400]="side.checked() !== player.id"
+                      >
+                        <input
+                          type="radio"
+                          [name]="side.event + 'Link'"
+                          class="hidden"
+                          [value]="player.id"
+                          [checked]="side.checked() === player.id"
+                          (change)="
+                            side.event === 'p1'
+                              ? linkP1($event)
+                              : linkP2($event)
+                          "
+                        />
+                        <span
+                          class="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                          [class.bg-indigo-400]="side.checked() === player.id"
+                          [class.bg-gray-600]="side.checked() !== player.id"
+                        ></span>
+                        {{ player.name }}
+                      </label>
+                    }
+                  </div>
+                }
+              </div>
+            } @else if (!_ws.isConnected()) {
+              <p class="text-gray-600 text-xs">
+                Start a lobby in Beat Saber to link players.
+              </p>
+            }
+          </section>
+        }
+      </div>
+
+      <!-- ── Col 2: Picks & Bans ────────────────────── -->
+      <div class="flex flex-col gap-4">
+        <section
+          class="bg-gray-900 rounded-xl border border-white/10 p-4 flex-1"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <h2
+              class="font-semibold text-sm uppercase tracking-wider text-gray-400"
+            >
+              Picks & Bans
+            </h2>
+            @if (pbStateLabel()) {
+              <span
+                class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+              >
+                {{ pbStateLabel() }}
+              </span>
+            }
+          </div>
+
+          @if (!currentMatch()) {
+            <p class="text-gray-600 text-sm text-center py-8">
+              Select a match first
+            </p>
+          } @else if (!firstPick()) {
+            <p class="text-gray-600 text-sm text-center py-8">
+              Set first pick to begin
+            </p>
+          } @else {
+            <div class="flex flex-col gap-3">
+              @for (group of groupedMaps(); track group.title) {
+                <div>
+                  <p
+                    class="text-xs text-gray-500 uppercase tracking-wider mb-1.5"
+                  >
+                    {{ group.title }}
+                  </p>
+                  <div class="flex flex-col gap-1">
+                    @for (map of group.maps; track map.id) {
+                      <button
+                        (click)="clickMap(map)"
+                        [disabled]="!!isBanned(map) || !!isPicked(map)"
+                        class="flex items-center gap-3 w-full p-2 rounded-lg text-left transition-all border"
+                        [class]="
+                          isBanned(map)
+                            ? 'border-red-500/30 bg-red-500/10 opacity-60 cursor-not-allowed'
+                            : isPicked(map)
+                              ? 'border-green-500/30 bg-green-500/10 cursor-not-allowed'
+                              : 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                        "
+                      >
+                        <img
+                          [src]="map.metadata?.cover"
+                          class="w-10 h-10 rounded object-cover flex-shrink-0"
+                        />
+                        <div class="flex-1 min-w-0">
+                          <p class="text-xs font-medium truncate">
+                            {{ map.metadata?.title }}
+                          </p>
+                          <p class="text-xs text-gray-500 truncate">
+                            {{ map.metadata?.artist }}
+                          </p>
+                        </div>
+                        @if (isBanned(map)) {
+                          <span class="text-xs text-red-400 flex-shrink-0">
+                            <i class="bi bi-x-circle"></i>
+                            {{ isBanned(map)?.playerName }}
+                          </span>
+                        } @else if (isPicked(map)) {
+                          <span class="text-xs text-green-400 flex-shrink-0">
+                            <i class="bi bi-check-circle"></i>
+                            {{ isPicked(map)?.playerName ?? "TB" }}
+                          </span>
+                        }
+                      </button>
+                    }
+                  </div>
+                </div>
+              } @empty {
+                <p class="text-gray-600 text-sm text-center py-8">
+                  No maps in pool
+                </p>
+              }
+            </div>
+          }
+        </section>
+      </div>
+
+      <!-- ── Col 3: Match Details (map wins) ───────── -->
+      <div class="flex flex-col gap-4">
+        <section
+          class="bg-gray-900 rounded-xl border border-white/10 p-4 flex-1"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <h2
+              class="font-semibold text-sm uppercase tracking-wider text-gray-400"
+            >
+              Map Results
+            </h2>
+            @if (currentMatch()) {
+              <div
+                class="flex items-center gap-1 text-xs bg-white/5 rounded-lg p-1 border border-white/10"
+              >
+                <button
+                  (click)="setWinner(1)"
+                  class="px-2 py-0.5 rounded transition-colors"
+                  [class.bg-pink-500]="currentWinner === 1"
+                  [class.text-white]="currentWinner === 1"
+                  [class.text-gray-400]="currentWinner !== 1"
+                >
+                  {{ currentMatch()!.p1.name }}
+                </button>
+                <button
+                  (click)="setWinner(2)"
+                  class="px-2 py-0.5 rounded transition-colors"
+                  [class.bg-cyan-500]="currentWinner === 2"
+                  [class.text-white]="currentWinner === 2"
+                  [class.text-gray-400]="currentWinner !== 2"
+                >
+                  {{ currentMatch()!.p2.name }}
+                </button>
+              </div>
+            }
+          </div>
+
+          @if (!currentMatch()) {
+            <p class="text-gray-600 text-sm text-center py-8">
+              Select a match first
+            </p>
+          } @else {
+            <!-- Score display -->
+            <div
+              class="flex items-center justify-center gap-4 mb-4 p-3 rounded-lg bg-white/5 border border-white/10"
+            >
+              <div class="text-center">
+                <p class="text-xs text-gray-500 mb-0.5">
+                  {{ currentMatch()!.p1.name }}
+                </p>
+                <p class="text-3xl font-black text-pink-400">
+                  {{ currentMatch()!.p1.maps.length }}
+                </p>
+              </div>
+              <span class="text-gray-600 text-lg font-bold">—</span>
+              <div class="text-center">
+                <p class="text-xs text-gray-500 mb-0.5">
+                  {{ currentMatch()!.p2.name }}
+                </p>
+                <p class="text-3xl font-black text-cyan-400">
+                  {{ currentMatch()!.p2.maps.length }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Picked maps to click -->
+            <div class="flex flex-col gap-1">
+              @for (pb of currentMatch()!.picks; track pb.map.id) {
+                <button
+                  (click)="toggleMap(pb.map)"
+                  class="flex items-center gap-3 w-full p-2 rounded-lg text-left transition-all border"
+                  [class]="
+                    isWon(pb.map.id)
+                      ? 'border-white/10 bg-white/5 opacity-60'
+                      : 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                  "
+                >
+                  <img
+                    [src]="pb.map.metadata?.cover"
+                    class="w-10 h-10 rounded object-cover flex-shrink-0"
+                  />
+                  <div class="flex-1 min-w-0">
+                    <p class="text-xs font-medium truncate">
+                      {{ pb.map.metadata?.title }}
+                    </p>
+                    <p class="text-xs text-gray-500">
+                      {{ pb.playerName ?? "Tiebreaker" }}
+                    </p>
+                  </div>
+                  @if (getMapWinner(pb.map.id); as winner) {
+                    <span
+                      class="text-xs flex-shrink-0 font-semibold"
+                      [class.text-pink-400]="winner === currentMatch()!.p1.name"
+                      [class.text-cyan-400]="winner === currentMatch()!.p2.name"
+                    >
+                      <i class="bi bi-trophy-fill mr-0.5"></i>{{ winner }}
+                    </span>
+                  } @else {
+                    <span class="text-xs text-gray-600 flex-shrink-0"
+                      >click to award</span
+                    >
+                  }
+                </button>
+              } @empty {
+                <p class="text-gray-600 text-sm text-center py-8">
+                  No maps picked yet
+                </p>
+              }
+            </div>
+          }
+        </section>
+      </div>
+    </div>
+  }
+</div>

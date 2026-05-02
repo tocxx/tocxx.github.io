@@ -1,45 +1,50 @@
-import { Routes } from '@angular/router';
-import { StreamingPageComponent } from './streaming.component';
-import { StreamingPoolComponent } from './components/pool/pool.component';
-import { StreamingBracketComponent } from './components/bracket/bracket.component';
-import { StreamingPicksBansComponent } from './components/picksbans/picksbans.component';
-import { StreamingNextComponent } from './components/next/next.component';
-import { StreamingDetailsComponent } from './components/details/details.component';
-import { StreamingPlayComponent } from './components/play/play.component';
-import { StreamingResultComponent } from './components/result/result.component';
+import { Routes } from "@angular/router";
+import { StreamingPageComponent } from "./streaming.component";
+import { StreamingPoolComponent } from "./components/pool/pool.component";
+import { StreamingBracketComponent } from "./components/bracket/bracket.component";
+import { StreamingPicksBansComponent } from "./components/picksbans/picksbans.component";
+import { StreamingNextComponent } from "./components/next/next.component";
+import { StreamingDetailsComponent } from "./components/details/details.component";
+import { StreamingPlayComponent } from "./components/play/play.component";
+import { StreamingResultComponent } from "./components/result/result.component";
+import { StreamingDashboardComponent } from "./components/dashboard/dashboard.component";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: StreamingPageComponent,
     children: [
       {
-        path: 'pool/:id',
+        path: "pool/:id",
         component: StreamingPoolComponent,
       },
       {
-        path: 'bracket/:type',
+        path: "bracket/:type",
         component: StreamingBracketComponent,
       },
       {
-        path: 'match/pb',
+        path: "match/pb",
         component: StreamingPicksBansComponent,
       },
       {
-        path: 'match/next',
+        path: "match/next",
         component: StreamingNextComponent,
       },
       {
-        path: 'match/details',
+        path: "match/details",
         component: StreamingDetailsComponent,
       },
       {
-        path: 'match/play',
+        path: "match/play",
         component: StreamingPlayComponent,
       },
       {
-        path: 'match/result',
+        path: "match/result",
         component: StreamingResultComponent,
+      },
+      {
+        path: "dashboard",
+        component: StreamingDashboardComponent,
       },
     ],
   },

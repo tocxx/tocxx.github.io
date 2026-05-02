@@ -1,17 +1,16 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from "@angular/core";
 import {
   Map,
   Match,
   MatchPlayer,
   OngoingMatch,
   PBMap,
-} from '@interfaces/tournament';
-import { TournamentService } from './tournament.service';
-import { WebsocketService } from './websocket.service';
-import { StorageService } from './storage.service';
+} from "@interfaces/tournament";
+import { TournamentService } from "./tournament.service";
+import { StorageService } from "./storage.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class MatchService {
   #currentMatch = signal<OngoingMatch | undefined>(undefined);
@@ -25,12 +24,12 @@ export class MatchService {
     private _tournament: TournamentService,
     private _storage: StorageService,
   ) {
-    let currentMatch = this._storage.get('tournament-currentMatch');
+    let currentMatch = this._storage.get("tournament-currentMatch");
     if (currentMatch) this.#currentMatch.set(currentMatch);
     effect(() => {
       let currentMatch = this.#currentMatch();
       if (currentMatch)
-        this._storage.set('tournament-currentMatch', currentMatch);
+        this._storage.set("tournament-currentMatch", currentMatch);
     });
   }
 
@@ -59,7 +58,7 @@ export class MatchService {
       .currentTournament()!
       .config.players.find((p) => p.id === Number(id));
     if (player) return player.name;
-    return 'unknown';
+    return "unknown";
   }
 
   setFirstPick(id: number) {
@@ -98,8 +97,8 @@ export class MatchService {
     this.#currentMatch.update((cm) => {
       if (!cm) return undefined;
       const isP1 = n === 1;
-      const playerKey = isP1 ? 'p1' : 'p2';
-      const opponentKey = isP1 ? 'p2' : 'p1';
+      const playerKey = isP1 ? "p1" : "p2";
+      const opponentKey = isP1 ? "p2" : "p1";
       const updatedMaps = [...cm[playerKey].maps, map];
       const hasWonMatch = updatedMaps.length >= threshold;
       return {
