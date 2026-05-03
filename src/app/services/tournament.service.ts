@@ -225,6 +225,7 @@ export class TournamentService {
 
   resetCurrent() {
     this.#currentId.set(undefined);
+    this._storage.remove("tournament-currentId");
   }
 
   addPool() {

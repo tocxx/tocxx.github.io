@@ -45,6 +45,13 @@ export class MatchService {
     });
   }
 
+  resetMatch() {
+    this.#currentMatch.set(undefined);
+    this.#firstPick.set(undefined);
+    this.#secondPick.set(undefined);
+    this._storage.remove("tournament-currentMatch");
+  }
+
   setMatch(match: Match) {
     this.#firstPick.set(undefined);
     this.#secondPick.set(undefined);

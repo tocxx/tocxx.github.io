@@ -133,6 +133,10 @@ export class StreamingDashboardComponent implements OnInit {
     this._tournament.refreshMatches();
   }
 
+  resetMatch() {
+    this._match.resetMatch();
+  }
+
   linkP1(e: Event) {
     const luid = Number((e.target as HTMLInputElement).value);
     this._ws.leftLUID.set(luid);
