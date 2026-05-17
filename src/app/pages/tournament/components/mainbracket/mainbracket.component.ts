@@ -14,7 +14,7 @@ export class TournamentMainBracketComponent {
   rounds = computed(() => {
     const grouped: { [key: number]: Match[] } = {};
     const upperBracket = this.matches().filter(
-      (m) => m.round > 0 && m.round < 6,
+      (m) => m.round > 0 && m.round < 7,
     );
     upperBracket.forEach((m) => {
       if (!grouped[m.round]) grouped[m.round] = [];
